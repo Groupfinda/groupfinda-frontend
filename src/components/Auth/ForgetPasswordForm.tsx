@@ -8,9 +8,16 @@ type ForgetPasswordVariables = {
   username: string;
   email: string;
 };
+
+type ReferencesType = {
+  [key: string]: Input | null;
+};
+
 const ForgetPasswordForm: React.FC<Props> = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+
+  const references: ReferencesType = {};
 
   const onSubmit = (): void => {
     const variables: ForgetPasswordVariables = {
@@ -19,6 +26,7 @@ const ForgetPasswordForm: React.FC<Props> = () => {
     };
     console.log(variables);
   };
+
   return (
     <Layout style={styles.containerStyle}>
       <Input
@@ -29,6 +37,9 @@ const ForgetPasswordForm: React.FC<Props> = () => {
         placeholder="Username"
         accessoryLeft={(props) => <Icon {...props} name="person-outline" />}
         onChangeText={setUsername}
+        onSubmitEditing={() => references.secondInput?.focus()}
+        blurOnSubmit={false}
+        textContentType="username"
       />
       <Input
         autoCorrect={false}
@@ -37,8 +48,16 @@ const ForgetPasswordForm: React.FC<Props> = () => {
         placeholder="Email"
         accessoryLeft={(props) => <Icon {...props} name="email-outline" />}
         onChangeText={setEmail}
+        onSubmitEditing={onSubmit}
+        ref={(ref) => (references.secondInput = ref)}
+        textContentType="emailAddress"
       />
-      <Button style={styles.buttonStyle} appearance="filled" status="primary">
+      <Button
+        onPress={onSubmit}
+        style={styles.buttonStyle}
+        appearance="filled"
+        status="primary"
+      >
         Reset my password
       </Button>
     </Layout>

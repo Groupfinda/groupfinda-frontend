@@ -16,11 +16,17 @@ type LogInVariables = {
   password: string;
 };
 
+type ReferencesType = {
+  [key: string]: Input | null;
+};
+
 const LogInForm: React.FC<Props> = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const navigation = useNavigation();
+
+  const references: ReferencesType = {};
 
   const toggleHidePassword = (): void => {
     setHidePassword(!hidePassword);
@@ -52,6 +58,8 @@ const LogInForm: React.FC<Props> = () => {
   return (
     <Layout style={styles.containerStyle}>
       <Input
+        onSubmitEditing={() => references.secondInput?.focus()}
+        blurOnSubmit={false}
         autoCorrect={false}
         style={styles.usernameStyle}
         value={username}
@@ -61,6 +69,9 @@ const LogInForm: React.FC<Props> = () => {
         onChangeText={setUsername}
       />
       <Input
+        ref={(ref) => {
+          references.secondInput = ref;
+        }}
         autoCorrect={false}
         value={password}
         label="Password"
@@ -70,12 +81,14 @@ const LogInForm: React.FC<Props> = () => {
         secureTextEntry={hidePassword}
         accessoryRight={renderIcon}
         caption={renderForgetPassword}
+        onSubmitEditing={onSubmit}
       />
       <Button
         accessoryRight={(props) => <Icon name="log-in-outline" {...props} />}
         style={styles.buttonStyle}
         appearance="filled"
         status="primary"
+        onPress={onSubmit}
       >
         Log in
       </Button>
