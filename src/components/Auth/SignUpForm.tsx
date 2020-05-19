@@ -90,6 +90,7 @@ const SignUpForm: React.FC<Props> = () => {
       <Input
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={username}
         label="Username"
         placeholder="Username"
@@ -101,6 +102,7 @@ const SignUpForm: React.FC<Props> = () => {
       <Input
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={password}
         label="Password"
         placeholder="Password"
@@ -115,6 +117,7 @@ const SignUpForm: React.FC<Props> = () => {
       <Input
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={confirmPassword}
         label="Confirm Password"
         placeholder="Confirm password"
@@ -129,6 +132,7 @@ const SignUpForm: React.FC<Props> = () => {
       <Input
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={firstName}
         label="First name"
         placeholder="First name"
@@ -141,6 +145,7 @@ const SignUpForm: React.FC<Props> = () => {
       <Input
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={lastName}
         label="Last name"
         placeholder="Last name"
@@ -153,6 +158,7 @@ const SignUpForm: React.FC<Props> = () => {
       <Input
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={email}
         label="Email"
         placeholder="Email"

@@ -61,6 +61,7 @@ const LogInForm: React.FC<Props> = () => {
         onSubmitEditing={() => references.secondInput?.focus()}
         blurOnSubmit={false}
         autoCorrect={false}
+        autoCapitalize="none"
         style={styles.usernameStyle}
         value={username}
         label="Username"
@@ -73,6 +74,7 @@ const LogInForm: React.FC<Props> = () => {
           references.secondInput = ref;
         }}
         autoCorrect={false}
+        autoCapitalize="none"
         value={password}
         label="Password"
         placeholder="Enter password"

@@ -31,6 +31,7 @@ const ForgetPasswordForm: React.FC<Props> = () => {
     <Layout style={styles.containerStyle}>
       <Input
         autoCorrect={false}
+        autoCapitalize="none"
         style={styles.usernameStyle}
         value={username}
         label="Username"
@@ -43,6 +44,7 @@ const ForgetPasswordForm: React.FC<Props> = () => {
       />
       <Input
         autoCorrect={false}
+        autoCapitalize="none"
         value={email}
         label="Email"
         placeholder="Email"
