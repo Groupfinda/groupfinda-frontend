@@ -2,7 +2,7 @@ import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 
-export interface Props {}
+type Props = {};
 
 const ProfileScreen: React.FC<Props> = (props) => {
   return (
