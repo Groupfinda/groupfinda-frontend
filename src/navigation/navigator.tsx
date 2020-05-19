@@ -27,10 +27,6 @@ export default () => {
     </Tab.Navigator>
   );
 
-  const authScreenHeaderOptions = {
-    headerTitleStyle: { alignSelf: "center" },
-    title: "Groupfinda",
-  };
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -41,19 +37,19 @@ export default () => {
         ) : (
           <>
             <Stack.Screen
-              options={authScreenHeaderOptions}
               name="LogIn"
               component={LogInScreen}
+              options={{ header: () => null }}
             />
             <Stack.Screen
-              options={authScreenHeaderOptions}
               name="SignUp"
               component={SignUpScreen}
+              options={{ header: () => null }}
             />
             <Stack.Screen
-              options={{ title: "Forget Password" }}
               name="ForgetPassword"
               component={ForgetPasswordScreen}
+              options={{ title: "Forgot Password", headerBackTitle: "Back" }}
             />
           </>
         )}

@@ -26,6 +26,10 @@ type SignUpVariables = {
   birthday: Date;
 };
 
+type ReferencesType = {
+  [key: string]: Input | null;
+};
+
 const SignUpForm: React.FC<Props> = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -42,6 +46,9 @@ const SignUpForm: React.FC<Props> = () => {
   const [hideConfirmPassword, setHideConfirmPassword] = useState<boolean>(true);
 
   const genders = ["Male", "Female"];
+
+  const references: ReferencesType = {};
+
   const toggleHidePassword = (): void => {
     setHidePassword(!hidePassword);
   };
@@ -87,6 +94,9 @@ const SignUpForm: React.FC<Props> = () => {
         label="Username"
         placeholder="Username"
         onChangeText={setUsername}
+        onSubmitEditing={() => references.secondInput?.focus()}
+        blurOnSubmit={false}
+        textContentType="username"
       />
       <Input
         style={styles.inputStyle}
@@ -97,6 +107,10 @@ const SignUpForm: React.FC<Props> = () => {
         onChangeText={setPassword}
         secureTextEntry={hidePassword}
         accessoryRight={renderPasswordIcon}
+        ref={(ref) => (references.secondInput = ref)}
+        onSubmitEditing={() => references.thirdInput?.focus()}
+        blurOnSubmit={false}
+        textContentType="newPassword"
       />
       <Input
         style={styles.inputStyle}
@@ -107,6 +121,10 @@ const SignUpForm: React.FC<Props> = () => {
         onChangeText={setConfirmPassword}
         secureTextEntry={hideConfirmPassword}
         accessoryRight={renderConfirmPasswordIcon}
+        ref={(ref) => (references.thirdInput = ref)}
+        onSubmitEditing={() => references.fourthInput?.focus()}
+        blurOnSubmit={false}
+        textContentType="newPassword"
       />
       <Input
         style={styles.inputStyle}
@@ -115,6 +133,10 @@ const SignUpForm: React.FC<Props> = () => {
         label="First name"
         placeholder="First name"
         onChangeText={setFirstName}
+        ref={(ref) => (references.fourthInput = ref)}
+        onSubmitEditing={() => references.fifthInput?.focus()}
+        blurOnSubmit={false}
+        textContentType="givenName"
       />
       <Input
         style={styles.inputStyle}
@@ -123,6 +145,10 @@ const SignUpForm: React.FC<Props> = () => {
         label="Last name"
         placeholder="Last name"
         onChangeText={setLastName}
+        ref={(ref) => (references.fifthInput = ref)}
+        onSubmitEditing={() => references.sixthInput?.focus()}
+        blurOnSubmit={false}
+        textContentType="familyName"
       />
       <Input
         style={styles.inputStyle}
@@ -131,6 +157,8 @@ const SignUpForm: React.FC<Props> = () => {
         label="Email"
         placeholder="Email"
         onChangeText={setEmail}
+        textContentType="emailAddress"
+        ref={(ref) => (references.sixthInput = ref)}
       />
       <Select
         style={styles.inputStyle}
