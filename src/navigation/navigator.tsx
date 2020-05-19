@@ -11,10 +11,11 @@ import {
   SignUpScreen,
   SwipeScreen,
 } from "../screens";
+import { RootStackParamList } from "./types";
 
 export default () => {
   const Tab = createBottomTabNavigator();
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator<RootStackParamList>();
   const isLoggedIn = false;
 
   const TabNavigation: React.FC = () => (
@@ -50,7 +51,7 @@ export default () => {
               component={SignUpScreen}
             />
             <Stack.Screen
-              options={authScreenHeaderOptions}
+              options={{ title: "Forget Password" }}
               name="ForgetPassword"
               component={ForgetPasswordScreen}
             />

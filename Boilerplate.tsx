@@ -2,16 +2,16 @@ import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 
-type Props = {};
+export interface Props {}
 
-const ForgetPasswordScreen: React.FC<Props> = (props) => {
+const BoilerPlate: React.FC<Props> = (props) => {
   return (
     <Layout>
-      <Text category="h1">This should be ForgetPasswordScreen</Text>
+      <Text category="h1">This should be BoilerPlate</Text>
     </Layout>
   );
 };
 
 const styles = StyleSheet.create({});
 
-export default ForgetPasswordScreen;
+export default BoilerPlate;
