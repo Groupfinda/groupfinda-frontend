@@ -9,7 +9,12 @@ import { StyleSheet } from "react-native";
 import { RenderProp } from "@ui-kitten/components/devsupport";
 import { useNavigation } from "@react-navigation/native";
 
-export interface Props {}
+type Props = {};
+
+type LogInVariables = {
+  username: string;
+  password: string;
+};
 
 const LogInForm: React.FC<Props> = () => {
   const [username, setUsername] = useState<string>("");
@@ -36,9 +41,18 @@ const LogInForm: React.FC<Props> = () => {
       </TouchableOpacity>
     );
   };
+
+  const onSubmit = (): void => {
+    const variables: LogInVariables = {
+      username,
+      password,
+    };
+    console.log(variables);
+  };
   return (
     <Layout style={styles.containerStyle}>
       <Input
+        autoCorrect={false}
         style={styles.usernameStyle}
         value={username}
         label="Username"
@@ -47,6 +61,7 @@ const LogInForm: React.FC<Props> = () => {
         onChangeText={setUsername}
       />
       <Input
+        autoCorrect={false}
         value={password}
         label="Password"
         placeholder="Enter password"
