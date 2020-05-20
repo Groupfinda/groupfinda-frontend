@@ -121,9 +121,14 @@ const SignUpForm: React.FC<Props> = () => {
       birthday,
     };
     setLoading(true);
-    await createUser({ variables });
-    await refetchQuery();
-    setLoading(false);
+    try {
+      await createUser({ variables });
+      await refetchQuery();
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

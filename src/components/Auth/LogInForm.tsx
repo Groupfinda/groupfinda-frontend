@@ -97,9 +97,14 @@ const LogInForm: React.FC<Props> = () => {
       password,
     };
     setLoading(true);
-    await loginUser({ variables });
-    await refetchQuery();
-    setLoading(false);
+    try {
+      await loginUser({ variables });
+      await refetchQuery();
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <Layout style={styles.containerStyle}>
