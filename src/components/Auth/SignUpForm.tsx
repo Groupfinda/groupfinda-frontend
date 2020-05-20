@@ -21,6 +21,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { CREATE_USER } from "../../graphql/mutations";
 import { ME } from "../../graphql/queries";
 import { useError, useRefetch } from "../../hooks";
+import { ApolloError } from "apollo-client";
 
 type Props = {};
 
@@ -71,7 +72,10 @@ const SignUpForm: React.FC<Props> = () => {
     CREATE_USER,
     {
       onError: (err) => {
-        setGraphQLError(err);
+        if (err instanceof ApolloError) {
+          setGraphQLError(err);
+        }
+
         setLoading(false);
       },
       onCompleted: async (data) => {

@@ -3,7 +3,8 @@ import { Layout, Icon, Input, Button } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { FORGET_PASSWORD } from "../../graphql/mutations";
-import useError from "../../hooks/useError";
+import { useError } from "../../hooks";
+import { ApolloError } from "apollo-client";
 
 type Props = {};
 
@@ -33,7 +34,11 @@ const ForgetPasswordForm: React.FC<Props> = () => {
     { forgetPassword: boolean },
     ForgetPasswordVariables
   >(FORGET_PASSWORD, {
-    onError: (err) => setGraphQLError(err),
+    onError: (err) => {
+      if (err instanceof ApolloError) {
+        setGraphQLError(err);
+      }
+    },
     onCompleted: (data) => {
       console.log(data.forgetPassword);
       clearError();

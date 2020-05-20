@@ -21,6 +21,7 @@ import { LOGIN_USER } from "../../graphql/mutations";
 import { ME } from "../../graphql/queries";
 
 import { useError, useRefetch } from "../../hooks/";
+import { ApolloError } from "apollo-boost";
 
 type Props = {};
 
@@ -57,7 +58,10 @@ const LogInForm: React.FC<Props> = () => {
     LOGIN_USER,
     {
       onError: (err) => {
-        setGraphQLError(err);
+        if (err instanceof ApolloError) {
+          setGraphQLError(err);
+        }
+
         setLoading(false);
       },
       onCompleted: async (data) => {
