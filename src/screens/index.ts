@@ -5,3 +5,4 @@ export { default as ProfileScreen } from "./ProfileScreen";
 export { default as SearchScreen } from "./SearchScreen";
 export { default as SignUpScreen } from "./SignUpScreen";
 export { default as SwipeScreen } from "./SwipeScreen";
+export { default as LoadingScreen } from "./LoadingScreen";

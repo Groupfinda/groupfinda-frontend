@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { TouchableWithoutFeedback, ImageProps } from "react-native";
+import {
+  TouchableWithoutFeedback,
+  ImageProps,
+  AsyncStorage,
+} from "react-native";
 import {
   Layout,
   Icon,
@@ -9,11 +13,20 @@ import {
   Select,
   SelectItem,
   Datepicker,
+  Spinner,
 } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { RenderProp } from "@ui-kitten/components/devsupport";
+import { useMutation } from "@apollo/react-hooks";
+import { CREATE_USER } from "../../graphql/mutations";
+import { ME } from "../../graphql/queries";
+import { useError, useRefetch } from "../../hooks";
 
 type Props = {};
+
+type TokenType = {
+  token: string;
+};
 
 type SignUpVariables = {
   username: string;
@@ -31,6 +44,8 @@ type ReferencesType = {
 };
 
 const SignUpForm: React.FC<Props> = () => {
+  const references: ReferencesType = {};
+  const genders = ["Male", "Female"];
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -41,13 +56,32 @@ const SignUpForm: React.FC<Props> = () => {
     new IndexPath(0)
   );
   const [birthday, setBirthday] = useState<Date>(new Date());
+  const [loading, setLoading] = useState<boolean>(false);
+  const refetchQuery = useRefetch([{ query: ME }]);
 
+  const {
+    Error,
+    setGraphQLError,
+    inputError,
+    resetInputError,
+    clearError,
+  } = useError();
+
+  const [createUser] = useMutation<{ createUser: TokenType }, SignUpVariables>(
+    CREATE_USER,
+    {
+      onError: (err) => {
+        setGraphQLError(err);
+        setLoading(false);
+      },
+      onCompleted: async (data) => {
+        await AsyncStorage.setItem("userToken", data.createUser.token);
+        clearError();
+      },
+    }
+  );
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const [hideConfirmPassword, setHideConfirmPassword] = useState<boolean>(true);
-
-  const genders = ["Male", "Female"];
-
-  const references: ReferencesType = {};
 
   const toggleHidePassword = (): void => {
     setHidePassword(!hidePassword);
@@ -71,7 +105,7 @@ const SignUpForm: React.FC<Props> = () => {
     </TouchableWithoutFeedback>
   );
 
-  const onSubmit = (): void => {
+  const onSubmit = async (): Promise<void> => {
     const variables: SignUpVariables = {
       username,
       password,
@@ -82,14 +116,21 @@ const SignUpForm: React.FC<Props> = () => {
       gender: genders[(gender as IndexPath).row],
       birthday,
     };
-    console.log(variables);
+    setLoading(true);
+    await createUser({ variables });
+    await refetchQuery();
+    setLoading(false);
   };
 
   return (
     <Layout style={styles.containerStyle}>
+      <Error />
       <Input
+        status={inputError.username ? "danger" : "basic"}
+        onChange={() => resetInputError("username")}
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={username}
         label="Username"
         placeholder="Username"
@@ -99,8 +140,11 @@ const SignUpForm: React.FC<Props> = () => {
         textContentType="username"
       />
       <Input
+        status={inputError.password ? "danger" : "basic"}
+        onChange={() => resetInputError("password")}
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={password}
         label="Password"
         placeholder="Password"
@@ -113,8 +157,11 @@ const SignUpForm: React.FC<Props> = () => {
         textContentType="newPassword"
       />
       <Input
+        status={inputError.confirmPassword ? "danger" : "basic"}
+        onChange={() => resetInputError("confirmPassword")}
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={confirmPassword}
         label="Confirm Password"
         placeholder="Confirm password"
@@ -127,8 +174,11 @@ const SignUpForm: React.FC<Props> = () => {
         textContentType="newPassword"
       />
       <Input
+        status={inputError.firstName ? "danger" : "basic"}
+        onChange={() => resetInputError("firstName")}
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={firstName}
         label="First name"
         placeholder="First name"
@@ -139,8 +189,11 @@ const SignUpForm: React.FC<Props> = () => {
         textContentType="givenName"
       />
       <Input
+        status={inputError.lastName ? "danger" : "basic"}
+        onChange={() => resetInputError("lastName")}
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={lastName}
         label="Last name"
         placeholder="Last name"
@@ -151,8 +204,11 @@ const SignUpForm: React.FC<Props> = () => {
         textContentType="familyName"
       />
       <Input
+        status={inputError.email ? "danger" : "basic"}
+        onChange={() => resetInputError("email")}
         style={styles.inputStyle}
         autoCorrect={false}
+        autoCapitalize="none"
         value={email}
         label="Email"
         placeholder="Email"
@@ -187,6 +243,11 @@ const SignUpForm: React.FC<Props> = () => {
       >
         Sign Up
       </Button>
+      {loading && (
+        <Layout style={styles.spinnerStyle}>
+          <Spinner size="medium" />
+        </Layout>
+      )}
     </Layout>
   );
 };
@@ -198,6 +259,10 @@ const styles = StyleSheet.create({
   inputStyle: { marginVertical: 3 },
   buttonStyle: {
     marginTop: 40,
+  },
+  spinnerStyle: {
+    marginTop: 10,
+    alignSelf: "center",
   },
 });
 
