@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Layout, Icon, Input, Button, Text } from "@ui-kitten/components";
+import { Layout, Icon, Input, Button } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
+import { useMutation } from "@apollo/react-hooks";
+import { FORGET_PASSWORD } from "../../graphql/mutations";
+import useError from "../../hooks/useError";
 
 type Props = {};
 
@@ -14,22 +17,44 @@ type ReferencesType = {
 };
 
 const ForgetPasswordForm: React.FC<Props> = () => {
+  const references: ReferencesType = {};
+
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const {
+    Error,
+    setGraphQLError,
+    inputError,
+    resetInputError,
+    clearError,
+  } = useError();
 
-  const references: ReferencesType = {};
+  const [forgetPassword] = useMutation<
+    { forgetPassword: boolean },
+    ForgetPasswordVariables
+  >(FORGET_PASSWORD, {
+    onError: (err) => setGraphQLError(err),
+    onCompleted: (data) => {
+      console.log(data.forgetPassword);
+      clearError();
+    },
+  });
 
   const onSubmit = (): void => {
     const variables: ForgetPasswordVariables = {
       username,
       email,
     };
-    console.log(variables);
+
+    forgetPassword({ variables });
   };
 
   return (
     <Layout style={styles.containerStyle}>
+      <Error />
       <Input
+        status={inputError.username ? "danger" : "basic"}
+        onChange={() => resetInputError("username")}
         autoCorrect={false}
         autoCapitalize="none"
         style={styles.usernameStyle}
@@ -43,6 +68,8 @@ const ForgetPasswordForm: React.FC<Props> = () => {
         textContentType="username"
       />
       <Input
+        status={inputError.email ? "danger" : "basic"}
+        onChange={() => resetInputError("email")}
         autoCorrect={false}
         autoCapitalize="none"
         value={email}

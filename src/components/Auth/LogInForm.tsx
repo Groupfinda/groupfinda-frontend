@@ -3,11 +3,24 @@ import {
   TouchableWithoutFeedback,
   ImageProps,
   TouchableOpacity,
+  AsyncStorage,
 } from "react-native";
-import { Layout, Icon, Input, Button, Text } from "@ui-kitten/components";
+import {
+  Layout,
+  Icon,
+  Input,
+  Button,
+  Text,
+  Spinner,
+} from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { RenderProp } from "@ui-kitten/components/devsupport";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@apollo/react-hooks";
+import { LOGIN_USER } from "../../graphql/mutations";
+import { ME } from "../../graphql/queries";
+
+import { useError, useRefetch } from "../../hooks/";
 
 type Props = {};
 
@@ -20,13 +33,39 @@ type ReferencesType = {
   [key: string]: Input | null;
 };
 
+type TokenType = {
+  token: string;
+};
+
 const LogInForm: React.FC<Props> = () => {
+  const references: ReferencesType = {};
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const navigation = useNavigation();
-
-  const references: ReferencesType = {};
+  const {
+    Error,
+    setGraphQLError,
+    inputError,
+    resetInputError,
+    clearError,
+  } = useError();
+  const refetchQuery = useRefetch([{ query: ME }]);
+  const [loginUser] = useMutation<{ loginUser: TokenType }, LogInVariables>(
+    LOGIN_USER,
+    {
+      onError: (err) => {
+        setGraphQLError(err);
+        setLoading(false);
+      },
+      onCompleted: async (data) => {
+        await AsyncStorage.setItem("userToken", data.loginUser.token);
+        clearError();
+      },
+    }
+  );
 
   const toggleHidePassword = (): void => {
     setHidePassword(!hidePassword);
@@ -48,16 +87,22 @@ const LogInForm: React.FC<Props> = () => {
     );
   };
 
-  const onSubmit = (): void => {
+  const onSubmit = async (): Promise<void> => {
     const variables: LogInVariables = {
       username,
       password,
     };
-    console.log(variables);
+    setLoading(true);
+    await loginUser({ variables });
+    await refetchQuery();
+    setLoading(false);
   };
   return (
     <Layout style={styles.containerStyle}>
+      <Error />
       <Input
+        status={inputError.username ? "danger" : "basic"}
+        onChange={() => resetInputError("username")}
         onSubmitEditing={() => references.secondInput?.focus()}
         blurOnSubmit={false}
         autoCorrect={false}
@@ -73,6 +118,8 @@ const LogInForm: React.FC<Props> = () => {
         ref={(ref) => {
           references.secondInput = ref;
         }}
+        status={inputError.password ? "danger" : "basic"}
+        onChange={() => resetInputError("password")}
         autoCorrect={false}
         autoCapitalize="none"
         value={password}
@@ -94,6 +141,11 @@ const LogInForm: React.FC<Props> = () => {
       >
         Log in
       </Button>
+      {loading && (
+        <Layout style={styles.spinnerStyle}>
+          <Spinner size="medium" />
+        </Layout>
+      )}
     </Layout>
   );
 };
@@ -107,6 +159,10 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     marginTop: 40,
+  },
+  spinnerStyle: {
+    marginTop: 10,
+    alignSelf: "center",
   },
 });
 
