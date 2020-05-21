@@ -36,7 +36,7 @@ export default () => {
   }, [data, loading]);
 
   const TabNavigation: React.FC = () => (
-    <Tab.Navigator initialRouteName="Swipe">
+    <Tab.Navigator initialRouteName="Profile">
       <Tab.Screen name="Chat" component={ChatScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />

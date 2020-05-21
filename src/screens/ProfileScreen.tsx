@@ -1,14 +1,15 @@
 import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
-
+import { ScrollView } from 'react-native';
+import ContentView from '../components/Profile'
 type Props = {};
 
 const ProfileScreen: React.FC<Props> = (props) => {
+
   return (
-    <Layout>
-      <Text category="h1">This should be ProfileScreen</Text>
-    </Layout>
+    <ScrollView>
+      <ContentView />
+    </ScrollView>
   );
 };
 

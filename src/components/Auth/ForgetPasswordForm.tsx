@@ -3,7 +3,7 @@ import { Layout, Icon, Input, Button } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { FORGET_PASSWORD } from "../../graphql/mutations";
-import useError from "../../hooks/useError";
+import { useError } from "../../hooks/useError";
 
 type Props = {};
 
