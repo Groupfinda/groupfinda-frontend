@@ -102,7 +102,6 @@ const LogInForm: React.FC<Props> = () => {
       await refetchQuery();
     } catch (err) {
       console.log(err.message);
-    } finally {
       setLoading(false);
     }
   };
