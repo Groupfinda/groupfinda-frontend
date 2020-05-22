@@ -1,6 +1,8 @@
 import React from "react";
-import { render } from "../../../utils/test-utils";
+import { render, cleanup } from "../../../utils/test-utils";
 import ForgetPasswordScreen from "../ForgetPasswordScreen";
+
+afterEach(cleanup);
 
 test("renders UI correctly", () => {
   const tree = render(<ForgetPasswordScreen />).toJSON();

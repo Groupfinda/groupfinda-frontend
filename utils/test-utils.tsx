@@ -4,7 +4,7 @@ import * as eva from "@eva-design/eva";
 import { myTheme } from "../custom-theme";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { MockedProvider, MockedResponse } from "@apollo/react-testing";
-import { render } from "react-native-testing-library";
+import { render, RenderAPI, RenderOptions } from "react-native-testing-library";
 
 const AllProviders = (apolloMocks: MockedResponse[]) => ({
   children,
@@ -23,7 +23,13 @@ const AllProviders = (apolloMocks: MockedResponse[]) => ({
   );
 };
 
-const customRender: typeof render = (
+type CustomRenderType = (
+  component: React.ReactElement<any>,
+  options?: RenderOptions,
+  apolloProps?: MockedResponse[]
+) => RenderAPI;
+
+const customRender: CustomRenderType = (
   ui,
   options,
   apolloProps: MockedResponse[] = []
