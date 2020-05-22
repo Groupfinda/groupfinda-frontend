@@ -11,6 +11,7 @@ import {
   SignUpScreen,
   SwipeScreen,
   LoadingScreen,
+  ProfileSettingsScreen,
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
@@ -52,7 +53,13 @@ export default () => {
       <Stack.Navigator>
         {user ? (
           <>
-            <Stack.Screen name="Main" component={TabNavigation} />
+            <Stack.Screen
+              name="Main"
+              component={TabNavigation} />
+            <Stack.Screen
+              name="ProfileSettings"
+              component={ProfileSettingsScreen}
+              options={{ title: "Profile Settings", headerBackTitle: "Back" }} />
           </>
         ) : (
           <>
