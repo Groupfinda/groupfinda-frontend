@@ -44,7 +44,7 @@ const mocks: MockedResponse[] = [
         lastName: "test1",
         email: "test1",
         gender: "Male",
-        birthday: new Date("01-01-2000"),
+        birthday: new Date("2000-01-01"),
       },
     },
     result: {
@@ -83,7 +83,7 @@ const mocks: MockedResponse[] = [
         lastName: "test2",
         email: "test2",
         gender: "Male",
-        birthday: new Date("01-01-2000"),
+        birthday: new Date("2000-01-01"),
       },
     },
     result: {
@@ -122,7 +122,7 @@ const mocks: MockedResponse[] = [
         lastName: "test3",
         email: "test3",
         gender: "Male",
-        birthday: new Date("01-01-2000"),
+        birthday: new Date("2000-01-01"),
       },
     },
     result: {

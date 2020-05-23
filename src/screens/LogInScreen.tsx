@@ -24,7 +24,7 @@ const LogInScreen: React.FC<Props> = ({ navigation }) => {
 
           <TouchableOpacity
             style={styles.helpStyle}
-            onPress={() => navigation.replace("SignUp")}
+            onPress={() => navigation.navigate("SignUp")}
           >
             <Text status="info">Don't have an account? Sign up</Text>
           </TouchableOpacity>
