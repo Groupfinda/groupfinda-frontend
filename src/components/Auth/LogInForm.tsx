@@ -21,6 +21,7 @@ import { LOGIN_USER } from "../../graphql/mutations";
 import { ME } from "../../graphql/queries";
 
 import { useError, useRefetch } from "../../hooks/";
+import { ApolloError } from "apollo-boost";
 
 type Props = {};
 
@@ -57,7 +58,10 @@ const LogInForm: React.FC<Props> = () => {
     LOGIN_USER,
     {
       onError: (err) => {
-        setGraphQLError(err);
+        if (err instanceof ApolloError) {
+          setGraphQLError(err);
+        }
+
         setLoading(false);
       },
       onCompleted: async (data) => {
@@ -72,7 +76,10 @@ const LogInForm: React.FC<Props> = () => {
   };
 
   const renderIcon: RenderProp<Partial<ImageProps>> = (props) => (
-    <TouchableWithoutFeedback onPress={toggleHidePassword}>
+    <TouchableWithoutFeedback
+      testID="toggle-password"
+      onPress={toggleHidePassword}
+    >
       <Icon {...props} name={hidePassword ? "eye-off" : "eye"} />
     </TouchableWithoutFeedback>
   );
@@ -93,9 +100,13 @@ const LogInForm: React.FC<Props> = () => {
       password,
     };
     setLoading(true);
-    await loginUser({ variables });
-    await refetchQuery();
-    setLoading(false);
+    try {
+      await loginUser({ variables });
+      await refetchQuery();
+    } catch (err) {
+      console.log(err.message);
+      setLoading(false);
+    }
   };
   return (
     <Layout style={styles.containerStyle}>

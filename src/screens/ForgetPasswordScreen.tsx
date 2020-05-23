@@ -3,11 +3,10 @@ import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { ForgetPasswordForm } from "../components/Auth";
 import { ScrollView } from "react-native";
-import { ForgetPasswordScreenNavigationProp } from "../navigation/types";
 
-type Props = ForgetPasswordScreenNavigationProp;
+type Props = {};
 
-const ForgetPasswordScreen: React.FC<Props> = ({ navigation }) => {
+const ForgetPasswordScreen: React.FC<Props> = () => {
   return (
     <Layout style={styles.wrapperStyle}>
       <ScrollView>
