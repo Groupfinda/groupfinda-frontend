@@ -15,7 +15,7 @@ const authLink = setContext(async (_, { headers }) => {
   };
 });
 
-const GRAPHQL_URL = `http://192.168.1.207:3002/graphql`;
+const GRAPHQL_URL = `http://192.168.0.101:3002/graphql`;
 
 const link = createHttpLink({
   uri: GRAPHQL_URL,

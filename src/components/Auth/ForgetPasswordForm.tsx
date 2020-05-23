@@ -6,6 +6,7 @@ import { FORGET_PASSWORD } from "../../graphql/mutations";
 import { useError } from "../../hooks";
 import { ApolloError } from "apollo-client";
 
+
 type Props = {};
 
 type ForgetPasswordVariables = {
