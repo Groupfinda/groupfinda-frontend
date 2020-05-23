@@ -12,46 +12,19 @@ import {
 import { EditAvatar } from './extra/edit-avatar.component'
 import { ProfileField } from './extra/profile-field.component'
 import { useNavigation } from "@react-navigation/native";
-import { useLazyQuery, useQuery } from '@apollo/react-hooks';
-import { USER, FULLUSER } from '../../graphql/queries';
+import { useQuery } from '@apollo/react-hooks';
+import { FULLUSER } from '../../graphql/queries';
+import {
+    EditIcon,
+    PersonIcon,
+    PeopleIcon,
+    InterestsIcon,
+    LockIcon,
+    ForwardIcon,
+    SaveIcon,
+    CameraIcon
+} from './extra/icons'
 
-const EditIcon = (): IconElement => {
-    return (
-        <Icon
-            width={16}
-            height={16}
-            fill="#078BF7"
-            name='edit-2'/>
-    )
-}
-
-const ForwardIcon = (): IconElement => {
-    return (
-        <Icon
-            width={24}
-            height={24}
-            fill="grey"
-            name='arrow-ios-forward-outline'/>
-    )
-}
-
-const SaveIcon = (): IconElement => {
-    return (
-        <Icon
-        width={16}
-        height={16}
-        fill='green'
-        name='save'/>
-    )
-}
-const CameraIcon = (): IconElement => {
-    return <Icon style={{
-        "height": 20,
-        "marginHorizontal": 10,
-        "tintColor": "#222B45",
-        "width": 20
-    }} name='camera'/>
-};
 
 const dummyUser = {
     "firstName": "Gabriel",
@@ -106,9 +79,12 @@ export default (): React.ReactElement => {
                 <Layout
                     style={styles.sectionHeader}
                     level='1'>
-                    <Text category='h6'>
-                        Basic Information
-                    </Text>
+                    <Layout style={styles.sectionHeaderText}>    
+                        <PersonIcon />
+                        <Text category='h6'>
+                            Basic Information
+                        </Text>
+                    </Layout>
                     <TouchableOpacity
                         style={{"flexDirection": "row", "alignItems": "center"}}
                         onPress={()=>{editBasicToggle(!editBasic)}}>
@@ -170,9 +146,12 @@ export default (): React.ReactElement => {
                 <Layout
                     style={styles.sectionHeader}
                     level='1'>
-                    <Text category='h6'>
-                        Security
-                    </Text>
+                    <Layout style={styles.sectionHeaderText}>    
+                        <LockIcon />
+                        <Text category='h6'>
+                            Security
+                        </Text>
+                    </Layout>
                 </Layout>
                 <TouchableOpacity
                     onPress={()=>{navigation.navigate("ChangePassword")}}>
@@ -192,9 +171,12 @@ export default (): React.ReactElement => {
                 <Layout
                     style={styles.sectionHeader}
                     level='1'>
-                    <Text category='h6'>
-                        Group Preferences
-                    </Text>
+                    <Layout style={styles.sectionHeaderText}>    
+                        <PeopleIcon />
+                        <Text category='h6'>
+                            Group Preferences
+                        </Text>
+                    </Layout>
                     <TouchableOpacity
                         style={{"flexDirection": "row", "alignItems": "center"}}
                         onPress={()=>{editPreferencesToggle(!editPreferences)}}>
@@ -228,9 +210,12 @@ export default (): React.ReactElement => {
                 <Layout
                     style={styles.sectionHeader}
                     level='1'>
-                    <Text category='h6'>
-                        Interests/Hobbies
-                    </Text>
+                    <Layout style={styles.sectionHeaderText}>    
+                        <InterestsIcon />
+                        <Text category='h6'>
+                            Interests/Hobbies
+                        </Text>
+                    </Layout>
                     <TouchableOpacity
                         style={{"flexDirection": "row", "alignItems": "center"}}
                         onPress={()=>{editInterestsToggle(!editInterests)}}>
@@ -278,6 +263,12 @@ const themedStyle = StyleService.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: "center"
+    },
+    sectionHeaderText: {
+        backgroundColor: "transparent",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start"
     },
     profileSetting: {
       paddingVertical: 5,

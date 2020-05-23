@@ -11,7 +11,6 @@ import {
     Icon,
     Layout
 } from '@ui-kitten/components';
-import { LoadingScreen } from '../../screens';
 import { ImageOverlay } from './extra/image-overlay.component';
 import { ProfileSocial } from './extra/profile-social.component';
 import { DrawerGroupUser } from './extra/drawer.component';
@@ -19,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useLazyQuery } from '@apollo/react-hooks';
 import { USER } from '../../graphql/queries';
 import { Loading } from "../common"
+import { SettingsIcon } from './extra/icons'
 
 YellowBox.ignoreWarnings(['VirtualizedLists should never be nested inside plain ScrollViews']);
 
@@ -30,16 +30,6 @@ const PinIcon = (): IconElement => {
             height={16}
             fill={theme['text-control-color']}
             name='pin'/>
-    )
-}
-
-const SettingsIcon = (): IconElement => {
-    return (
-      <Icon
-        width={16}
-        height={16}
-        fill="white"
-        name='settings-2'/>
     )
 }
 
