@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 20,
     margin: 5,
+    alignItems: "center",
+    justifyContent: "space-around",
   },
   center: {
     justifyContent: "center",
@@ -39,6 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   icon: {
+    alignSelf: "center",
     width: 100,
     height: 100,
   },

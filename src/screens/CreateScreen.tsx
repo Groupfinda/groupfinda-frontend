@@ -12,8 +12,8 @@ const CreateScreen: React.FC<Props> = (props) => {
       <Divider />
       <Icon name="people" />
       <Layout style={styles.viewStyle} level="4">
-        <CardDisplay title="Join an event" icon="people" />
-        <CardDisplay title="Create an event" icon="plus-square" />
+        <CardDisplay title="Join Event" icon="people" />
+        <CardDisplay title="Create Event" icon="plus-square" />
       </Layout>
     </Layout>
   );
