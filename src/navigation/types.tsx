@@ -6,6 +6,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   ForgetPassword: undefined;
   ProfileSettings: undefined;
+  ChangePassword: undefined;
 };
 
 export type SignUpScreenNavigationProp = StackScreenProps<

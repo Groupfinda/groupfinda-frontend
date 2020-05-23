@@ -20,3 +20,20 @@ export const USER = gql`
     }
   }
 `;
+
+export const FULLUSER = gql`
+  query {
+    me {
+      id
+      firstName
+      lastName
+      username
+      email
+      gender
+      avatar
+      birthday
+      location
+      profile
+    }
+  }
+`;

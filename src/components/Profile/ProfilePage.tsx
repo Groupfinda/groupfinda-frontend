@@ -16,8 +16,9 @@ import { ImageOverlay } from './extra/image-overlay.component';
 import { ProfileSocial } from './extra/profile-social.component';
 import { DrawerGroupUser } from './extra/drawer.component';
 import { useNavigation } from "@react-navigation/native";
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { USER } from '../../graphql/queries';
+import { Loading } from "../common"
 
 YellowBox.ignoreWarnings(['VirtualizedLists should never be nested inside plain ScrollViews']);
 
@@ -70,9 +71,7 @@ export default (): React.ReactElement => {
   return (
     <ScrollView style={styles.container}>
       {loading?
-      <Layout>
-        <Text>Loading</Text>
-      </Layout>
+      <Loading visible={loading}/>
       :<React.Fragment>
         <ImageOverlay
           style={styles.header}

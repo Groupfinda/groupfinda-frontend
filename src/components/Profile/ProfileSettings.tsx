@@ -12,8 +12,8 @@ import {
 import { EditAvatar } from './extra/edit-avatar.component'
 import { ProfileField } from './extra/profile-field.component'
 import { useNavigation } from "@react-navigation/native";
-import { useLazyQuery } from '@apollo/react-hooks';
-import { USER } from '../../graphql/queries';
+import { useLazyQuery, useQuery } from '@apollo/react-hooks';
+import { USER, FULLUSER } from '../../graphql/queries';
 
 const EditIcon = (): IconElement => {
     return (
@@ -22,6 +22,16 @@ const EditIcon = (): IconElement => {
             height={16}
             fill="#078BF7"
             name='edit-2'/>
+    )
+}
+
+const ForwardIcon = (): IconElement => {
+    return (
+        <Icon
+            width={24}
+            height={24}
+            fill="grey"
+            name='arrow-ios-forward-outline'/>
     )
 }
 
@@ -48,7 +58,6 @@ const dummyUser = {
     "lastName": "Loye",
     "username": "gabrielloye",
     "gender": "Male",
-    "age": 22,
     "location": "University Town",
     "prefMinAge": 18,
     "prefMaxAge": 26,
@@ -72,149 +81,181 @@ export default (): React.ReactElement => {
     const [ editPreferences, editPreferencesToggle ] = React.useState(false)
     const [ editInterests, editInterestsToggle ] = React.useState(false)
 
-    const [getCurrentUser, {loading, error, data}] = useLazyQuery(USER);
-    let isMounted = true;
-    React.useEffect(() => {
-        if (isMounted) {
-        getCurrentUser();
+    const {loading, error, data} = useQuery(FULLUSER, {
+        onCompleted: (userData)=>{
+            editUser({...user, ...userData.me})
         }
-        return () => {
-        isMounted = false;
-        };
-    }, []);
-    if ( loading ) {
-        return (<Layout>
-                    <Text>Loading</Text>
-                </Layout>)
+    });
+
+    if ( loading || !data ) {
+        return (
+        <Layout>
+            <Text>Loading</Text>
+        </Layout>)
     } else {
-        console.log(data.me)
-    return (
-        <ScrollView
-            style={styles.container}
-            contentContainerStyle={styles.contentContainer}>
-            <React.Fragment>
-            <EditAvatar
-                style={{"marginBottom": 24, "aspectRatio": 1.0, "height": 124, "alignSelf": "center"}}
-                source={require('./temp/gab.jpg')}
-                editButton={renderPhotoButton}/>
-            
-            <Layout
-                style={styles.sectionHeader}
-                level='1'>
-                <Text category='h6'>
-                    Basic Information
-                </Text>
-                <TouchableOpacity
-                    style={{"flexDirection": "row", "alignItems": "center"}}
-                    onPress={()=>{editBasicToggle(!editBasic)}}>
-                    {!editBasic?<EditIcon></EditIcon>:<SaveIcon></SaveIcon>}
-                    {!editBasic?
-                    <Text status='info'>
-                        Edit
-                    </Text>:
-                    (<Text status='success'>
-                        Update
-                    </Text>)}
-                </TouchableOpacity>
-            </Layout>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='First Name'
-                userKey='firstName'
-                user={user}
-                editable={editBasic}
-                editUser={editUser}/>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='Last Name'
-                userKey='lastName'
-                user={user}
-                editable={editBasic}
-                editUser={editUser}/>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='Username'
-                userKey='username'
-                user={user}
-                editable={editBasic}
-                editUser={editUser}/>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='Gender'
-                userKey='gender'
-                user={user}
-                editable={editBasic}
-                editUser={editUser}/>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='Age'
-                userKey='age'
-                user={user}
-                editable={editBasic}
-                editUser={editUser}/>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='Location'
-                userKey='location'
-                user={user}
-                editable={editBasic}
-                editUser={editUser}/>
-
-            <Layout
-                style={styles.sectionHeader}
-                level='1'>
-                <Text category='h6'>
-                    Group Preferences
-                </Text>
-                <TouchableOpacity
-                    style={{"flexDirection": "row", "alignItems": "center"}}
-                    onPress={()=>{editPreferencesToggle(!editPreferences)}}>
-                    <EditIcon></EditIcon>
-                    <Text status='info'>
-                        Edit
+        return (
+            <ScrollView
+                style={styles.container}
+                contentContainerStyle={styles.contentContainer}>
+                <React.Fragment>
+                <EditAvatar
+                    style={{"marginBottom": 24, "aspectRatio": 1.0, "height": 124, "alignSelf": "center"}}
+                    source={require('./temp/gab.jpg')}
+                    editButton={renderPhotoButton}/>
+                
+                <Layout
+                    style={styles.sectionHeader}
+                    level='1'>
+                    <Text category='h6'>
+                        Basic Information
                     </Text>
-                </TouchableOpacity>
-            </Layout>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='Min. Age'
-                userKey='prefMinAge'
-                user={user}
-                editable={editPreferences}
-                editUser={editUser}/>
-            <ProfileField
-                style={[styles.profileSetting]}
-                hint='Max. Age'
-                userKey='prefMaxAge'
-                user={user}
-                editable={editPreferences}
-                editUser={editUser}/>
-            
-            <Layout
-                style={styles.sectionHeader}
-                level='1'>
-                <Text category='h6'>
-                    Interests/Hobbies
-                </Text>
-                <TouchableOpacity
-                    style={{"flexDirection": "row", "alignItems": "center"}}
-                    onPress={()=>{editInterestsToggle(!editInterests)}}>
-                    <EditIcon></EditIcon>
-                    <Text status='info'>
-                        Edit
+                    <TouchableOpacity
+                        style={{"flexDirection": "row", "alignItems": "center"}}
+                        onPress={()=>{editBasicToggle(!editBasic)}}>
+                        {!editBasic?
+                            <EditIcon></EditIcon>:
+                            <SaveIcon></SaveIcon>}
+                        {!editBasic?
+                            <Text status='info'>
+                                Edit
+                            </Text>:
+                            (<Text status='success'>
+                                Update
+                            </Text>)}
+                    </TouchableOpacity>
+                </Layout>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='First Name'
+                    userKey='firstName'
+                    user={user}
+                    editable={editBasic}
+                    editUser={editUser}/>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='Last Name'
+                    userKey='lastName'
+                    user={user}
+                    editable={editBasic}
+                    editUser={editUser}/>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='Username'
+                    userKey='username'
+                    user={user}
+                    editable={editBasic}
+                    editUser={editUser}/>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='Gender'
+                    userKey='gender'
+                    user={user}
+                    editable={editBasic}
+                    editUser={editUser}/>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='Birthday'
+                    userKey='birthday'
+                    user={user}
+                    editable={false}
+                    editUser={editUser}/>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='Location'
+                    userKey='location'
+                    user={user}
+                    editable={false}
+                    editUser={editUser}/>
+                
+                <Layout
+                    style={styles.sectionHeader}
+                    level='1'>
+                    <Text category='h6'>
+                        Security
                     </Text>
+                </Layout>
+                <TouchableOpacity
+                    onPress={()=>{navigation.navigate("ChangePassword")}}>
+                <Layout
+                    level='1'
+                    style={[styles.resetPassword]}>
+                    <Text
+                        appearance='hint'
+                        style={{paddingVertical: 13}}
+                        category='s1'>
+                        Change Password
+                    </Text>
+                    <ForwardIcon />
+                </Layout>
                 </TouchableOpacity>
-            </Layout>
 
-            <Button
-                style={styles.doneButton}
-                onPress={()=>{console.log(user);navigation.navigate("Profile")}}>
-                Back
-            </Button>
-            </React.Fragment>
-        </ScrollView>
-    )}
+                <Layout
+                    style={styles.sectionHeader}
+                    level='1'>
+                    <Text category='h6'>
+                        Group Preferences
+                    </Text>
+                    <TouchableOpacity
+                        style={{"flexDirection": "row", "alignItems": "center"}}
+                        onPress={()=>{editPreferencesToggle(!editPreferences)}}>
+                        {!editPreferences?
+                            <EditIcon></EditIcon>:
+                            <SaveIcon></SaveIcon>}
+                        {!editPreferences?
+                            <Text status='info'>
+                                Edit
+                            </Text>:
+                            (<Text status='success'>
+                                Update
+                            </Text>)}
+                    </TouchableOpacity>
+                </Layout>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='Min. Age'
+                    userKey='prefMinAge'
+                    user={user}
+                    editable={editPreferences}
+                    editUser={editUser}/>
+                <ProfileField
+                    style={[styles.profileSetting]}
+                    hint='Max. Age'
+                    userKey='prefMaxAge'
+                    user={user}
+                    editable={editPreferences}
+                    editUser={editUser}/>
+                
+                <Layout
+                    style={styles.sectionHeader}
+                    level='1'>
+                    <Text category='h6'>
+                        Interests/Hobbies
+                    </Text>
+                    <TouchableOpacity
+                        style={{"flexDirection": "row", "alignItems": "center"}}
+                        onPress={()=>{editInterestsToggle(!editInterests)}}>
+                        {!editInterests?
+                            <EditIcon></EditIcon>:
+                            <SaveIcon></SaveIcon>}
+                        {!editInterests?
+                            <Text status='info'>
+                                Edit
+                            </Text>:
+                            (<Text status='success'>
+                                Update
+                            </Text>)}
+                    </TouchableOpacity>
+                </Layout>
 
+                <Button
+                    style={styles.doneButton}
+                    onPress={()=>{console.log(user);navigation.navigate("Profile")}}>
+                    Back
+                </Button>
+                </React.Fragment>
+            </ScrollView>
+        )
+    }
 }
 
 const themedStyle = StyleService.create({
@@ -241,6 +282,13 @@ const themedStyle = StyleService.create({
     profileSetting: {
       paddingVertical: 5,
       paddingHorizontal: 16
+    },
+    resetPassword: {
+        paddingHorizontal: 18,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     doneButton: {
       marginHorizontal: 24,
