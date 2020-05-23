@@ -42,13 +42,20 @@ export const ProfileField = (props: ProfileFieldProps): React.ReactElement => {
                     {user[userKey]}
                 </Input>
                 :<Text category='s1'>
-                        {user[userKey]}
-                    </Text>}
+                    {userKey==='birthday'?
+                        formattedDate(new Date(user['birthday']))
+                        :user[userKey]}
+                </Text>}
             </Layout>
             <Divider/>
         </React.Fragment>
     );
 };
+
+function formattedDate(d = new Date) {
+    return [d.getDate(), d.getMonth()+1, d.getFullYear()]
+        .map(n => n < 10 ? `0${n}` : `${n}`).join('/');
+}
 
 const styles = StyleSheet.create({
   container: {

@@ -16,6 +16,7 @@ import {
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
 import { ME } from "../graphql/queries";
+import { ChangePassword } from "../components/Profile";
 
 type MeType = {
   id: string;
@@ -64,6 +65,10 @@ export default () => {
               name="ProfileSettings"
               component={ProfileSettingsScreen}
               options={{ title: "Profile Settings", headerBackTitle: "Back" }} />
+            <Stack.Screen
+              name="ChangePassword"
+              component={ChangePassword}
+              options={{ title: "Change Password", headerBackTitle: "Back"}}/>
           </>
         ) : (
           <>
