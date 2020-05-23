@@ -11,10 +11,13 @@ import {
     Icon,
     Layout
 } from '@ui-kitten/components';
+import { LoadingScreen } from '../../screens';
 import { ImageOverlay } from './extra/image-overlay.component';
 import { ProfileSocial } from './extra/profile-social.component';
 import { DrawerGroupUser } from './extra/drawer.component';
 import { useNavigation } from "@react-navigation/native";
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { USER } from '../../graphql/queries';
 
 YellowBox.ignoreWarnings(['VirtualizedLists should never be nested inside plain ScrollViews']);
 
@@ -31,15 +34,21 @@ const PinIcon = (): IconElement => {
 
 const SettingsIcon = (): IconElement => {
     return (
-        <Icon
-            width={16}
-            height={16}
-            fill="white"
-            name='settings-2'/>
+      <Icon
+        width={16}
+        height={16}
+        fill="white"
+        name='settings-2'/>
     )
 }
 
-
+interface User {
+  id: string;
+  firstName: string,
+  lastName: string;
+  username: string;
+  email: string;
+}
 
 export default (): React.ReactElement => {
 
@@ -47,69 +56,76 @@ export default (): React.ReactElement => {
 
   const navigation = useNavigation();
 
+  const [getCurrentUser, {loading, error, data}] = useLazyQuery(USER);
+  let isMounted = true;
+  React.useEffect(() => {
+    if (isMounted) {
+      getCurrentUser();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+  
   return (
     <ScrollView style={styles.container}>
-      <ImageOverlay
-        style={styles.header}
-        source={require('./temp/image-background.jpg')}>
-        <Layout style={styles.layoutContainer}>
-            <Layout style={styles.layout} level='1'>
-                <Text> </Text>
-              <TouchableOpacity>
-                <Button
-                  status='control'
-                  appearance='ghost'
-                  accessoryLeft={SettingsIcon}
-                  onPress={() => {navigation.navigate("ProfileSettings")}}>
-                  Profile Settings
-                </Button>
-              </TouchableOpacity>
-            </Layout>
-        </Layout>
-        <Avatar
-            style={{"width":148, "height": 148, "marginBottom": 16}}
-            source={require('./temp/gab.jpg')}/>
-        <Text
-          style={styles.profileName}
-          category='h5'
-          status='control'>
-          Gabriel Loye
-        </Text>
-        <View style={styles.locationContainer}>
-          <PinIcon/>
+      {loading?
+      <Layout>
+        <Text>Loading</Text>
+      </Layout>
+      :<React.Fragment>
+        <ImageOverlay
+          style={styles.header}
+          source={require('./temp/image-background.jpg')}>
+          <Layout style={styles.layoutContainer}>
+              <Layout style={styles.layout} level='1'>
+                  <Text> </Text>
+                <TouchableOpacity>
+                  <Button
+                    status='control'
+                    appearance='ghost'
+                    accessoryLeft={SettingsIcon}
+                    onPress={() => {navigation.navigate("ProfileSettings")}}>
+                    Profile Settings
+                  </Button>
+                </TouchableOpacity>
+              </Layout>
+          </Layout>
+          <Avatar
+              style={{"width":148, "height": 148, "marginBottom": 16}}
+              source={require('./temp/gab.jpg')}/>
+          {data &&
           <Text
-            style={styles.location}
+            style={styles.profileName}
+            category='h5'
             status='control'>
-            University Town
-          </Text>
-        </View>
-        {/* <View style={styles.profileButtonsContainer}>
-          <Button
-            style={styles.profileButton}>
-            FOLLOW
-          </Button>
-          <Button
-            style={styles.profileButton}
-            status='control'>
-            MESSAGE
-          </Button>
-        </View> */}
-        <View style={styles.socialsContainer}>
-          <ProfileSocial
-            style={styles.profileSocial}
-            hint='Events'
-            value="7"/>
-          <ProfileSocial
-            style={styles.profileSocial}
-            hint='Groups'
-            value="6"/>
-          <ProfileSocial
-            style={styles.profileSocial}
-            hint='Interests'
-            value="13"/>
-        </View>
-      </ImageOverlay>
-      <DrawerGroupUser />
+            {data.me.firstName} {data.me.lastName}
+          </Text>}
+          <View style={styles.locationContainer}>
+            <PinIcon/>
+            <Text
+              style={styles.location}
+              status='control'>
+              University Town
+            </Text>
+          </View>
+          <View style={styles.socialsContainer}>
+            <ProfileSocial
+              style={styles.profileSocial}
+              hint='Events'
+              value="7"/>
+            <ProfileSocial
+              style={styles.profileSocial}
+              hint='Groups'
+              value="6"/>
+            <ProfileSocial
+              style={styles.profileSocial}
+              hint='Interests'
+              value="13"/>
+          </View>
+        </ImageOverlay>
+        <DrawerGroupUser/>
+      </React.Fragment>}
     </ScrollView>
   );
 };

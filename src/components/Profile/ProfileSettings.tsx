@@ -12,6 +12,8 @@ import {
 import { EditAvatar } from './extra/edit-avatar.component'
 import { ProfileField } from './extra/profile-field.component'
 import { useNavigation } from "@react-navigation/native";
+import { useLazyQuery } from '@apollo/react-hooks';
+import { USER } from '../../graphql/queries';
 
 const EditIcon = (): IconElement => {
     return (
@@ -32,6 +34,14 @@ const SaveIcon = (): IconElement => {
         name='save'/>
     )
 }
+const CameraIcon = (): IconElement => {
+    return <Icon style={{
+        "height": 20,
+        "marginHorizontal": 10,
+        "tintColor": "#222B45",
+        "width": 20
+    }} name='camera'/>
+};
 
 const dummyUser = {
     "firstName": "Gabriel",
@@ -50,10 +60,6 @@ export default (): React.ReactElement => {
 
     const navigation = useNavigation();
 
-    const CameraIcon = (): IconElement => {
-        return <Icon style={{"height": 20, "marginHorizontal": 10, "tintColor": "#222B45", "width": 20}} name='camera'/>
-    };
-
     const renderPhotoButton = (): React.ReactElement => (
         <Button
           style={styles.editAvatarButton}
@@ -66,10 +72,27 @@ export default (): React.ReactElement => {
     const [ editPreferences, editPreferencesToggle ] = React.useState(false)
     const [ editInterests, editInterestsToggle ] = React.useState(false)
 
+    const [getCurrentUser, {loading, error, data}] = useLazyQuery(USER);
+    let isMounted = true;
+    React.useEffect(() => {
+        if (isMounted) {
+        getCurrentUser();
+        }
+        return () => {
+        isMounted = false;
+        };
+    }, []);
+    if ( loading ) {
+        return (<Layout>
+                    <Text>Loading</Text>
+                </Layout>)
+    } else {
+        console.log(data.me)
     return (
         <ScrollView
             style={styles.container}
             contentContainerStyle={styles.contentContainer}>
+            <React.Fragment>
             <EditAvatar
                 style={{"marginBottom": 24, "aspectRatio": 1.0, "height": 124, "alignSelf": "center"}}
                 source={require('./temp/gab.jpg')}
@@ -188,8 +211,9 @@ export default (): React.ReactElement => {
                 onPress={()=>{console.log(user);navigation.navigate("Profile")}}>
                 Back
             </Button>
+            </React.Fragment>
         </ScrollView>
-    )
+    )}
 
 }
 

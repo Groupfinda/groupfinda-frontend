@@ -8,3 +8,15 @@ export const ME = gql`
     }
   }
 `;
+
+export const USER = gql`
+  query {
+    me {
+      id
+      firstName
+      lastName
+      username
+      email
+    }
+  }
+`;

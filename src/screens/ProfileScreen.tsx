@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
 import { ProfilePage } from '../components/Profile'
+
 type Props = {};
 
 const ProfileScreen: React.FC<Props> = (props) => {
 
   return (
-      <ProfilePage />
+    <ProfilePage />
   );
 };
 
