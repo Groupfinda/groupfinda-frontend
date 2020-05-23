@@ -1,17 +1,24 @@
 import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 
 type Props = {};
 
-const LoadingScreen: React.FC<Props> = (props) => {
+const LoadingScreen: React.FC<Props> = () => {
   return (
-    <Layout>
-      <Text category="h1">This should be LoadingScreen</Text>
+    <Layout style={styles.container}>
+      <Image source={require("../../assets/icon.png")} />
+      <Text category="h1">Groupfinda</Text>
     </Layout>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default LoadingScreen;
