@@ -5,6 +5,7 @@ import { MockedResponse, wait } from "@apollo/react-testing";
 import { LOGIN_USER, REFETCH_QUERY } from "../../../graphql/mutations";
 import { ME } from "../../../graphql/queries";
 import { GraphQLError } from "graphql";
+import { TouchableWithoutFeedback } from "react-native";
 
 jest.mock("react-native/Libraries/Animated/src/NativeAnimatedHelper");
 jest.mock("@react-navigation/native", () => ({
@@ -142,6 +143,18 @@ test("renders text components correctly", () => {
   expect(component.queryByText("Password")).toBeTruthy();
   expect(component.queryByPlaceholder("Enter password")).toBeTruthy();
   expect(component.queryByText("Log in")).toBeTruthy();
+});
+
+test("password secure entry toggle is working", () => {
+  const component = render(<LogInForm />);
+  const passwordInput = component.getByPlaceholder("Enter password");
+  expect(passwordInput).toHaveProp("secureTextEntry", true);
+  const togglePassword = component.getByTestId("toggle-password");
+  fireEvent.press(togglePassword);
+  expect(passwordInput).toHaveProp("secureTextEntry", false);
+  const togglePasswordAgain = component.getByTestId("toggle-password");
+  fireEvent.press(togglePasswordAgain);
+  expect(passwordInput).toHaveProp("secureTextEntry", true);
 });
 
 test("renders loading component correctly", async () => {

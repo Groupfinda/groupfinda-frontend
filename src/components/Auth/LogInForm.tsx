@@ -76,7 +76,10 @@ const LogInForm: React.FC<Props> = () => {
   };
 
   const renderIcon: RenderProp<Partial<ImageProps>> = (props) => (
-    <TouchableWithoutFeedback onPress={toggleHidePassword}>
+    <TouchableWithoutFeedback
+      testID="toggle-password"
+      onPress={toggleHidePassword}
+    >
       <Icon {...props} name={hidePassword ? "eye-off" : "eye"} />
     </TouchableWithoutFeedback>
   );

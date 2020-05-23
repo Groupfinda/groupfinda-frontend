@@ -816,6 +816,7 @@ exports[`renders UI correctly 1`] = `
                 },
               ]
             }
+            testID="toggle-password"
             vbHeight={24}
             vbWidth={24}
           >
@@ -2314,6 +2315,7 @@ exports[`renders loading component correctly 1`] = `
                 },
               ]
             }
+            testID="toggle-password"
             vbHeight={24}
             vbWidth={24}
           >

@@ -56,7 +56,7 @@ const SignUpForm: React.FC<Props> = () => {
   const [gender, setGender] = useState<IndexPath | IndexPath[]>(
     new IndexPath(0)
   );
-  const [birthday, setBirthday] = useState<Date>(new Date());
+  const [birthday, setBirthday] = useState<Date>(new Date("01-01-2000"));
   const [loading, setLoading] = useState<boolean>(false);
   const refetchQuery = useRefetch([{ query: ME }]);
 
@@ -81,6 +81,7 @@ const SignUpForm: React.FC<Props> = () => {
       onCompleted: async (data) => {
         await AsyncStorage.setItem("userToken", data.createUser.token);
         clearError();
+        setLoading(false);
       },
     }
   );
@@ -126,7 +127,6 @@ const SignUpForm: React.FC<Props> = () => {
       await refetchQuery();
     } catch (err) {
       console.log(err.message);
-    } finally {
       setLoading(false);
     }
   };
@@ -172,7 +172,7 @@ const SignUpForm: React.FC<Props> = () => {
         autoCorrect={false}
         autoCapitalize="none"
         value={confirmPassword}
-        label="Confirm Password"
+        label="Confirm password"
         placeholder="Confirm password"
         onChangeText={setConfirmPassword}
         secureTextEntry={hideConfirmPassword}
