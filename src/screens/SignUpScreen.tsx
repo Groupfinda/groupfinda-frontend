@@ -4,12 +4,14 @@ import { StyleSheet } from "react-native";
 import { SignUpForm } from "../components/Auth";
 import { TouchableOpacity, ScrollView } from "react-native";
 import { SignUpScreenNavigationProp } from "../navigation/types";
+import { TransparentBackHeader } from "../components/common/navigation";
 
 type Props = SignUpScreenNavigationProp;
 
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <ScrollView>
+      <TransparentBackHeader />
       <Layout style={styles.containerStyle}>
         <Layout style={styles.headerStyle}>
           <Text style={styles.textStyle} category="h1">
@@ -24,7 +26,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.helpStyle}
-          onPress={() => navigation.replace("LogIn")}
+          onPress={() => navigation.navigate("LogIn")}
         >
           <Text status="info">Already have an account? Log in</Text>
         </TouchableOpacity>

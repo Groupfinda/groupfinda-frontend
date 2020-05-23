@@ -13,7 +13,6 @@ import {
   Select,
   SelectItem,
   Datepicker,
-  Spinner,
 } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { RenderProp } from "@ui-kitten/components/devsupport";
@@ -22,6 +21,7 @@ import { CREATE_USER } from "../../graphql/mutations";
 import { ME } from "../../graphql/queries";
 import { useError, useRefetch } from "../../hooks";
 import { ApolloError } from "apollo-client";
+import { Loading } from "../common";
 
 type Props = {};
 
@@ -56,7 +56,7 @@ const SignUpForm: React.FC<Props> = () => {
   const [gender, setGender] = useState<IndexPath | IndexPath[]>(
     new IndexPath(0)
   );
-  const [birthday, setBirthday] = useState<Date>(new Date("01-01-2000"));
+  const [birthday, setBirthday] = useState<Date>(new Date("2000-01-01"));
   const [loading, setLoading] = useState<boolean>(false);
   const refetchQuery = useRefetch([{ query: ME }]);
 
@@ -124,10 +124,10 @@ const SignUpForm: React.FC<Props> = () => {
     setLoading(true);
     try {
       await createUser({ variables });
+      setLoading(false);
       await refetchQuery();
     } catch (err) {
       console.log(err.message);
-      setLoading(false);
     }
   };
 
@@ -244,6 +244,7 @@ const SignUpForm: React.FC<Props> = () => {
         date={birthday}
         onSelect={setBirthday}
       />
+      <Loading visible={loading} />
       <Button
         onPress={onSubmit}
         style={styles.buttonStyle}
@@ -252,11 +253,6 @@ const SignUpForm: React.FC<Props> = () => {
       >
         Sign Up
       </Button>
-      {loading && (
-        <Layout style={styles.spinnerStyle}>
-          <Spinner size="medium" />
-        </Layout>
-      )}
     </Layout>
   );
 };

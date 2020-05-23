@@ -5,20 +5,14 @@ import {
   TouchableOpacity,
   AsyncStorage,
 } from "react-native";
-import {
-  Layout,
-  Icon,
-  Input,
-  Button,
-  Text,
-  Spinner,
-} from "@ui-kitten/components";
+import { Layout, Icon, Input, Button, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { RenderProp } from "@ui-kitten/components/devsupport";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@apollo/react-hooks";
 import { LOGIN_USER } from "../../graphql/mutations";
 import { ME } from "../../graphql/queries";
+import { Loading } from "../common";
 
 import { useError, useRefetch } from "../../hooks/";
 import { ApolloError } from "apollo-boost";
@@ -40,7 +34,6 @@ type TokenType = {
 
 const LogInForm: React.FC<Props> = () => {
   const references: ReferencesType = {};
-
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -58,13 +51,13 @@ const LogInForm: React.FC<Props> = () => {
     LOGIN_USER,
     {
       onError: (err) => {
+        setLoading(false);
         if (err instanceof ApolloError) {
           setGraphQLError(err);
         }
-
-        setLoading(false);
       },
       onCompleted: async (data) => {
+        setLoading(false);
         await AsyncStorage.setItem("userToken", data.loginUser.token);
         clearError();
       },
@@ -105,7 +98,6 @@ const LogInForm: React.FC<Props> = () => {
       await refetchQuery();
     } catch (err) {
       console.log(err.message);
-      setLoading(false);
     }
   };
   return (
@@ -152,11 +144,7 @@ const LogInForm: React.FC<Props> = () => {
       >
         Log in
       </Button>
-      {loading && (
-        <Layout style={styles.spinnerStyle}>
-          <Spinner size="medium" />
-        </Layout>
-      )}
+      <Loading visible={loading} />
     </Layout>
   );
 };

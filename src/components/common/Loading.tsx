@@ -1,6 +1,6 @@
 import React from "react";
-import { Modal, Spinner } from "@ui-kitten/components";
-import { StyleSheet, View } from "react-native";
+import { Spinner, Modal as Test } from "@ui-kitten/components";
+import { StyleSheet, View, Modal } from "react-native";
 
 type Props = {
   visible: boolean;
@@ -17,21 +17,31 @@ type Props = {
 
 const Loading: React.FC<Props> = (props) => {
   const { visible, status, size } = props;
+
+  /*
   return (
     <View style={styles.container}>
-      <Modal visible={visible} backdropStyle={styles.backdrop}>
+      <Test backdropStyle={styles.backdrop} visible={true}>
         <Spinner status={status || "primary"} size={size || "medium"} />
-      </Modal>
+      </Test>
     </View>
+  );
+  */
+  return (
+    <Modal visible={visible} transparent={true}>
+      <View style={styles.backdrop}>
+        <Spinner status={status || "primary"} size={size || "medium"} />
+      </View>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   backdrop: {
+    flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

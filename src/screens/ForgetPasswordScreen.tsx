@@ -3,12 +3,14 @@ import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { ForgetPasswordForm } from "../components/Auth";
 import { ScrollView } from "react-native";
+import { TransparentBackHeader } from "../components/common";
 
 type Props = {};
 
 const ForgetPasswordScreen: React.FC<Props> = () => {
   return (
     <Layout style={styles.wrapperStyle}>
+      <TransparentBackHeader />
       <ScrollView>
         <Layout style={styles.containerStyle}>
           <Layout style={styles.headerStyle}>
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 40,
+    paddingTop: 40,
   },
   headerStyle: {
     alignSelf: "center",
