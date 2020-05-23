@@ -27,12 +27,16 @@ export default () => {
   const Stack = createStackNavigator<RootStackParamList>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<MeType | null>(null);
-  const { data, loading } = useQuery<{ me: MeType }, void>(ME);
+  const { data, loading, error } = useQuery<{ me: MeType }, void>(ME);
 
   useEffect(() => {
     if (data) {
       setIsLoading(loading);
       setUser(data.me);
+    }
+    if (error) {
+      setIsLoading(false);
+      setUser(null);
     }
   }, [data, loading]);
 

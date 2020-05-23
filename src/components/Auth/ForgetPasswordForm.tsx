@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Layout, Icon, Input, Button } from "@ui-kitten/components";
+import { Layout, Icon, Input, Button, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { useMutation } from "@apollo/react-hooks";
 import { FORGET_PASSWORD } from "../../graphql/mutations";
-import { useError } from "../../hooks/useError";
+import { useError } from "../../hooks";
+import { ApolloError } from "apollo-client";
+
 
 type Props = {};
 
@@ -21,6 +23,7 @@ const ForgetPasswordForm: React.FC<Props> = () => {
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
   const {
     Error,
     setGraphQLError,
@@ -33,10 +36,17 @@ const ForgetPasswordForm: React.FC<Props> = () => {
     { forgetPassword: boolean },
     ForgetPasswordVariables
   >(FORGET_PASSWORD, {
-    onError: (err) => setGraphQLError(err),
+    onError: (err) => {
+      if (err instanceof ApolloError) {
+        setGraphQLError(err);
+      }
+    },
     onCompleted: (data) => {
       console.log(data.forgetPassword);
       clearError();
+      setSuccess(true);
+      setEmail("");
+      setUsername("");
     },
   });
 
@@ -45,12 +55,15 @@ const ForgetPasswordForm: React.FC<Props> = () => {
       username,
       email,
     };
-
     forgetPassword({ variables });
   };
-
   return (
     <Layout style={styles.containerStyle}>
+      {success && (
+        <Text status="success">
+          An email has been sent containing your reset password to log in with.
+        </Text>
+      )}
       <Error />
       <Input
         status={inputError.username ? "danger" : "basic"}

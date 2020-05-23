@@ -24,12 +24,18 @@ export const useError = (): ErrorHook => {
   };
 
   const setGraphQLError = (error: ApolloError): void => {
-    setMessage(error.graphQLErrors[0].message);
-    const invalidArgs =
-      error.graphQLErrors[0].extensions?.exception.invalidArgs;
-    let newInputError: InputErrorType = {};
-    invalidArgs.forEach((key: string) => (newInputError[key] = true));
-    setInputError(newInputError);
+    const { graphQLErrors, networkError } = error;
+    if (graphQLErrors[0]) {
+      setMessage(graphQLErrors[0].message);
+      const invalidArgs =
+        error.graphQLErrors[0].extensions?.exception.invalidArgs;
+      let newInputError: InputErrorType = {};
+      invalidArgs.forEach((key: string) => (newInputError[key] = true));
+      setInputError(newInputError);
+    }
+    if (networkError) {
+      setMessage(networkError.message);
+    }
   };
 
   const resetInputError = (key: string): void => {

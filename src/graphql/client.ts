@@ -1,8 +1,9 @@
 import { ApolloClient } from "apollo-client";
-import { HttpLink } from "apollo-link-http";
+import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-boost";
 import { setContext } from "apollo-link-context";
 import { AsyncStorage } from "react-native";
+import fetch from "isomorphic-fetch";
 
 const authLink = setContext(async (_, { headers }) => {
   const token = await AsyncStorage.getItem("userToken");
@@ -16,8 +17,9 @@ const authLink = setContext(async (_, { headers }) => {
 
 const GRAPHQL_URL = `http://192.168.0.101:3002/graphql`;
 
-const link = new HttpLink({
+const link = createHttpLink({
   uri: GRAPHQL_URL,
+  fetch,
 });
 
 const client = new ApolloClient({

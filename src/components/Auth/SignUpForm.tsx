@@ -21,6 +21,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { CREATE_USER } from "../../graphql/mutations";
 import { ME } from "../../graphql/queries";
 import { useError, useRefetch } from "../../hooks";
+import { ApolloError } from "apollo-client";
 
 type Props = {};
 
@@ -55,7 +56,7 @@ const SignUpForm: React.FC<Props> = () => {
   const [gender, setGender] = useState<IndexPath | IndexPath[]>(
     new IndexPath(0)
   );
-  const [birthday, setBirthday] = useState<Date>(new Date());
+  const [birthday, setBirthday] = useState<Date>(new Date("01-01-2000"));
   const [loading, setLoading] = useState<boolean>(false);
   const refetchQuery = useRefetch([{ query: ME }]);
 
@@ -71,12 +72,16 @@ const SignUpForm: React.FC<Props> = () => {
     CREATE_USER,
     {
       onError: (err) => {
-        setGraphQLError(err);
+        if (err instanceof ApolloError) {
+          setGraphQLError(err);
+        }
+
         setLoading(false);
       },
       onCompleted: async (data) => {
         await AsyncStorage.setItem("userToken", data.createUser.token);
         clearError();
+        setLoading(false);
       },
     }
   );
@@ -117,9 +122,13 @@ const SignUpForm: React.FC<Props> = () => {
       birthday,
     };
     setLoading(true);
-    await createUser({ variables });
-    await refetchQuery();
-    setLoading(false);
+    try {
+      await createUser({ variables });
+      await refetchQuery();
+    } catch (err) {
+      console.log(err.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -163,7 +172,7 @@ const SignUpForm: React.FC<Props> = () => {
         autoCorrect={false}
         autoCapitalize="none"
         value={confirmPassword}
-        label="Confirm Password"
+        label="Confirm password"
         placeholder="Confirm password"
         onChangeText={setConfirmPassword}
         secureTextEntry={hideConfirmPassword}
