@@ -248,6 +248,7 @@ const themedStyle = StyleService.create({
   container: {
     flex: 1,
     backgroundColor: "background-basic-color-2",
+    paddingTop: 12
   },
   contentContainer: {
     paddingVertical: 24,

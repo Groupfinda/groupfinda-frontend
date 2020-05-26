@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { RESET_PASSWORD } from '../../graphql/mutations'
 import { useMutation } from '@apollo/react-hooks';
 import { useError } from '../../hooks';
+import { TransparentBackHeader } from '../common';
 
 type Props = {};
 
@@ -93,6 +94,7 @@ const ChangePassword: React.FC<Props> = () => {
     return (
         <ScrollView
             style={styles.container}>
+            <TransparentBackHeader />
             <Layout
                 style={styles.formContainer}
                 level='1'>
@@ -151,11 +153,12 @@ export default ChangePassword
 
 const themedStyles = StyleService.create({
     container: {
+        paddingTop: 12,
         backgroundColor: 'background-basic-color-1',
     },
     formContainer: {
         flex: 1,
-        marginVertical: 32,
+        marginVertical: 78,
         marginHorizontal: 24,
         borderRadius: 8
     }
