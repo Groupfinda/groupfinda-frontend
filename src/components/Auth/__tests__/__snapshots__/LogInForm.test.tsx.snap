@@ -1185,8 +1185,8 @@ exports[`renders UI correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#95FFA1",
-          "borderColor": "#95FFA1",
+          "backgroundColor": "#008EED",
+          "borderColor": "#008EED",
           "borderRadius": 4,
           "borderWidth": 1,
           "flexDirection": "row",
@@ -1580,7 +1580,7 @@ exports[`renders UI correctly 1`] = `
                     style={
                       Array [
                         Object {
-                          "borderColor": "#95FFA1",
+                          "borderColor": "#008EED",
                           "borderRadius": 12,
                           "borderWidth": 3.4,
                           "height": 24,
@@ -1661,7 +1661,7 @@ exports[`renders UI correctly 1`] = `
                     style={
                       Array [
                         Object {
-                          "borderColor": "#95FFA1",
+                          "borderColor": "#008EED",
                           "borderRadius": 12,
                           "borderWidth": 3.4,
                           "height": 24,
@@ -2867,8 +2867,8 @@ exports[`renders loading component correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#95FFA1",
-          "borderColor": "#95FFA1",
+          "backgroundColor": "#008EED",
+          "borderColor": "#008EED",
           "borderRadius": 4,
           "borderWidth": 1,
           "flexDirection": "row",
@@ -3262,7 +3262,7 @@ exports[`renders loading component correctly 1`] = `
                     style={
                       Array [
                         Object {
-                          "borderColor": "#95FFA1",
+                          "borderColor": "#008EED",
                           "borderRadius": 12,
                           "borderWidth": 3.4,
                           "height": 24,
@@ -3343,7 +3343,7 @@ exports[`renders loading component correctly 1`] = `
                     style={
                       Array [
                         Object {
-                          "borderColor": "#95FFA1",
+                          "borderColor": "#008EED",
                           "borderRadius": 12,
                           "borderWidth": 3.4,
                           "height": 24,

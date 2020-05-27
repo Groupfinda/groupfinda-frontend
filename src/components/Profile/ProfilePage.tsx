@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, YellowBox, TouchableOpacity } from "react-native";
+import { ScrollView, View, YellowBox, TouchableOpacity, AsyncStorage } from "react-native";
 import {
   Avatar,
   Button,
@@ -15,7 +15,7 @@ import { ImageOverlay } from "./extra/image-overlay.component";
 import { ProfileSocial } from "./extra/profile-social.component";
 import { DrawerGroupUser } from "./extra/drawer.component";
 import { useNavigation } from "@react-navigation/native";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useApolloClient } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
 import { SettingsIcon } from "./extra/icons";
@@ -36,6 +36,17 @@ const PinIcon = (): IconElement => {
   );
 };
 
+const QuestionsIcon = (): IconElement => {
+  return (
+    <Icon
+      width={16}
+      height={16}
+      fill="white"
+      name='clipboard'
+    />
+  )
+}
+
 interface User {
   id: string;
   firstName: string;
@@ -45,6 +56,7 @@ interface User {
 }
 
 export default (): React.ReactElement => {
+  const client = useApolloClient();
   const styles = useStyleSheet(themedStyle);
 
   const navigation = useNavigation();
@@ -72,7 +84,15 @@ export default (): React.ReactElement => {
           >
             <Layout style={styles.layoutContainer}>
               <Layout style={styles.layout} level="1">
-                <Text> </Text>
+                <Button
+                  status='control'
+                  appearance='ghost'
+                  accessoryLeft={QuestionsIcon}
+                  onPress={() => {
+                    navigation.navigate("Questions")
+                  }}>
+                  Questions
+                </Button>
                 <TouchableOpacity>
                   <Button
                     status="control"
@@ -121,6 +141,14 @@ export default (): React.ReactElement => {
             </View>
           </ImageOverlay>
           <DrawerGroupUser />
+          <Button
+            status='danger'
+            onPress={async () => {
+              await AsyncStorage.removeItem("userToken");
+              client.resetStore();
+            }}>
+            Log out
+          </Button>
         </React.Fragment>
       )}
     </ScrollView>

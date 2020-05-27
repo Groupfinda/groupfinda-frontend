@@ -8,3 +8,4 @@ export { default as SwipeScreen } from "./SwipeScreen";
 export { default as LoadingScreen } from "./LoadingScreen";
 export { default as ProfileSettingsScreen } from "./ProfileSettingsScreen";
 export { default as CreateScreen } from "./CreateScreen";
+export { default as QuestionsScreen } from "./QuestionsScreen";

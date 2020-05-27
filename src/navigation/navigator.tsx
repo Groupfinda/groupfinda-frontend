@@ -14,6 +14,7 @@ import {
   LoadingScreen,
   ProfileSettingsScreen,
   CreateScreen,
+  QuestionsScreen,
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
@@ -79,6 +80,10 @@ export default () => {
               name="ChangePassword"
               component={ChangePassword}
               options={{ title: "Change Password", headerBackTitle: "Back" }}
+            />
+            <Stack.Screen
+              name="Questions"
+              component={QuestionsScreen}
             />
           </>
         ) : (
