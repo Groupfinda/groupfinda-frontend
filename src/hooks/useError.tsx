@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { ApolloError } from "apollo-client";
 import { Text } from "@ui-kitten/components";
 
+export class CustomError {
+  message: string;
+  invalidArgs: string[];
+  constructor(message: string, invalidArgs: string[]) {
+    this.message = message;
+    this.invalidArgs = invalidArgs;
+  }
+}
+
 type InputErrorType = {
   [key: string]: boolean;
 };
@@ -9,6 +18,7 @@ type InputErrorType = {
 interface ErrorHook {
   Error: () => JSX.Element;
   setError: (error: string) => void;
+  setCustomError: (error: CustomError) => void;
   setGraphQLError: (error: ApolloError) => void;
   inputError: InputErrorType;
   resetInputError: (key: string) => void;
@@ -21,6 +31,16 @@ export const useError = (): ErrorHook => {
 
   const setError = (error: string): void => {
     setMessage(error);
+  };
+
+  const setCustomError = (error: CustomError): void => {
+    const { message, invalidArgs } = error;
+    setMessage(message);
+    if (invalidArgs) {
+      let newInputError: InputErrorType = {};
+      invalidArgs.forEach((key: string) => (newInputError[key] = true));
+      setInputError(newInputError);
+    }
   };
 
   const setGraphQLError = (error: ApolloError): void => {
@@ -58,6 +78,7 @@ export const useError = (): ErrorHook => {
     Error,
     setError,
     setGraphQLError,
+    setCustomError,
     inputError,
     resetInputError,
     clearError,

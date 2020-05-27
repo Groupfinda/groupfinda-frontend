@@ -15,6 +15,8 @@ import {
   ProfileSettingsScreen,
   CreateScreen,
   QuestionsScreen,
+  CreateEventScreen,
+  JoinEventScreen,
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
@@ -37,7 +39,8 @@ export default () => {
   useEffect(() => {
     if (data) {
       setIsLoading(loading);
-      setUser(data.me);
+      if (data.me) setUser(data.me);
+      else setUser(null);
     }
     if (error) {
       setIsLoading(false);
@@ -74,17 +77,11 @@ export default () => {
             <Stack.Screen
               name="ProfileSettings"
               component={ProfileSettingsScreen}
-              options={{ title: "Profile Settings", headerBackTitle: "Back" }}
             />
-            <Stack.Screen
-              name="ChangePassword"
-              component={ChangePassword}
-              options={{ title: "Change Password", headerBackTitle: "Back" }}
-            />
-            <Stack.Screen
-              name="Questions"
-              component={QuestionsScreen}
-            />
+            <Stack.Screen name="ChangePassword" component={ChangePassword} />
+            <Stack.Screen name="Questions" component={QuestionsScreen} />
+            <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
+            <Stack.Screen name="JoinEvent" component={JoinEventScreen} />
           </>
         ) : (
           <>

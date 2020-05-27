@@ -5,13 +5,19 @@ import { StyleSheet } from "react-native";
 type Props = {
   title: string;
   icon: string;
+  onPress?: () => void;
 };
 
 export const CardDisplay: React.FC<Props> = (props) => {
-  const { title, icon } = props;
+  const { title, icon, onPress } = props;
   const theme = useTheme();
   return (
-    <Card status="primary" style={styles.card} appearance="outline">
+    <Card
+      onPress={onPress}
+      status="primary"
+      style={styles.card}
+      appearance="outline"
+    >
       <Text category="h1" appearance="hint">
         {title}
       </Text>

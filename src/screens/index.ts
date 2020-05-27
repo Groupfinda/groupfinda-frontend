@@ -9,3 +9,5 @@ export { default as LoadingScreen } from "./LoadingScreen";
 export { default as ProfileSettingsScreen } from "./ProfileSettingsScreen";
 export { default as CreateScreen } from "./CreateScreen";
 export { default as QuestionsScreen } from "./QuestionsScreen";
+export { default as CreateEventScreen } from "./CreateEventScreen";
+export { default as JoinEventScreen } from "./JoinEventScreen";

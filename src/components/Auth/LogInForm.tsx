@@ -16,16 +16,13 @@ import { Loading } from "../common";
 
 import { useError, useRefetch } from "../../hooks/";
 import { ApolloError } from "apollo-boost";
+import { ReferencesType } from "../types";
 
 type Props = {};
 
 type LogInVariables = {
   username: string;
   password: string;
-};
-
-type ReferencesType = {
-  [key: string]: Input | null;
 };
 
 type TokenType = {

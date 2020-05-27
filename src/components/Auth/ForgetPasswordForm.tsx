@@ -5,17 +5,13 @@ import { useMutation } from "@apollo/react-hooks";
 import { FORGET_PASSWORD } from "../../graphql/mutations";
 import { useError } from "../../hooks";
 import { ApolloError } from "apollo-client";
-
+import { ReferencesType } from "../types";
 
 type Props = {};
 
 type ForgetPasswordVariables = {
   username: string;
   email: string;
-};
-
-type ReferencesType = {
-  [key: string]: Input | null;
 };
 
 const ForgetPasswordForm: React.FC<Props> = () => {

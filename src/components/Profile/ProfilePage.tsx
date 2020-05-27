@@ -1,5 +1,11 @@
 import React from "react";
-import { ScrollView, View, YellowBox, TouchableOpacity, AsyncStorage } from "react-native";
+import {
+  ScrollView,
+  View,
+  YellowBox,
+  TouchableOpacity,
+  AsyncStorage,
+} from "react-native";
 import {
   Avatar,
   Button,
@@ -37,15 +43,8 @@ const PinIcon = (): IconElement => {
 };
 
 const QuestionsIcon = (): IconElement => {
-  return (
-    <Icon
-      width={16}
-      height={16}
-      fill="white"
-      name='clipboard'
-    />
-  )
-}
+  return <Icon width={16} height={16} fill="white" name="clipboard" />;
+};
 
 interface User {
   id: string;
@@ -85,12 +84,13 @@ export default (): React.ReactElement => {
             <Layout style={styles.layoutContainer}>
               <Layout style={styles.layout} level="1">
                 <Button
-                  status='control'
-                  appearance='ghost'
+                  status="control"
+                  appearance="ghost"
                   accessoryLeft={QuestionsIcon}
                   onPress={() => {
-                    navigation.navigate("Questions")
-                  }}>
+                    navigation.navigate("Questions");
+                  }}
+                >
                   Questions
                 </Button>
                 <TouchableOpacity>
@@ -111,7 +111,7 @@ export default (): React.ReactElement => {
               style={{ width: 148, height: 148, marginBottom: 16 }}
               source={require("./temp/gab.jpg")}
             />
-            {data && (
+            {data && data.me && (
               <Text style={styles.profileName} category="h5" status="control">
                 {data.me.firstName} {data.me.lastName}
               </Text>
@@ -142,11 +142,12 @@ export default (): React.ReactElement => {
           </ImageOverlay>
           <DrawerGroupUser />
           <Button
-            status='danger'
+            status="danger"
             onPress={async () => {
               await AsyncStorage.removeItem("userToken");
               client.resetStore();
-            }}>
+            }}
+          >
             Log out
           </Button>
         </React.Fragment>

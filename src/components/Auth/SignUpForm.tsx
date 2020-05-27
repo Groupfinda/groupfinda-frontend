@@ -22,6 +22,7 @@ import { ME } from "../../graphql/queries";
 import { useError, useRefetch } from "../../hooks";
 import { ApolloError } from "apollo-client";
 import { Loading } from "../common";
+import { ReferencesType } from "../types";
 
 type Props = {};
 
@@ -38,10 +39,6 @@ type SignUpVariables = {
   email: string;
   gender: string;
   birthday: Date;
-};
-
-type ReferencesType = {
-  [key: string]: Input | null;
 };
 
 const SignUpForm: React.FC<Props> = () => {
