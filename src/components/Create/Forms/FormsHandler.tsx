@@ -3,6 +3,9 @@ import { Layout, Text, Button } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import EventDetailsForm from "./EventDetailsForm";
 import EventDateForm from "./EventDateForm";
+import EventImagesForm from "./EventImagesForm";
+import EventCategoryForm from "./EventCategoryForm";
+import SubmitForm from "./SubmitForm";
 import { FormVariablesType } from "./types";
 
 type Props = {};
@@ -14,7 +17,7 @@ const initialVariables: FormVariablesType = {
   recurringMode: false,
   dateLastRegister: new Date(),
   images: [],
-  private: true,
+  privateStatus: true,
   groupSize: 4,
   category: [],
   locationOn: false,
@@ -35,80 +38,71 @@ const FormsHandler: React.FC<Props> = (props) => {
   };
 
   const modifyVariable = (key: string) => (
-    value: string | Date | number
+    value: string | Date | number | string[] | boolean
   ): void => {
     const newVariables = { ...variables, [key]: value };
     setVariables(newVariables);
   };
 
   return (
-    <Layout style={styles.container}>
-      <Layout style={styles.divider}>
-        {page === 0 && (
-          <EventDetailsForm
-            variables={variables}
-            modifyVariable={modifyVariable}
-          />
-        )}
-        {page === 1 && (
-          <EventDateForm
-            variables={variables}
-            modifyVariable={modifyVariable}
-          />
-        )}
+    <>
+      <Layout style={styles.container}>
+        <Layout style={styles.divider}>
+          {page === 0 && (
+            <EventDetailsForm
+              variables={variables}
+              modifyVariable={modifyVariable}
+              nextPage={nextPage}
+            />
+          )}
+          {page === 1 && (
+            <EventDateForm
+              variables={variables}
+              modifyVariable={modifyVariable}
+              nextPage={nextPage}
+              prevPage={prevPage}
+            />
+          )}
+          {page === 2 && (
+            <EventImagesForm
+              variables={variables}
+              modifyVariable={modifyVariable}
+              nextPage={nextPage}
+              prevPage={prevPage}
+            />
+          )}
+          {page === 3 && (
+            <EventCategoryForm
+              variables={variables}
+              modifyVariable={modifyVariable}
+              nextPage={nextPage}
+              prevPage={prevPage}
+            />
+          )}
+          {page === 4 && (
+            <SubmitForm
+              variables={variables}
+              modifyVariable={modifyVariable}
+              prevPage={prevPage}
+            />
+          )}
+        </Layout>
       </Layout>
-
-      <Layout style={styles.pageNavigation}>
-        <Button
-          appearance="outline"
-          style={{
-            ...styles.prevButton,
-            display: page === 0 ? "none" : "flex",
-          }}
-          onPress={prevPage}
-        >
-          Prev Page
-        </Button>
-        <Button onPress={() => console.log(variables)}>Console Log</Button>
-        <Button
-          appearance="outline"
-          style={styles.nextButton}
-          onPress={nextPage}
-        >
-          Next Page
-        </Button>
-      </Layout>
-    </Layout>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    borderColor: "green",
+
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-
-    borderWidth: 5,
   },
   divider: {
-    borderColor: "blue",
-    borderWidth: 5,
     flexGrow: 1,
     justifyContent: "center",
-  },
-  prevButton: {
-    alignSelf: "flex-start",
-  },
-  nextButton: {
-    alignSelf: "flex-end",
-  },
-  pageNavigation: {
-    borderColor: "blue",
-    borderWidth: 5,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
 });
 

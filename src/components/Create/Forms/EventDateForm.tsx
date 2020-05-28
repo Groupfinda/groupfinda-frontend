@@ -5,17 +5,18 @@ import {
   Datepicker,
   Icon,
   IconProps,
+  Button,
 } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { FormProps } from "./types";
 
 const CalendarIcon = (props: IconProps) => <Icon {...props} name="calendar" />;
 const EventDateForm: React.FC<FormProps> = (props) => {
-  const { variables, modifyVariable } = props;
+  const { variables, modifyVariable, nextPage, prevPage } = props;
   const { dateOfEvent, dateLastRegister } = variables;
   return (
     <Layout style={styles.container}>
-      <Layout>
+      <Layout style={styles.section}>
         <Text style={styles.subheading} appearance="hint" category="h5">
           When is this event taking place?
         </Text>
@@ -29,7 +30,7 @@ const EventDateForm: React.FC<FormProps> = (props) => {
           accessoryRight={CalendarIcon}
         />
       </Layout>
-      <Layout>
+      <Layout style={styles.section}>
         <Text style={styles.subheading} appearance="hint" category="h5">
           When is the last day for participants to be grouped up?
         </Text>
@@ -42,6 +43,11 @@ const EventDateForm: React.FC<FormProps> = (props) => {
           min={new Date()}
           accessoryRight={CalendarIcon}
         />
+      </Layout>
+      <Layout style={styles.pageNav}>
+        <Button onPress={prevPage}>Prev</Button>
+        <Layout style={styles.spacer} />
+        <Button onPress={nextPage}>Next</Button>
       </Layout>
     </Layout>
   );
@@ -57,6 +63,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-around",
+  },
+  pageNav: {
+    flexDirection: "row",
+    marginTop: 20,
+  },
+  spacer: {
+    flex: 1,
+  },
+  section: {
+    marginVertical: 10,
   },
 });
 export default EventDateForm;

@@ -1,6 +1,10 @@
 export type FormProps = {
   variables: FormVariablesType;
-  modifyVariable: (key: string) => (value: string | Date | number) => void;
+  modifyVariable: (
+    key: string
+  ) => (value: string | Date | number | string[] | boolean) => void;
+  prevPage?: () => void;
+  nextPage?: () => void;
 };
 
 export type FormVariablesType = {
@@ -10,7 +14,7 @@ export type FormVariablesType = {
   recurringMode: boolean;
   dateLastRegister: Date;
   images: string[];
-  private: boolean;
+  privateStatus: boolean;
   groupSize: number;
   category: string[];
   locationOn: boolean;
