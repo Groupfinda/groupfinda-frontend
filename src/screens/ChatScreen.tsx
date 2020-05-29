@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
+import { Layout, Text, Icon } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 
 type Props = {};

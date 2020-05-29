@@ -7,7 +7,9 @@ export type RootStackParamList = {
   ForgetPassword: undefined;
   ProfileSettings: undefined;
   ChangePassword: undefined;
-  Questions: undefined
+  Questions: undefined;
+  CreateEvent: undefined;
+  JoinEvent: undefined;
 };
 
 export type SignUpScreenNavigationProp = StackScreenProps<
@@ -33,4 +35,14 @@ export type ProfileSettingsScreenNavigationProp = StackScreenProps<
 export type QuestionsScreenNavigationProp = StackScreenProps<
   RootStackParamList,
   "Questions"
->
+>;
+
+export type CreateEventScreenNavigationProp = StackScreenProps<
+  RootStackParamList,
+  "CreateEvent"
+>;
+
+export type JoinEventScreenNavigationProp = StackScreenProps<
+  RootStackParamList,
+  "JoinEvent"
+>;
