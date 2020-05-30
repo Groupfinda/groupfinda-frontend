@@ -1,3 +1,5 @@
+import { CustomError } from "../../../hooks";
+
 export type FormProps = {
   variables: FormVariablesType;
   modifyVariable: (
@@ -6,6 +8,14 @@ export type FormProps = {
   prevPage?: () => void;
   nextPage?: () => void;
 };
+
+type ValidateProps = {
+  validateFieldLength: (
+    key: string
+  ) => (setCustomError: (err: CustomError) => void) => () => boolean;
+};
+
+export type FormPropsWithValidate = FormProps & ValidateProps;
 
 export type FormVariablesType = {
   title: string;
@@ -18,4 +28,6 @@ export type FormVariablesType = {
   groupSize: number;
   category: string[];
   locationOn: boolean;
+  address: string;
+  postalCode: string;
 };

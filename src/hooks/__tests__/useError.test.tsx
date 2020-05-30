@@ -34,7 +34,7 @@ test("renders nothing without message", () => {
 test("renders with normal message", () => {
   const component = render(<DummyComponent error="error" />);
   expect(component.UNSAFE_queryByType(Text)).toBeTruthy();
-  expect(component.queryByText("error")).toBeTruthy();
+  expect(component.queryByText("Error")).toBeTruthy();
 });
 
 test("renders with graphql message", () => {
@@ -57,5 +57,5 @@ test("renders with graphql message", () => {
   });
   const component = render(<DummyComponent graphQLError={graphQLError} />);
   expect(component.UNSAFE_queryByType(Text)).toBeTruthy();
-  expect(component.queryByText("graphqlerror")).toBeTruthy();
+  expect(component.queryByText("Graphqlerror")).toBeTruthy();
 });
