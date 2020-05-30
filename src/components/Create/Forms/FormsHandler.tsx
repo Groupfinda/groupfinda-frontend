@@ -3,10 +3,12 @@ import { Layout, Text, Button } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import EventDetailsForm from "./EventDetailsForm";
 import EventDateForm from "./EventDateForm";
+import EventLocationForm from "./EventLocationForm";
 import EventImagesForm from "./EventImagesForm";
 import EventCategoryForm from "./EventCategoryForm";
 import SubmitForm from "./SubmitForm";
 import { FormVariablesType } from "./types";
+import { CustomError } from "../../../hooks";
 
 type Props = {};
 
@@ -21,6 +23,8 @@ const initialVariables: FormVariablesType = {
   groupSize: 4,
   category: [],
   locationOn: false,
+  address: "",
+  postalCode: "",
 };
 const FormsHandler: React.FC<Props> = (props) => {
   const [page, setPage] = useState<number>(0);
@@ -32,9 +36,7 @@ const FormsHandler: React.FC<Props> = (props) => {
     setPage(page + 1);
   };
   const prevPage = () => {
-    if (page > 0) {
-      setPage(page - 1);
-    }
+    setPage(page - 1);
   };
 
   const modifyVariable = (key: string) => (
@@ -42,6 +44,18 @@ const FormsHandler: React.FC<Props> = (props) => {
   ): void => {
     const newVariables = { ...variables, [key]: value };
     setVariables(newVariables);
+  };
+
+  const validateFieldLength = (key: string) => (
+    setCustomError: (error: CustomError) => void
+  ) => (): boolean => {
+    if ((variables[key as keyof typeof variables] as string).length === 0) {
+      setCustomError(new CustomError(`${key} must not be empty`, [key]));
+      return false;
+    } else {
+      setCustomError(new CustomError("", []));
+      return true;
+    }
   };
 
   return (
@@ -53,6 +67,7 @@ const FormsHandler: React.FC<Props> = (props) => {
               variables={variables}
               modifyVariable={modifyVariable}
               nextPage={nextPage}
+              validateFieldLength={validateFieldLength}
             />
           )}
           {page === 1 && (
@@ -64,6 +79,15 @@ const FormsHandler: React.FC<Props> = (props) => {
             />
           )}
           {page === 2 && (
+            <EventLocationForm
+              variables={variables}
+              modifyVariable={modifyVariable}
+              nextPage={nextPage}
+              prevPage={prevPage}
+              validateFieldLength={validateFieldLength}
+            />
+          )}
+          {page === 3 && (
             <EventImagesForm
               variables={variables}
               modifyVariable={modifyVariable}
@@ -71,7 +95,8 @@ const FormsHandler: React.FC<Props> = (props) => {
               prevPage={prevPage}
             />
           )}
-          {page === 3 && (
+
+          {page === 4 && (
             <EventCategoryForm
               variables={variables}
               modifyVariable={modifyVariable}
@@ -79,7 +104,7 @@ const FormsHandler: React.FC<Props> = (props) => {
               prevPage={prevPage}
             />
           )}
-          {page === 4 && (
+          {page === 5 && (
             <SubmitForm
               variables={variables}
               modifyVariable={modifyVariable}

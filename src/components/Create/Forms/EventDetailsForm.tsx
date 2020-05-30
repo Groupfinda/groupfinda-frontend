@@ -1,32 +1,25 @@
 import React from "react";
 import { Layout, Text, Button, Input, Icon } from "@ui-kitten/components";
 import { StyleSheet, KeyboardAvoidingView } from "react-native";
-import { FormProps } from "./types";
+import { FormPropsWithValidate } from "./types";
 import { useError, CustomError } from "../../../hooks";
 import { ReferencesType } from "../../types";
 
-const EventDetailsForm: React.FC<FormProps> = (props) => {
+const EventDetailsForm: React.FC<FormPropsWithValidate> = (props) => {
   const references: ReferencesType = {};
-  const { variables, modifyVariable, nextPage, prevPage } = props;
+  const { variables, modifyVariable, nextPage, validateFieldLength } = props;
   const { title, description } = variables;
   const { Error, setCustomError, inputError, resetInputError } = useError();
 
-  const validateTitle = () => {
-    if (title.length === 0) {
-      setCustomError(new CustomError("Title must not be empty", ["title"]));
-    } else {
-      setCustomError(new CustomError("", []));
-    }
-  };
+  const validateTitle = validateFieldLength("title")(setCustomError);
+  const validateDescription = validateFieldLength("description")(
+    setCustomError
+  );
 
-  const validateDescription = () => {
-    if (description.length === 0) {
-      setCustomError(
-        new CustomError("Description must not be empty", ["description"])
-      );
-    } else {
-      setCustomError(new CustomError("", []));
-    }
+  const onNext = () => {
+    if (!validateTitle()) return;
+    if (!validateDescription()) return;
+    if (nextPage) nextPage();
   };
 
   return (
@@ -73,11 +66,12 @@ const EventDetailsForm: React.FC<FormProps> = (props) => {
           value={description}
           onChangeText={modifyVariable("description")}
           onBlur={validateDescription}
+          onSubmitEditing={onNext}
         />
       </Layout>
       <Layout style={styles.pageNav}>
         <Layout style={styles.spacer} />
-        <Button onPress={nextPage}>Next</Button>
+        <Button onPress={onNext}>Next</Button>
       </Layout>
     </KeyboardAvoidingView>
   );

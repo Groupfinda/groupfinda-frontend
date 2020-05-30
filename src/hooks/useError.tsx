@@ -64,7 +64,8 @@ export const useError = (): ErrorHook => {
 
   const Error = (): JSX.Element => {
     if (message) {
-      return <Text status="danger">{message}</Text>;
+      const display = message.charAt(0).toUpperCase() + message.slice(1);
+      return <Text status="danger">{display}</Text>;
     }
     return <></>;
   };

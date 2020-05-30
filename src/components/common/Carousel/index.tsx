@@ -71,7 +71,7 @@ export const Carousel = (props: any) => {
       >
         {items.map((item: any, index: number) => {
           return (
-            <ImageCard height={imageHeight} key={index} imageLink="test" />
+            <ImageCard height={imageHeight} key={index} imageLink={item} />
           );
         })}
       </ScrollView>

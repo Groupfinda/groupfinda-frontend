@@ -9,19 +9,72 @@ import {
 } from "@ui-kitten/components";
 import { StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { FormProps } from "./types";
+import { useMutation } from "@apollo/react-hooks";
+import {
+  CREATE_EVENT,
+  CreateEventData,
+  CreateEventVariables,
+} from "../../../graphql/mutations";
+import { useError } from "../../../hooks";
+import { Loading } from "../../common";
+import { useNavigation } from "@react-navigation/native";
+
+function InfoField(props: {
+  text: string;
+  category?: string;
+  label: string;
+  error?: boolean;
+}) {
+  const { text, category, label, error } = props;
+  return (
+    <Layout level="2" style={styles.detail}>
+      <Text status={error ? "danger" : "primary"} category="label">
+        {label}
+      </Text>
+      <Text category={category ? category : "h6"}>{text}</Text>
+    </Layout>
+  );
+}
 
 const SubmitForm: React.FC<FormProps> = (props) => {
   const { variables, modifyVariable, prevPage } = props;
   const [tooltip, setTooltip] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     title,
     description,
     dateOfEvent,
     dateLastRegister,
     groupSize,
+    recurringMode,
+    images,
     category,
     privateStatus,
+    locationOn,
+    address,
+    postalCode,
   } = variables;
+  const { Error, setGraphQLError, inputError } = useError();
+  const navigation = useNavigation();
+  const [createEvent] = useMutation<
+    { createEvent: CreateEventData },
+    CreateEventVariables
+  >(CREATE_EVENT, {
+    onError: (err) => {
+      setGraphQLError(err);
+      setLoading(false);
+    },
+    onCompleted: (data) => {
+      setLoading(false);
+      navigation.reset({
+        index: 1,
+        routes: [
+          { name: "Main" },
+          { name: "EventPage", params: { id: data.createEvent.id } },
+        ],
+      });
+    },
+  });
 
   const renderInfoIcon = () => (
     <TouchableWithoutFeedback onPress={() => setTooltip(true)}>
@@ -29,39 +82,76 @@ const SubmitForm: React.FC<FormProps> = (props) => {
     </TouchableWithoutFeedback>
   );
 
+  const onSubmit = async () => {
+    console.log(variables);
+    setLoading(true);
+    const mutationVariables: CreateEventVariables = {
+      title,
+      description,
+      dateOfEvent,
+      dateLastRegister,
+      recurringMode,
+      images,
+      private: privateStatus,
+      groupSize,
+      category,
+      locationOn,
+      location: {
+        address,
+        postalCode,
+      },
+    };
+    try {
+      await createEvent({ variables: mutationVariables });
+    } catch {
+      setLoading(false);
+    }
+  };
   return (
     <Layout style={styles.container}>
+      <Loading visible={loading} />
       <Layout style={styles.section}>
         <Text style={styles.subheading} appearance="hint" category="h5">
           Check the details of your event
         </Text>
-        <Layout level="2" style={styles.detail}>
-          <Text category="label">Title</Text>
-          <Text category="h6">{title}</Text>
-        </Layout>
-        <Layout level="2" style={styles.detail}>
-          <Text category="label">Description</Text>
-          <Text category="s1">{description}</Text>
-        </Layout>
-        <Layout level="2" style={styles.detail}>
-          <Text category="label">Images</Text>
-        </Layout>
-        <Layout level="2" style={styles.detail}>
-          <Text category="label">Date of event</Text>
-          <Text category="h6">{dateOfEvent.toLocaleDateString()}</Text>
-        </Layout>
-        <Layout level="2" style={styles.detail}>
-          <Text category="label">Last register date</Text>
-          <Text category="h6">{dateLastRegister.toLocaleDateString()}</Text>
-        </Layout>
-        <Layout level="2" style={styles.detail}>
-          <Text category="label">Group size</Text>
-          <Text category="h6">{groupSize}</Text>
-        </Layout>
-        <Layout level="2" style={styles.detail}>
-          <Text category="label">Categories</Text>
-          <Text category="h6">{category.join(" | ")}</Text>
-        </Layout>
+        <InfoField text={title} label="Title" error={inputError.title} />
+        <InfoField
+          text={description}
+          label="Description"
+          category="s1"
+          error={inputError.description}
+        />
+        <InfoField
+          text={dateOfEvent.toLocaleDateString()}
+          label="Date of event"
+          error={inputError.dateOfEvent}
+        />
+        <InfoField
+          text={dateLastRegister.toLocaleDateString()}
+          label="Last day to register"
+          error={inputError.dateLastRegister}
+        />
+        <InfoField text={address} label="Address" error={inputError.address} />
+        <InfoField
+          text={postalCode}
+          label="Postal Code"
+          error={inputError.postalCode}
+        />
+
+        <InfoField text="" label="Images" error={inputError.title} />
+
+        <InfoField
+          text={groupSize.toString()}
+          label="Group size"
+          error={inputError.groupSize}
+        />
+
+        <InfoField
+          text={category.join(" | ")}
+          label="Categories"
+          error={inputError.category}
+        />
+
         <Layout style={styles.toggle}>
           <Toggle
             status="primary"
@@ -80,11 +170,12 @@ const SubmitForm: React.FC<FormProps> = (props) => {
             }
           </Tooltip>
         </Layout>
+        <Error />
       </Layout>
       <Layout style={styles.pageNav}>
         <Button onPress={prevPage}>Prev</Button>
         <Layout style={styles.spacer} />
-        <Button onPress={() => console.log(variables)} status="warning">
+        <Button onPress={onSubmit} status="warning">
           Submit
         </Button>
       </Layout>
