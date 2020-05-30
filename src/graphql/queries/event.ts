@@ -47,3 +47,19 @@ export const singleEvent = gql`
         }
     }
 `;
+
+export const searchEventByTerm = gql`
+    query Event($searchTerm: String!) {
+        searchEvent (searchTerm: $searchTerm) {
+            id
+            title
+            description
+            dateOfEvent
+            dateLastRegister
+            images
+            private
+            groupSize
+            locationOn
+        }
+    }
+`;

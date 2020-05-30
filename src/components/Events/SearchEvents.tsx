@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
-import { Layout, Text, Input, IconElement, Icon, StyleService, useStyleSheet, Card, Button } from "@ui-kitten/components";
+import { ScrollView, Keyboard } from "react-native";
+import { Layout, Input, IconElement, Icon, StyleService, useStyleSheet, Card, Button } from "@ui-kitten/components";
 import { EventCard } from "./extra/event-card.component"
+import { useQuery, useApolloClient, useLazyQuery } from "@apollo/react-hooks";
+import { searchEventByTerm, upcomingEvents } from '../../graphql/queries'
+import { Loading } from "../common";
 
 const searchIcon = (): IconElement => {
-
     return (
         <Icon
             width={20}
@@ -16,15 +18,23 @@ const searchIcon = (): IconElement => {
 
 const filters = ["Sports", "Tech", "Music", "Dining", "Art"]
 
-type Props = {
-    events: any[]
-}
-
-export default (props: Props): React.ReactElement => {
+export default (): React.ReactElement => {
     const styles = useStyleSheet(themedStyle);
     const [ activeFilters, setActiveFilters ] = useState<string[]>([]);
     const [ searchValue, setSearchValue ] = useState<string>("");
-    const { events } = props;
+    const [events, setEvents] = React.useState([]);
+
+    const { loading, data, error } = useQuery(upcomingEvents, {
+        onCompleted: (response) => {
+          setEvents(response['searchEvent'])
+        }
+      })
+
+    const [executeSearch, { called }] = useLazyQuery(searchEventByTerm, {
+        onCompleted: (response) => {
+            setEvents(response['searchEvent'])
+        }
+    })
 
     const handleFilter = (filter: string) => {
         if (activeFilters.includes(filter)) {
@@ -35,63 +45,73 @@ export default (props: Props): React.ReactElement => {
     }
 
     const handleSearch = () => {
-        console.log(searchValue)
+        executeSearch({variables: {searchTerm: searchValue}})
+        Keyboard.dismiss();
     }
 
-    return (
-        <Layout>
-            <Layout style={styles.layoutContainer}>
-                <Layout style={styles.searchContainer}>
-                    <Input
-                        style={{width:"77%"}}
-                        status='primary'
-                        value={searchValue}
-                        onChangeText={value=>setSearchValue(value)}
-                        accessoryLeft={searchIcon}
-                        placeholder="Search Events"/>
-                    <Button appearance='ghost' style={{paddingTop: 5}}
-                        onPress={handleSearch}>Search</Button>
-                </Layout>
-                
-                <Layout style={styles.filterContainer}>
-                    <Icon width={20} height={20} fill="grey" name="options-2"/>
-                    <ScrollView
-                        horizontal={true}
-                        style={styles.filterScroll}
-                        showsHorizontalScrollIndicator={false}>
-                        <Button
-                            style={styles.buttonStyle}
-                            status={activeFilters.length===0?'primary':'basic'}
-                            appearance={activeFilters.length===0?'filled':'outline'}
-                            onPress={()=>setActiveFilters([])}>
-                            All
-                        </Button>
-                        {filters.map((filter)=>(
+    if (loading || !data){
+        return (
+            <Layout>
+                <Loading visible/>
+            </Layout>
+        )
+    } else {
+        return (
+            <Layout>
+                <Layout style={styles.layoutContainer}>
+                    <Layout style={styles.searchContainer}>
+                        <Input
+                            style={{width:"77%"}}
+                            status='primary'
+                            value={searchValue}
+                            onChangeText={value=>setSearchValue(value)}
+                            accessoryLeft={searchIcon}
+                            placeholder="Search Events"/>
+                        <Button appearance='ghost' style={{paddingTop: 5}}
+                            onPress={handleSearch}>Search</Button>
+                    </Layout>
+                    
+                    <Layout style={styles.filterContainer}>
+                        <Icon width={20} height={20} fill="grey" name="options-2"/>
+                        <ScrollView
+                            horizontal={true}
+                            style={styles.filterScroll}
+                            showsHorizontalScrollIndicator={false}>
                             <Button
                                 style={styles.buttonStyle}
-                                key={filter}
-                                status={(activeFilters.includes(filter))?'primary':'basic'}
-                                appearance={(activeFilters.includes(filter))?'filled':'outline'}
-                                onPress={()=>handleFilter(filter)}>
-                                {filter}
+                                status={activeFilters.length===0?'primary':'basic'}
+                                appearance={activeFilters.length===0?'filled':'outline'}
+                                onPress={()=>setActiveFilters([])}>
+                                All
                             </Button>
-                        ))}
-                    </ScrollView>
+                            {filters.map((filter)=>(
+                                <Button
+                                    style={styles.buttonStyle}
+                                    key={filter}
+                                    status={(activeFilters.includes(filter))?'primary':'basic'}
+                                    appearance={(activeFilters.includes(filter))?'filled':'outline'}
+                                    onPress={()=>handleFilter(filter)}>
+                                    {filter}
+                                </Button>
+                            ))}
+                        </ScrollView>
+                    </Layout>
+                </Layout>
+                <Layout>
+                    {events.length>0?<ScrollView style={styles.cardScrollContainer}>
+                        <Layout style={styles.cardsContainer}>
+                            {events.map((event) => (
+                                <EventCard
+                                    key={event['id']}
+                                    event={event}/>
+                                ))}
+                        </Layout>
+                    </ScrollView>:null}
                 </Layout>
             </Layout>
-            <Layout>
-                <ScrollView style={styles.cardScrollContainer}>
-                    <Layout style={styles.cardsContainer}>
-                        {events.map((event) => (
-                            <EventCard
-                                key={event.id}
-                                event={event}/>
-                            ))}
-                    </Layout>
-                </ScrollView>
-            </Layout>
-        </Layout>
-    )
+        )
+    }
+
 }
 
 const themedStyle = StyleService.create({

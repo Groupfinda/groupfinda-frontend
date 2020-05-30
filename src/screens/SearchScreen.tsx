@@ -10,25 +10,9 @@ type Props = {};
 
 const SearchScreen: React.FC<Props> = (props) => {
 
-  const [events, setEvents] = React.useState([]);
-
-  const { loading, data, error } = useQuery(upcomingEvents, {
-    onCompleted: (events) => {
-      setEvents(events['searchEvent'])
-    }
-  })
-
-  if (loading || !data || events.length===0) {
     return (
-      <Layout>
-        <Loading visible={true}/>
-      </Layout>
-    );
-  } else {
-    return (
-        <SearchEvents events={events}/>
+      <SearchEvents/>
     )
-  }
 
   
 };
