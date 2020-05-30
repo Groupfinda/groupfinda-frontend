@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { useQuery } from "@apollo/react-hooks";
 import { upcomingEvents } from "../graphql/queries"
 import { SearchEvents } from "../components/Events"
+import { Loading } from "../components/common";
 
 type Props = {};
 
@@ -20,14 +21,12 @@ const SearchScreen: React.FC<Props> = (props) => {
   if (loading || !data || events.length===0) {
     return (
       <Layout>
-        <Text category="h1">This should be SearchScreen</Text>
+        <Loading visible={true}/>
       </Layout>
     );
   } else {
     return (
-      <Layout>
         <SearchEvents events={events}/>
-      </Layout>
     )
   }
 

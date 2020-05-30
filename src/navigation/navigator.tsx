@@ -23,6 +23,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { ME } from "../graphql/queries";
 import { ChangePassword } from "../components/Profile";
 import { BottomTabBar } from "../components/common";
+import EventScreen from "../screens/EventScreen";
 
 type MeType = {
   id: string;
@@ -82,6 +83,7 @@ export default () => {
             <Stack.Screen name="Questions" component={QuestionsScreen} />
             <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
             <Stack.Screen name="JoinEvent" component={JoinEventScreen} />
+            <Stack.Screen name="EventPage" component={EventScreen}/>
           </>
         ) : (
           <>

@@ -121,7 +121,8 @@ const themedStyle = StyleService.create({
         marginRight: 5
     },
     cardScrollContainer: {
-        backgroundColor: "background-basic-color-3"
+        backgroundColor: "background-basic-color-3",
+        marginBottom: 300
     },
     cardsContainer: {
         padding: 15,

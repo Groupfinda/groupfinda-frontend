@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { Card, Layout, Text, useStyleSheet, StyleService, Button, List, ListItem, Icon, IconElement, Divider } from '@ui-kitten/components';
 import { View, Image } from 'react-native';
 import styles from '../../common/Carousel/styles';
+import { useNavigation } from '@react-navigation/native';
 
 interface EventCardProps {
     event: {
@@ -21,6 +22,7 @@ export const EventCard = (props: EventCardProps): ReactElement => {
 
     const styles = useStyleSheet(themedStyle)
     const { event } = props;
+    const navigation = useNavigation();
 
     return (
         <Card 
@@ -34,7 +36,7 @@ export const EventCard = (props: EventCardProps): ReactElement => {
                 </View>
             )}
             footer={()=>(
-                <Button>Details</Button>
+                <Button onPress={()=>navigation.navigate("EventPage", {id: event['id']})}>Details</Button>
             )}>
             <Layout style={styles.contentContainer}>
                 <Layout level='1' style={styles.dateContainer}>
@@ -50,7 +52,7 @@ export const EventCard = (props: EventCardProps): ReactElement => {
                 <Divider />
                 <Layout level='2' style={styles.descriptionContainer}>
                     <Text status='primary' category='h5'>{event.title}</Text>
-                    <Text category='s1'>{event.description}</Text>
+                    <Text style={{color:"grey"}} category='s1'>{event.description}</Text>
                     <Layout style={styles.footerText}>
                             <Icon
                                 width={16}

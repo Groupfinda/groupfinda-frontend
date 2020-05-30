@@ -9,11 +9,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fbfbfb",
     borderColor: "#ebebeb",
-    borderWidth: 1,
-    borderRadius: 8,
+    // borderWidth: 1,
+    // borderRadius: 8,
     shadowColor: "#fcfcfc",
     shadowOpacity: 1,
-    marginTop: 10,
     shadowOffset: {
       width: 0,
       height: 5,

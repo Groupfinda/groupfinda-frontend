@@ -28,6 +28,7 @@
     "apollo-link-http": "^1.5.17",
     "expo": "~37.0.3",
     "expo-image-picker": "~8.1.0",
+    "expo-linear-gradient": "~8.1.0",
     "graphql": "^15.0.0",
     "isomorphic-fetch": "^2.2.1",
     "react": "~16.9.0",

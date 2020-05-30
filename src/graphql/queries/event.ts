@@ -15,3 +15,35 @@ export const upcomingEvents = gql`
         }
     }
 `;
+
+export const singleEvent = gql`
+    query Event($eventId: ID!) {
+        getEvent (eventId: $eventId) {
+            id
+            title
+            description
+            owner {
+                avatar
+                username
+                firstName
+                lastName
+            }
+            dateOfEvent
+            dateLastRegister
+            images
+            groupSize
+            category
+            registeredUsers {
+                firstName
+                lastName
+                avatar
+            }
+            groups
+            eventCode
+            location {
+                address
+                postalCode
+            }
+        }
+    }
+`;
