@@ -4,20 +4,20 @@ import { Card, Layout, Text, useStyleSheet, StyleService, Button, List, ListItem
 interface QuestionCardProps {
     order: number,
     question: string,
-    selectedIndex: number,
-    setSelectedIndex: any
+    selectedValue: number,
+    setSelectedValue: any
 }
 
 export const QuestionCard = (props: QuestionCardProps): ReactElement => {
     
     const styles = useStyleSheet(themedStyle)
-    const { order, question, selectedIndex, setSelectedIndex } = props;
+    const { order, question, selectedValue, setSelectedValue } = props;
 
     const handlePress = (index: number) => {
-        if (selectedIndex === index) {
-            setSelectedIndex(0)
+        if (selectedValue === index) {
+            setSelectedValue(0)
         } else {
-            setSelectedIndex(index)
+            setSelectedValue(index)
         }
     }
 
@@ -29,56 +29,56 @@ export const QuestionCard = (props: QuestionCardProps): ReactElement => {
                 <Layout style={styles.answerContainer}>
                     <Divider />
                     <ListItem
-                        style={selectedIndex===1?styles.listItemStyle:null}
+                        style={selectedValue===1?styles.listItemStyle:null}
                         onPress={()=>handlePress(1)}>
                         <CheckmarkIcon/>
                         <Text
-                            style={selectedIndex===1?null:styles.textStyle}
-                            status={selectedIndex===1?'control':'basic'}>
+                            style={selectedValue===1?null:styles.textStyle}
+                            status={selectedValue===1?'control':'basic'}>
                             Accurate
                         </Text>
                     </ListItem>
                     <Divider />
                     <ListItem
-                        style={selectedIndex===2?styles.listItemStyle:null}
+                        style={selectedValue===2?styles.listItemStyle:null}
                         onPress={()=>handlePress(2)}>
                         <CheckmarkIcon/>
                         <Text
-                            style={selectedIndex===2?null:styles.textStyle}
-                            status={selectedIndex===2?'control':'basic'}>
+                            style={selectedValue===2?null:styles.textStyle}
+                            status={selectedValue===2?'control':'basic'}>
                             Slightly Accurate
                         </Text>
                     </ListItem>
                     <Divider />
                     <ListItem
-                        style={selectedIndex===3?styles.listItemStyle:null}
+                        style={selectedValue===3?styles.listItemStyle:null}
                         onPress={()=>handlePress(3)}>
                         <CheckmarkIcon/>
                         <Text
-                            style={selectedIndex===3?null:styles.textStyle}
-                            status={selectedIndex===3?'control':'basic'}>
+                            style={selectedValue===3?null:styles.textStyle}
+                            status={selectedValue===3?'control':'basic'}>
                             Neutral
                         </Text>
                     </ListItem>
                     <Divider />
                     <ListItem
-                        style={selectedIndex===4?styles.listItemStyle:null}
+                        style={selectedValue===4?styles.listItemStyle:null}
                         onPress={()=>handlePress(4)}>
                         <CheckmarkIcon/>
                         <Text
-                            style={selectedIndex===4?null:styles.textStyle}
-                            status={selectedIndex===4?'control':'basic'}>
+                            style={selectedValue===4?null:styles.textStyle}
+                            status={selectedValue===4?'control':'basic'}>
                             Slightly Inaccurate
                         </Text>
                     </ListItem>
                     <Divider />
                     <ListItem
-                        style={selectedIndex===5?styles.listItemStyle:null}
+                        style={selectedValue===5?styles.listItemStyle:null}
                         onPress={()=>handlePress(5)}>
                         <CheckmarkIcon/>
                         <Text
-                            style={selectedIndex===5?null:styles.textStyle}
-                            status={selectedIndex===5?'control':'basic'}>
+                            style={selectedValue===5?null:styles.textStyle}
+                            status={selectedValue===5?'control':'basic'}>
                             Inaccurate
                         </Text>
                     </ListItem>

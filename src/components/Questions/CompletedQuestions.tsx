@@ -1,49 +1,29 @@
 import React from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import { Text, Layout, useStyleSheet, StyleService, TabBar, Tab, TabView } from "@ui-kitten/components";
+import { Layout, useStyleSheet, StyleService, TabBar, Tab, TabView } from "@ui-kitten/components";
 import { QuestionField } from "./extra/question-field.component"
+import { QuestionType } from "../types";
 
-const questions = [
-    {
-        "order": 1,
-        "question": "I am a very proactive person",
-        "answer": 4
-    },
-    {
-        "order": 2,
-        "question": "I dislike being the center of attention.",
-        "answer": 2
-    },
-    {
-        "order": 3,
-        "question": "I spend alot of time thinking about my future",
-        "answer": 4
-    },
-    {
-        "order": 4,
-        "question": "I daydream alot",
-        "answer": 1
-    },
-    {
-        "order": 5,
-        "question": "Placeholder question",
-        "answer": 3
-    },
-]
+type Props = {
+    questions: QuestionType[],
+    setCompletedQuestions: any
+}
 
-export default (): React.ReactElement => {
+export default (props: Props): React.ReactElement => {
     const styles = useStyleSheet(themedStyle);
+    let { questions, setCompletedQuestions } = props
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.scrollContainer}>
             <Layout style={styles.layoutContainer}>
                 {questions.map((question)=>{
                     return <QuestionField
+                        setCompletedQuestions={setCompletedQuestions}
                         key={question.order}
-                        order = {question.order}
-                        answer = {question.answer}
+                        order={question.order}
+                        answer={question.value-1}
                         style={styles.questionField}
-                        question={question.question}/>
+                        question={question.content}/>
                 })}
             </Layout>
         </ScrollView>
@@ -51,8 +31,13 @@ export default (): React.ReactElement => {
 }
 
 const themedStyle = StyleService.create({
+    scrollContainer: {
+        paddingBottom: 100,
+        backgroundColor: 'background-basic-color-3'
+    },
     layoutContainer: {
         padding: 10,
+        paddingBottom: 230,
         backgroundColor: 'background-basic-color-3',
     },
     questionField: {

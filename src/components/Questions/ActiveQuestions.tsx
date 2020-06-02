@@ -1,63 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { QuestionCard } from './extra/question-card.component'
-import { Layout, StyleService, useStyleSheet, Button, Text, Icon, IconElement } from "@ui-kitten/components";
+import { Layout, StyleService, useStyleSheet, Button, Text, Icon, IconElement, Spinner } from "@ui-kitten/components";
+import { QuestionType } from "../types"
+import { useMutation } from "@apollo/react-hooks";
+import { SAVE_ANSWER } from "../../graphql/mutations";
 
-const questions = [
-    {
-        order: 15,
-        question: "I am an efficient person"
-    },
-    {
-        order: 16,
-        question: "I enjoy being in the company of others"
-    },
-    {
-        order: 17,
-        question: "I love seeking out new adventures"
-    }
-]
+type Props = {
+    questions: QuestionType[],
+    completedQuestions: QuestionType[],
+    setCompletedQuestions: any
+}
+type submitQuestionType = {
+    order: number,
+    value: number
+}
 
-export default (): React.ReactElement => {
+
+export default (props: Props): React.ReactElement => {
 
     const styles = useStyleSheet(themedStyle)
-    const [ currentIndex, setIndex ] = React.useState(0);
-    const [ selectedIndex, setSelectedIndex ] = React.useState(0);
+    let { questions, completedQuestions, setCompletedQuestions } = props;
+    const [ currentIndex, setIndex ] = useState<number>(0);
+    const [ selectedValue, setSelectedValue ] = useState<number>(questions[0].value);
+    const [ submitLoading, setSubmitLoading ] = useState<boolean>(false);
+
+    const [ submitValue ] = useMutation<{ submitRangeQuestion: number[] }, submitQuestionType>(
+        SAVE_ANSWER,
+        {
+            onCompleted: async (data) => {
+                questions[currentIndex].value = selectedValue
+                const currentCompletedOrders = completedQuestions.map((question: QuestionType)=>question.order)
+                if (currentCompletedOrders.includes(questions[currentIndex].order)) {
+                    completedQuestions = completedQuestions.filter((question: QuestionType)=>question.order!==questions[currentIndex].order)
+                }
+                completedQuestions.push({
+                    order: questions[currentIndex].order,
+                    value: selectedValue,
+                    content: questions[currentIndex].content
+                })
+                completedQuestions.sort((a:QuestionType,b:QuestionType)=>{
+                    if (a.order < b.order) return -1;
+                    if (a.order > b.order) return 1;
+                    return 0;
+                })
+                setCompletedQuestions(completedQuestions)
+                setSubmitLoading(false)
+                if (currentIndex + 1 < questions.length) {
+                    skipQuestion()
+                }
+            }
+        }
+    )
 
     const handleSubmit = () => {
-        // post here, await response then go to next question
-        // console.log(selectedIndex)
-        // console.log(questions[currentIndex].order)
-        if (currentIndex + 1 < questions.length) {
-            setIndex(currentIndex + 1)
-            setSelectedIndex(0)
+        const variables: submitQuestionType = {
+            order: questions[currentIndex].order,
+            value: selectedValue
         }
+        setSubmitLoading(true)
+        submitValue({ variables })
     }
 
     const skipQuestion = () => {
+        setSelectedValue(questions[currentIndex+1].value)
         setIndex(currentIndex + 1)
-        setSelectedIndex(0)
     }
 
     const previousQuestion = () => {
+        setSelectedValue(questions[currentIndex-1].value)
         setIndex(currentIndex - 1)
-        setSelectedIndex(0)
     }
 
     return (
         <ScrollView style={styles.container}>
             <Layout style={styles.cardContainer}>
                <QuestionCard
-                    order={questions[currentIndex].order}
-                    question={questions[currentIndex].question}
-                    selectedIndex={selectedIndex}
-                    setSelectedIndex={setSelectedIndex}/>
+                    order={questions[currentIndex].order+1}
+                    question={questions[currentIndex].content}
+                    selectedValue={selectedValue}
+                    setSelectedValue={setSelectedValue}/>
                 <Button
                     status='success'
-                    disabled={selectedIndex<1||selectedIndex>5}
+                    disabled={selectedValue<1||selectedValue>5||selectedValue===questions[currentIndex].value||submitLoading}
                     style={styles.buttonStyle}
-                    onPress={handleSubmit}>
-                    Save Answer
+                    onPress={handleSubmit}
+                    accessoryLeft={(props)=>{return submitLoading?<View {...props}><Spinner/></View>:<View></View>}}>
+                    {submitLoading?"":"Save Answer"}
                 </Button>
             </Layout>
             <Layout style={styles.skipContainer}>
@@ -71,7 +100,7 @@ export default (): React.ReactElement => {
                 </Layout>
                 <Layout level='2' style={styles.numberContainer}>
                     <Text appearance='alternative'
-                        status='control'>{questions[currentIndex].order}/50</Text>
+                        status='control'>{currentIndex+1}/{questions.length}</Text>
                 </Layout>
                 <Layout level='3'>
                     <Button
