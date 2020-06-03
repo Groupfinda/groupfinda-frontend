@@ -2,7 +2,7 @@ import React from "react";
 import { Layout, Text, Button, Input, Icon } from "@ui-kitten/components";
 import { StyleSheet, KeyboardAvoidingView } from "react-native";
 import { FormPropsWithValidate } from "./types";
-import { useError, CustomError } from "../../../hooks";
+import { useError } from "../../../hooks";
 import { ReferencesType } from "../../types";
 
 const EventDetailsForm: React.FC<FormPropsWithValidate> = (props) => {
@@ -66,7 +66,6 @@ const EventDetailsForm: React.FC<FormPropsWithValidate> = (props) => {
           value={description}
           onChangeText={modifyVariable("description")}
           onBlur={validateDescription}
-          onSubmitEditing={onNext}
         />
       </Layout>
       <Layout style={styles.pageNav}>
