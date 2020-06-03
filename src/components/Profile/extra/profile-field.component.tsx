@@ -7,13 +7,14 @@ export interface ProfileFieldProps extends ViewProps {
     editUser: any;
     userKey: string;
     user: any;
-    editable: boolean
+    editable: boolean;
+    numericInput: boolean;
 }
 
 
 export const ProfileField = (props: ProfileFieldProps): React.ReactElement => {
 
-    const { style, hint, editUser, userKey, user, editable, ...layoutProps } = props;
+    const { style, hint, editUser, userKey, user, editable, numericInput, ...layoutProps } = props;
 
     const handleChange = (newValue: string) => {
         editUser({
@@ -36,26 +37,21 @@ export const ProfileField = (props: ProfileFieldProps): React.ReactElement => {
                 </Text>
                 {editable
                 ?<Input
-                    style={{"width": 150}}
+                    status={user[userKey].length===0?"danger":""}
+                    keyboardType={numericInput?"number-pad":"default"}
+                    style={numericInput?{width:60}:{width: 150}}
                     textStyle={{"textAlign": "right"}}
                     onChangeText={handleChange}>
                     {user[userKey]}
                 </Input>
                 :<Text category='s1'>
-                    {userKey==='birthday'?
-                        formattedDate(new Date(user['birthday']))
-                        :user[userKey]}
+                    {user[userKey]}
                 </Text>}
             </Layout>
             <Divider/>
         </React.Fragment>
     );
 };
-
-function formattedDate(d = new Date) {
-    return [d.getDate(), d.getMonth()+1, d.getFullYear()]
-        .map(n => n < 10 ? `0${n}` : `${n}`).join('/');
-}
 
 const styles = StyleSheet.create({
   container: {
