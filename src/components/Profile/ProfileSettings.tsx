@@ -57,6 +57,7 @@ export default (): React.ReactElement => {
 
   const { loading, error, data } = useQuery(FULLUSER, {
     onCompleted: (userData) => {
+      console.log(userData)
       editUser({ ...user, ...userData.me });
     },
   });
