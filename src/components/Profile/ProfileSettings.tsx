@@ -18,7 +18,7 @@ import {
 import { EditAvatar } from "./extra/edit-avatar.component";
 import { ProfileField } from "./extra/profile-field.component";
 import { useNavigation } from "@react-navigation/native";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { FULLUSER } from "../../graphql/queries";
 import { TransparentBackHeader, Loading } from "../common";
 import { genders, faculties, interests } from "../common/variables"
@@ -31,14 +31,22 @@ import {
   ForwardIcon,
   CameraIcon,
 } from "./extra/icons";
+import { UPDATE_USER, UPDATE_PROFILE } from "../../graphql/mutations";
 
 const dummyUser = {
   avatar: "",
-  birthday: 1,
-  email: "",
   firstName: "",
   gender: "",
-  lastName: "",  
+  lastName: "", 
+  birthday: 1,
+  userOriginalBasic: {
+    firstName: "",
+    gender: "",
+    lastName: "", 
+    birthday: 1,
+  },
+  username: "",
+  email: "",
   location: "",
   preferences: {
     lowerAge: 0,
@@ -47,10 +55,9 @@ const dummyUser = {
   },
   profile: {
     userFaculty: "",
-    userHobbies: [],
+    userHobbies: ["game"],
     userYearOfStudy: 0
   },
-  username: "",
   lowerAge: 0,
   maxDistance: 100,
   upperAge: 0,
@@ -72,10 +79,133 @@ export default (): React.ReactElement => {
 
   const { loading, error, data } = useQuery(FULLUSER, {
     onCompleted: (userData) => {
-      console.log(userData)
-      editUser({ ...user, ...userData.me, ...userData.me.preferences, ...userData.me.profile });
+      const fetchedUser = {
+        ...user,
+        ...userData.me,
+        ...userData.me.preferences,
+        ...userData.me.profile,
+        userOriginalBasic: {
+          firstName: userData.me.firstName,
+          lastName: userData.me.lastName, 
+          birthday: userData.me.birthday,
+          gender: userData.me.gender,
+        }
+      }
+      editUser(fetchedUser);
     },
+    fetchPolicy: "cache-and-network"
   });
+
+  const [ updateUserBasic ] = useMutation(
+    UPDATE_USER,
+    {
+      onCompleted: async (data: boolean) => {
+        if (data) {
+          editUser({
+            ...user,
+            userOriginalBasic: {
+              firstName: user.firstName,
+              lastName: user.lastName,
+              birthday: user.birthday,
+              gender: user.gender
+            }
+          })
+        } else {
+          editUser({
+            ...user,
+            firstName: user.userOriginalBasic.firstName,
+            lastName: user.userOriginalBasic.lastName,
+            birthday: user.userOriginalBasic.birthday,
+            gender: user.userOriginalBasic.gender
+          })
+        }
+        editBasicToggle(!editBasic);
+      },
+      onError: (err) => {
+        console.log(err)
+        editUser({
+          ...user,
+          firstName: user.userOriginalBasic.firstName,
+          lastName: user.userOriginalBasic.lastName,
+          birthday: user.userOriginalBasic.birthday,
+          gender: user.userOriginalBasic.gender
+        })
+        editBasicToggle(!editBasic)
+      }
+    }
+  )
+
+  const [ updateUserPreferences ] = useMutation(
+    UPDATE_USER,
+    {
+      onCompleted: async(data: boolean) => {
+        if (data) {
+          editUser({
+            ...user,
+            preferences: {
+              lowerAge: user.lowerAge,
+              upperAge: user.upperAge,
+              maxDistance: user.maxDistance
+            }
+          })
+        } else {
+          editUser({
+            ...user,
+            lowerAge: user.preferences.lowerAge,
+            upperAge: user.preferences.upperAge,
+            maxDistance: user.preferences.maxDistance,
+          })
+        }
+        editPreferencesToggle(!editPreferences)
+      },
+      onError: (err) => {
+        console.log(err);
+        editUser({
+          ...user,
+          lowerAge: user.preferences.lowerAge,
+          upperAge: user.preferences.upperAge,
+          maxDistance: user.preferences.maxDistance,
+        })
+        editPreferencesToggle(!editPreferences)
+      }
+    }
+  )
+
+  const [ updateUserProfile ] = useMutation(
+    UPDATE_PROFILE,
+    {
+      onCompleted: async(data: boolean) => {
+        if (data) {
+          editUser({
+            ...user,
+            profile: {
+              userFaculty: user.userFaculty,
+              userHobbies: user.userHobbies,
+              userYearOfStudy: user.userYearOfStudy
+            }
+          })
+        } else {
+          editUser({
+            ...user,
+            userHobbies: user.profile.userHobbies,
+            userFaculty: user.profile.userFaculty,
+            userYearOfStudy: user.profile.userYearOfStudy
+          })
+        }
+        editProfileToggle(!editProfile)
+      },
+      onError: (err) => {
+        console.log(err)
+        editUser({
+          ...user,
+          userHobbies: user.profile.userHobbies,
+          userFaculty: user.profile.userFaculty,
+          userYearOfStudy: user.profile.userYearOfStudy
+        })
+        editProfileToggle(!editProfile)
+      }
+    }
+  )
 
   const renderPhotoButton = (): React.ReactElement => (
     <Button
@@ -107,9 +237,25 @@ export default (): React.ReactElement => {
   const submitBasicChanges = () => {
     if (!editBasic) {
       editBasicToggle(!editBasic);
-    } else{
-      // Update basic info using mutation
-      editBasicToggle(!editBasic);
+    } else {
+      let variables = {}
+      if (user.firstName !== user.userOriginalBasic.firstName) {
+        variables = {firstName: user.firstName}
+      }
+      if (user.lastName !== user.userOriginalBasic.lastName) {
+        variables = {...variables, lastName: user.lastName}
+      }
+      if (user.birthday !== user.userOriginalBasic.birthday) {
+        variables = {...variables, birthday: user.birthday}
+      }
+      if (user.gender !== user.userOriginalBasic.gender) {
+        variables = {...variables, gender: user.gender}
+      }
+      if (Object.keys(variables).length !== 0) {
+        updateUserBasic({ variables })
+      } else {
+        editBasicToggle(!editBasic);
+      }
     }
   }
 
@@ -117,18 +263,21 @@ export default (): React.ReactElement => {
     if (!editProfile) {
       editProfileToggle(!editProfile);
     } else {
-      let changes = {}
+      let variables = {}
       if (user.userYearOfStudy !== user.profile.userYearOfStudy) {
-        changes = {userYearOfStudy: user.userYearOfStudy}
+        variables = {userYearOfStudy: user.userYearOfStudy}
       }
       if (user.userFaculty !== user.profile.userFaculty) {
-        changes = {...changes, userFaculty: user.userFaculty}
+        variables = {...variables, userFaculty: user.userFaculty}
       }
       if (user.userHobbies !== user.profile.userHobbies) {
-        changes = {...changes, userHobbies: user.userHobbies}
+        variables = {...variables, userHobbies: user.userHobbies}
       }
-        
-      editProfileToggle(!editProfile);
+      if (Object.keys(variables).length !== 0) {
+        updateUserProfile({variables})
+      } else {
+        editProfileToggle(!editProfile);
+      }
     }
   }
 
@@ -136,7 +285,21 @@ export default (): React.ReactElement => {
     if (!editPreferences) {
       editPreferencesToggle(!editPreferences);
     } else {
-      editPreferencesToggle(!editPreferences);
+      let variables = {}
+      if (user.lowerAge !== user.preferences.lowerAge) {
+        variables = {lowerAge: user.lowerAge}
+      }
+      if (user.upperAge !== user.preferences.upperAge) {
+        variables = {...variables, upperAge: user.upperAge}
+      }
+      if (user.maxDistance !== user.preferences.maxDistance) {
+        variables = {...variables, maxDistance: user.maxDistance}
+      }
+      if (Object.keys(variables).length !== 0) {
+        updateUserPreferences({ variables })
+      } else {
+        editPreferencesToggle(!editPreferences);
+      }
     }
   }
 

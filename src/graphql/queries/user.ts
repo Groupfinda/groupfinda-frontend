@@ -16,6 +16,7 @@ export const USER = gql`
       firstName
       lastName
       username
+      location
       email
     }
   }

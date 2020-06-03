@@ -32,5 +32,5 @@ export const interests = [
     "Technology",
     "Outdoor and Adventure",
     "Fashion and Beauty",
-    "game",
+    "Gaming"
 ]

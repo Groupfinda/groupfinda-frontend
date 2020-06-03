@@ -17,9 +17,15 @@ export const ProfileField = (props: ProfileFieldProps): React.ReactElement => {
     const { style, hint, editUser, userKey, user, editable, numericInput, ...layoutProps } = props;
 
     const handleChange = (newValue: string) => {
+        let value
+        if (numericInput && newValue.length>0) {
+            value = parseInt(newValue)
+        } else {
+            value = newValue
+        }
         editUser({
             ...user,
-            [userKey]: newValue
+            [userKey]: value
         })
     }
 

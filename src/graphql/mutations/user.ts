@@ -59,3 +59,27 @@ export const REFETCH_QUERY = gql`
     refetchQuery
   }
 `;
+
+export const UPDATE_USER = gql`
+  mutation updateUserField(
+    $firstName: String
+    $lastName: String
+    $birthday: Date
+    $gender: String
+    $avatar: String
+    $lowerAge: Int
+    $upperAge: Int
+    $maxDistance: Int
+  ) {
+    updateUserField(
+      firstName: $firstName
+      lastName: $lastName
+      birthday: $birthday
+      gender: $gender
+      avatar: $avatar
+      lowerAge: $lowerAge
+      upperAge: $upperAge
+      maxDistance: $maxDistance
+    )
+  }
+`;

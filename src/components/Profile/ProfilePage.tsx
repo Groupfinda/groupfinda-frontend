@@ -21,7 +21,7 @@ import { ImageOverlay } from "./extra/image-overlay.component";
 import { ProfileSocial } from "./extra/profile-social.component";
 import { DrawerGroupUser } from "./extra/drawer.component";
 import { useNavigation } from "@react-navigation/native";
-import { useLazyQuery, useApolloClient } from "@apollo/react-hooks";
+import { useLazyQuery, useApolloClient, useQuery } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
 import { SettingsIcon } from "./extra/icons";
@@ -60,22 +60,17 @@ export default (): React.ReactElement => {
 
   const navigation = useNavigation();
 
-  const [getCurrentUser, { loading, error, data }] = useLazyQuery(USER);
-  let isMounted = true;
-  React.useEffect(() => {
-    if (isMounted) {
-      getCurrentUser();
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { loading, error, data } = useQuery(USER, {fetchPolicy: "no-cache"})
 
-  return (
-    <ScrollView style={styles.container}>
-      {loading ? (
-        <Loading visible={loading} />
-      ) : (
+  if (error) return <Text>ERROR</Text>
+
+  if (loading || !data) {
+    return (<ScrollView style={styles.container}>
+      <Loading visible={loading} />
+    </ScrollView>)
+  } else {
+    return (
+      <ScrollView style={styles.container}>
         <React.Fragment>
           <ImageOverlay
             style={styles.header}
@@ -111,15 +106,13 @@ export default (): React.ReactElement => {
               style={{ width: 148, height: 148, marginBottom: 16 }}
               source={require("./temp/gab.jpg")}
             />
-            {data && data.me && (
-              <Text style={styles.profileName} category="h5" status="control">
-                {data.me.firstName} {data.me.lastName}
-              </Text>
-            )}
+            <Text style={styles.profileName} category="h5" status="control">
+              {data.me.firstName} {data.me.lastName}
+            </Text>
             <View style={styles.locationContainer}>
               <PinIcon />
               <Text style={styles.location} status="control">
-                University Town
+                {data.me.location}
               </Text>
             </View>
             <View style={styles.socialsContainer}>
@@ -151,9 +144,9 @@ export default (): React.ReactElement => {
             Log out
           </Button>
         </React.Fragment>
-      )}
     </ScrollView>
-  );
+    )
+  }
 };
 
 const themedStyle = StyleService.create({
