@@ -7,7 +7,6 @@ type Props = {
   height: number;
 };
 const ImageCard: React.FC<Props> = (props) => {
-  console.log(props.imageLink);
   return (
     <Image
       style={styles.image}

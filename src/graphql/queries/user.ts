@@ -5,6 +5,7 @@ export const ME = gql`
     me {
       id
       username
+      role
     }
   }
 `;
@@ -33,7 +34,9 @@ export const FULLUSER = gql`
       avatar
       birthday
       location
-      profile
+      profile {
+        id
+      }
     }
   }
 `;

@@ -9,7 +9,8 @@ import {
 } from "@ui-kitten/components";
 import { StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { FormProps } from "./types";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { ME } from "../../../graphql/queries";
 import {
   CREATE_EVENT,
   CreateEventData,
@@ -40,6 +41,8 @@ const SubmitForm: React.FC<FormProps> = (props) => {
   const { variables, modifyVariable, prevPage } = props;
   const [tooltip, setTooltip] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const { data } = useQuery(ME, { fetchPolicy: "cache-only" });
+
   const {
     title,
     description,
@@ -155,6 +158,7 @@ const SubmitForm: React.FC<FormProps> = (props) => {
         <Layout style={styles.toggle}>
           <Toggle
             status="primary"
+            disabled={data.me.role === "USER"}
             checked={!privateStatus}
             onChange={(checked) => modifyVariable("privateStatus")(!checked)}
           >

@@ -57,9 +57,10 @@ export default (): React.ReactElement => {
 
   const { loading, error, data } = useQuery(FULLUSER, {
     onCompleted: (userData) => {
-      console.log(userData)
+      console.log(userData);
       editUser({ ...user, ...userData.me });
     },
+    onError: (err) => console.log(err.networkError),
   });
 
   if (loading || !data) {
@@ -249,7 +250,7 @@ const themedStyle = StyleService.create({
   container: {
     flex: 1,
     backgroundColor: "background-basic-color-2",
-    paddingTop: 12
+    paddingTop: 12,
   },
   contentContainer: {
     paddingVertical: 24,
