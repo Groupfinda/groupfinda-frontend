@@ -147,6 +147,7 @@ const themedStyle = StyleService.create({
     cardsContainer: {
         padding: 15,
         backgroundColor: "background-basic-color-2",
-        borderRadius: 30
+        borderRadius: 30,
+        paddingBottom: 80
     }
 })

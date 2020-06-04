@@ -14,16 +14,6 @@ export const SettingsIcon = (): IconElement => {
     )
 }
 
-export const EditIcon = (): IconElement => {
-    return (
-        <Icon
-            width={16}
-            height={16}
-            fill="#078BF7"
-            name='edit-2'/>
-    )
-}
-
 export const PersonIcon = (): IconElement => {
     return (
         <Icon
@@ -71,16 +61,6 @@ export const ForwardIcon = (): IconElement => {
             height={24}
             fill="grey"
             name='arrow-ios-forward-outline'/>
-    )
-}
-
-export const SaveIcon = (): IconElement => {
-    return (
-        <Icon
-        width={16}
-        height={16}
-        fill='green'
-        name='save'/>
     )
 }
 

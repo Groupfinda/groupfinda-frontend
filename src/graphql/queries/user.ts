@@ -16,6 +16,7 @@ export const USER = gql`
       firstName
       lastName
       username
+      location
       email
     }
   }
@@ -33,7 +34,16 @@ export const FULLUSER = gql`
       avatar
       birthday
       location
-      profile
+      preferences {
+        lowerAge
+        upperAge
+        maxDistance
+      }
+      profile {
+        userHobbies
+        userFaculty
+        userYearOfStudy
+      }
     }
   }
 `;

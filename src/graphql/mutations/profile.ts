@@ -11,3 +11,17 @@ export const SAVE_ANSWER = gql`
         )
     }
 `;
+
+export const UPDATE_PROFILE = gql `
+    mutation updateProfileField(
+        $userHobbies: [String]
+        $userFaculty: String
+        $userYearOfStudy: Int
+    ) {
+        updateProfileField(
+            userHobbies: $userHobbies
+            userFaculty: $userFaculty
+            userYearOfStudy: $userYearOfStudy
+        )
+    }
+`;
