@@ -10,7 +10,7 @@ export type RootStackParamList = {
   Questions: undefined;
   CreateEvent: undefined;
   JoinEvent: undefined;
-  EventPage: undefined;
+  EventPage: { id: string };
 };
 
 export type SignUpScreenNavigationProp = StackScreenProps<

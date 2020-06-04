@@ -60,14 +60,16 @@ export default (): React.ReactElement => {
 
   const navigation = useNavigation();
 
-  const { loading, error, data } = useQuery(USER, {fetchPolicy: "no-cache"})
+  const { loading, error, data } = useQuery(USER, { fetchPolicy: "no-cache" });
 
-  if (error) return <Text>ERROR</Text>
+  if (error) return <Text>ERROR</Text>;
 
-  if (loading || !data) {
-    return (<ScrollView style={styles.container}>
-      <Loading visible={loading} />
-    </ScrollView>)
+  if (loading || !data || !data.me) {
+    return (
+      <ScrollView style={styles.container}>
+        <Loading visible={loading} />
+      </ScrollView>
+    );
   } else {
     return (
       <ScrollView style={styles.container}>
@@ -144,8 +146,8 @@ export default (): React.ReactElement => {
             Log out
           </Button>
         </React.Fragment>
-    </ScrollView>
-    )
+      </ScrollView>
+    );
   }
 };
 
