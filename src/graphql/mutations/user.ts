@@ -54,12 +54,6 @@ export const RESET_PASSWORD = gql`
   }
 `;
 
-export const REFETCH_QUERY = gql`
-  mutation {
-    refetchQuery
-  }
-`;
-
 export const UPDATE_USER = gql`
   mutation updateUserField(
     $firstName: String

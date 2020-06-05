@@ -69,10 +69,8 @@ export const Carousel = (props: any) => {
         pagingEnabled
         decelerationRate="fast"
       >
-        {items.map((item: any, index: number) => {
-          return (
-            <ImageCard height={imageHeight} key={index} imageLink={item} />
-          );
+        {items.map((item: string, index: number) => {
+          return <ImageCard height={imageHeight} key={item} imageLink={item} />;
         })}
       </ScrollView>
       <View style={styles.bullets}>{bullets}</View>

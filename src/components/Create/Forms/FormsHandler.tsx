@@ -39,9 +39,7 @@ const FormsHandler: React.FC<Props> = (props) => {
     setPage(page - 1);
   };
 
-  const modifyVariable = (key: string) => (
-    value: string | Date | number | string[] | boolean
-  ): void => {
+  const modifyVariable = (key: string) => (value: any): void => {
     const newVariables = { ...variables, [key]: value };
     setVariables(newVariables);
   };
