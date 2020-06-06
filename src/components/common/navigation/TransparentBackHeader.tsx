@@ -30,7 +30,7 @@ export default () => {
 
 const styles = StyleSheet.create({
   headerStyle: {
-    marginTop: 15,
+    marginTop: 20,
 
     position: "absolute",
     backgroundColor: "transparent",

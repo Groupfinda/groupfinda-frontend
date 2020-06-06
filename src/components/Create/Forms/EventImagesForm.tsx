@@ -29,6 +29,29 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
   const [displayImages, setDisplayImages] = useState<string[]>([]);
 
   const uploadImage = async (url: GetPresignedUrlData, uri: string) => {
+    const formData = new FormData();
+    Object.keys(url.getPresignedURL.fields).forEach((key) => {
+      formData.append(key, url.getPresignedURL.fields[key]);
+    });
+
+    const urisplit = uri.split(".");
+    const ext = urisplit[-1];
+    //@ts-ignore
+    formData.append("file", { uri: uri, type: `image/${ext}` });
+
+    try {
+      const response = await fetch(url.getPresignedURL.url, {
+        method: "POST",
+        body: formData,
+      });
+      console.log(response.text());
+      alert("Successfully uploaded image");
+    } catch (err) {
+      console.log(err);
+      alert("Failed to upload image");
+    }
+
+    /*
     return new Promise((resolve, reject) => {
       const formData = new FormData();
       Object.keys(url.getPresignedURL.fields).forEach((key) => {
@@ -41,9 +64,16 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
       xhr.open("POST", url.getPresignedURL.url, true);
       xhr.send(formData);
       xhr.onload = () => {
-        xhr.status === 204 ? resolve() : reject(xhr.responseText);
+        if (xhr.status === 204) {
+          alert("Successfully uploaded image");
+          resolve();
+        } else {
+          alert("Failed to upload, please try again");
+          reject(xhr.responseText);
+        }
       };
     });
+    */
   };
 
   const [getPresigned] = useMutation<
@@ -81,26 +111,44 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
   };
 
   const getPermissionsAsync = async () => {
-    if (Constants.platform?.ios) {
+    if (Platform.OS === "ios") {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        if (Platform.OS === "ios") showAlert();
-      } else {
-        const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-        });
-
-        if (!result.cancelled) {
-          modifyVariable("images")([...images, result.uri]);
-
-          await getPresigned({
-            variables: { key: result.uri.slice(result.uri.length - 15) },
-          });
-        }
+        showAlert();
+        return;
       }
     }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    });
+
+    if (!result.cancelled) {
+      modifyVariable("images")([...images, result.uri]);
+
+      await getPresigned({
+        variables: { key: result.uri.slice(result.uri.length - 15) },
+      });
+    }
   };
+  /*
+  const renderBullets = () => (
+    <Layout style={styles.bullets}>
+      {displayImages.map((_, i) => (
+        <Text
+          key={i}
+          style={{
+            ...styles.bullet,
+            opacity: selectedIndex === i ? 0.8 : 0.3,
+          }}
+        >
+          &bull;
+        </Text>
+      ))}
+    </Layout>
+  );
+  */
 
   return (
     <Layout style={styles.container}>
@@ -108,19 +156,6 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
         Upload images to decorate your listing!
       </Text>
       <Layout>
-        <Layout style={styles.bullets}>
-          {displayImages.map((_, i) => (
-            <Text
-              key={i}
-              style={{
-                ...styles.bullet,
-                opacity: selectedIndex === i ? 0.8 : 0.3,
-              }}
-            >
-              &bull;
-            </Text>
-          ))}
-        </Layout>
         <ViewPager
           style={{ height: 250 }}
           selectedIndex={selectedIndex}
