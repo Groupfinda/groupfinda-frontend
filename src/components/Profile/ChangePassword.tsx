@@ -65,17 +65,23 @@ const ChangePassword: React.FC<Props> = () => {
     const navigation = useNavigation();
 
     const renderCurrentIcon = (props: any) => (
-        <TouchableOpacity onPress={()=>{setCurrentSecure(!currentSecure)}}>
+        <TouchableOpacity
+            testID="toggle-current-password"
+            onPress={()=>{setCurrentSecure(!currentSecure)}}>
             <Icon {...props} name={currentSecure ? 'eye-off' : 'eye'}/>
         </TouchableOpacity>
     );
     const renderNewIcon = (props: any) => (
-        <TouchableOpacity onPress={()=>{setNewSecure(!newSecure)}}>
+        <TouchableOpacity
+            testID="toggle-new-password"
+            onPress={()=>{setNewSecure(!newSecure)}}>
             <Icon {...props} name={newSecure ? 'eye-off' : 'eye'}/>
         </TouchableOpacity>
     );
     const renderConfirmIcon = (props: any) => (
-        <TouchableOpacity onPress={()=>{setConfirmSecure(!confirmSecure)}}>
+        <TouchableOpacity
+            testID="toggle-confirm-password"
+            onPress={()=>{setConfirmSecure(!confirmSecure)}}>
             <Icon {...props} name={confirmSecure ? 'eye-off' : 'eye'}/>
         </TouchableOpacity>
     );
