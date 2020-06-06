@@ -1,10 +1,9 @@
 import { CustomError } from "../../../hooks";
+import { ImagePickerResult } from "expo-image-picker";
 
 export type FormProps = {
   variables: FormVariablesType;
-  modifyVariable: (
-    key: string
-  ) => (value: string | Date | number | string[] | boolean) => void;
+  modifyVariable: (key: string) => (value: any) => void;
   prevPage?: () => void;
   nextPage?: () => void;
 };

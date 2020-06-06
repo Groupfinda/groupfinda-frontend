@@ -3,23 +3,24 @@ import React from "react";
 import { Image, StyleSheet, ImageSourcePropType } from "react-native";
 
 type Props = {
-  imageLink: string;
+  imageLink?: string;
   height: number;
 };
 const ImageCard: React.FC<Props> = (props) => {
-  console.log(props.imageLink);
   return (
     <Image
       style={styles.image}
-      resizeMethod="scale"
-      height={props.height}
-      source={require("../../../../assets/sampleimage1.jpg")}
+      resizeMethod="auto"
+      resizeMode="contain"
+      height={props.height ? props.height : 250}
+      source={{ uri: props.imageLink }}
     />
   );
 };
 
 const styles = StyleSheet.create({
   image: {
+    maxWidth: "100%",
     width: "100%",
   },
 });

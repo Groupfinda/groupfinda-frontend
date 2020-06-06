@@ -17,8 +17,9 @@ const CreateEventScreen: React.FC<Props> = (props) => {
             <Text style={styles.header} status="primary" category="h3">
               Create a new event
             </Text>
-
-            <FormsHandler />
+            <Layout>
+              <FormsHandler />
+            </Layout>
           </Layout>
         </Layout>
       </ScrollView>
@@ -42,6 +43,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     minHeight: 50,
     marginTop: 25,
+  },
+  forms: {
+    alignSelf: "center",
+    justifyContent: "center",
   },
 });
 

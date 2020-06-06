@@ -60,8 +60,8 @@ const JoinEventScreen: React.FC<Props> = ({ navigation }) => {
   console.log(data);
   return (
     <Layout style={styles.container}>
-      <Loading visible={loading} />
       <ScrollView contentContainerStyle={styles.container}>
+        <Loading visible={loading} />
         <TransparentBackHeader />
         <Layout style={styles.body}>
           <Text style={styles.header} status="primary" category="h2">
@@ -86,13 +86,12 @@ const JoinEventScreen: React.FC<Props> = ({ navigation }) => {
             Search
           </Button>
         </Layout>
+        <Image
+          resizeMode="cover"
+          style={styles.image}
+          source={require("../../assets/fun.png")}
+        />
       </ScrollView>
-
-      <Image
-        resizeMode="cover"
-        style={styles.image}
-        source={require("../../assets/fun.png")}
-      />
     </Layout>
   );
 };
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
     height: "35%",
     width: "100%",
     alignSelf: "center",
-    marginBottom: 30,
+    marginVertical: 30,
   },
 });
 

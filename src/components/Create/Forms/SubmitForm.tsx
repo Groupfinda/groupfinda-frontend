@@ -18,6 +18,7 @@ import {
 import { useError } from "../../../hooks";
 import { Loading } from "../../common";
 import { useNavigation } from "@react-navigation/native";
+import Carousel from "../../common/Carousel";
 
 function InfoField(props: {
   text: string;
@@ -91,7 +92,7 @@ const SubmitForm: React.FC<FormProps> = (props) => {
       dateOfEvent,
       dateLastRegister,
       recurringMode,
-      images,
+      images: images.map((image) => image.slice(image.length - 15)),
       private: privateStatus,
       groupSize,
       category,
@@ -139,6 +140,7 @@ const SubmitForm: React.FC<FormProps> = (props) => {
         />
 
         <InfoField text="" label="Images" error={inputError.title} />
+        <Carousel items={images} imageHeight={250} />
 
         <InfoField
           text={groupSize.toString()}
