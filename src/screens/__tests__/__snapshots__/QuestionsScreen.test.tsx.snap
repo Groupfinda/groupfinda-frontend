@@ -3340,6 +3340,7 @@ exports[`renders loaded UI correctly 1`] = `
                             },
                           ]
                         }
+                        testID="radio-group"
                       >
                         <View
                           accessible={true}
@@ -3900,6 +3901,7 @@ exports[`renders loaded UI correctly 1`] = `
                             },
                           ]
                         }
+                        testID="radio-group"
                       >
                         <View
                           accessible={true}
@@ -4460,6 +4462,7 @@ exports[`renders loaded UI correctly 1`] = `
                             },
                           ]
                         }
+                        testID="radio-group"
                       >
                         <View
                           accessible={true}
@@ -5020,6 +5023,7 @@ exports[`renders loaded UI correctly 1`] = `
                             },
                           ]
                         }
+                        testID="radio-group"
                       >
                         <View
                           accessible={true}
@@ -5580,6 +5584,7 @@ exports[`renders loaded UI correctly 1`] = `
                             },
                           ]
                         }
+                        testID="radio-group"
                       >
                         <View
                           accessible={true}

@@ -69,6 +69,7 @@ export const QuestionField = (props: QuestionFieldProps): ReactElement => {
                     <Text>Accurate</Text>
                 </Layout>
                 <RadioGroup
+                    testID="radio-group"
                     style={styles.container}
                     selectedIndex={selectedIndex}
                     onChange={index => changeAnswer(index)}>
