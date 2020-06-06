@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, ScrollView, Text, ImageSourcePropType } from "react-native";
 import { Card } from "@ui-kitten/components";
 
@@ -11,6 +11,7 @@ type Props = {
 };
 export const Carousel = (props: any) => {
   const { items, imageHeight } = props;
+
   const itemsPerInterval = 1;
 
   const [interval, setInterval] = React.useState<number | undefined>(1);
@@ -57,7 +58,7 @@ export const Carousel = (props: any) => {
         horizontal={true}
         contentContainerStyle={{
           ...styles.scrollView,
-          width: `${100 * intervals}%`,
+          width: `${100 * items.length}%`,
         }}
         showsHorizontalScrollIndicator={false}
         onContentSizeChange={(w, h) => init(w)}
@@ -70,7 +71,13 @@ export const Carousel = (props: any) => {
         decelerationRate="fast"
       >
         {items.map((item: string, index: number) => {
-          return <ImageCard height={imageHeight} key={item} imageLink={item} />;
+          return (
+            <ImageCard
+              height={imageHeight}
+              key={item + index.toString()}
+              imageLink={item}
+            />
+          );
         })}
       </ScrollView>
       <View style={styles.bullets}>{bullets}</View>

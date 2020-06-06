@@ -12,7 +12,7 @@ const ImageCard: React.FC<Props> = (props) => {
       style={styles.image}
       resizeMethod="auto"
       resizeMode="contain"
-      height={props.height}
+      height={props.height ? props.height : 250}
       source={{ uri: props.imageLink }}
     />
   );

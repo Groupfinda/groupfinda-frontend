@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Text, Icon, Button, ViewPager } from "@ui-kitten/components";
+import { Layout, Text, Icon, Button } from "@ui-kitten/components";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -10,8 +10,8 @@ import {
 import { FormProps } from "./types";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import Constants from "expo-constants";
-import ImageCard from "../../common/Carousel/ImageCard";
+
+import Carousel from "../../common/Carousel";
 import { useMutation } from "@apollo/react-hooks";
 import {
   GET_PRESIGNED_URL,
@@ -25,7 +25,7 @@ const defaultImage = [
 const EventImagesForm: React.FC<FormProps> = (props) => {
   const { variables, modifyVariable, nextPage, prevPage } = props;
   const { images } = variables;
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  //const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [displayImages, setDisplayImages] = useState<string[]>([]);
 
   const uploadImage = async (url: GetPresignedUrlData, uri: string) => {
@@ -44,7 +44,6 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
         method: "POST",
         body: formData,
       });
-      console.log(response.text());
       alert("Successfully uploaded image");
     } catch (err) {
       console.log(err);
@@ -156,15 +155,22 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
         Upload images to decorate your listing!
       </Text>
       <Layout>
+        <Carousel imageHeight={250} items={displayImages} />
+        {/* 
         <ViewPager
           style={{ height: 250 }}
           selectedIndex={selectedIndex}
           onSelect={setSelectedIndex}
         >
-          {displayImages.map((image) => (
+          
+          
+           {displayImages.map((image) => (
             <ImageCard key={image} height={250} imageLink={image} />
           ))}
+          
+         
         </ViewPager>
+        */}
       </Layout>
       <Layout level="4" style={styles.addImageContainer}>
         <TouchableOpacity onPress={getPermissionsAsync} style={styles.wrapper}>
