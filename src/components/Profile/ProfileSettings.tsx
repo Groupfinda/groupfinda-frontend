@@ -321,8 +321,15 @@ export default (): React.ReactElement => {
       editUser({...user, userHobbies:value.map((index: IndexPath)=>interests[index.row])})
     }
   }
-
-  if (loading || !data) {
+  if (error) {
+    return <ScrollView style={styles.container}>
+      <TransparentBackHeader />
+      <Layout style={{paddingTop: 30}}>
+        <Text category='h1'>Error Loading this Page</Text>
+      </Layout>
+    </ScrollView>
+  }
+  else if (loading || !data) {
     return <Loading visible={loading} />;
   } else {
     return (
@@ -349,6 +356,7 @@ export default (): React.ReactElement => {
               <Text category="h6">Basic Information</Text>
             </Layout>
             <TouchableOpacity
+              testID="toggle-edit-basic"
               disabled={user.firstName.length===0 || user.lastName.length===0}
               style={{ flexDirection: "row", alignItems: "center" }}
               onPress={submitBasicChanges}
@@ -483,6 +491,7 @@ export default (): React.ReactElement => {
               <Text category="h6">Profile</Text>
             </Layout>
             <TouchableOpacity
+              testID="toggle-edit-profile"
               disabled={user.userYearOfStudy.toString().length===0}
               style={{ flexDirection: "row", alignItems: "center" }}
               onPress={submitProfileChanges}
@@ -559,6 +568,7 @@ export default (): React.ReactElement => {
               <Text category="h6">Group Preferences</Text>
             </Layout>
             <TouchableOpacity
+              testID="toggle-edit-preferences"
               disabled={user.lowerAge.toString().length===0||user.upperAge.toString().length===0||user.maxDistance.toString().length===0}
               style={{ flexDirection: "row", alignItems: "center" }}
               onPress={submitPreferenceChanges}>
