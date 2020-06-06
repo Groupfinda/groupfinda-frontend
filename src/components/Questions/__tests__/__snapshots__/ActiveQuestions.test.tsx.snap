@@ -1,0 +1,2293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders UI correctly 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <RCTScrollView
+    style={
+      Object {
+        "backgroundColor": "#EDF1F7",
+      }
+    }
+  >
+    <View>
+      <View
+        appearance="default"
+        level="1"
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#FFFFFF",
+            },
+            Object {
+              "backgroundColor": "#EDF1F7",
+              "padding": 10,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={false}
+          isTVSelectable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#006ECB",
+              "borderColor": "#E4E9F2",
+              "borderRadius": 4,
+              "borderWidth": 1,
+              "opacity": 1,
+              "overflow": "hidden",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": undefined,
+                "height": 0,
+              }
+            }
+          />
+          <View
+            style={
+              Object {
+                "paddingHorizontal": 24,
+                "paddingVertical": 16,
+              }
+            }
+          >
+            <View
+              appearance="default"
+              level="1"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#FFFFFF",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                appearance="default"
+                category="h6"
+                status="control"
+                style={
+                  Array [
+                    Object {
+                      "color": "#FFFFFF",
+                      "fontFamily": "System",
+                      "fontSize": 18,
+                      "fontWeight": "800",
+                    },
+                    Object {
+                      "backgroundColor": "#006ECB",
+                    },
+                  ]
+                }
+              >
+                7
+                . 
+                Dummy Question
+              </Text>
+            </View>
+          </View>
+          <View
+            appearance="default"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "#EDF1F7",
+                  "height": 1,
+                },
+                undefined,
+              ]
+            }
+          />
+          <View
+            appearance="default"
+            level="1"
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "#FFFFFF",
+                },
+                Object {
+                  "backgroundColor": "#CBF5FE",
+                },
+              ]
+            }
+          >
+            <View
+              appearance="default"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#EDF1F7",
+                    "height": 1,
+                  },
+                  undefined,
+                ]
+              }
+            />
+            <View
+              accessible={true}
+              focusable={true}
+              isTVSelectable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#FFFFFF",
+                  "flexDirection": "row",
+                  "opacity": 1,
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 12,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "transform": Array [
+                      Object {
+                        "scale": 1,
+                      },
+                    ],
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight={20}
+                  bbWidth={20}
+                  fill="white"
+                  focusable={false}
+                  height={20}
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      undefined,
+                      Object {
+                        "opacity": 1,
+                      },
+                      Object {
+                        "flex": 0,
+                        "height": 20,
+                        "width": 20,
+                      },
+                    ]
+                  }
+                  vbHeight={24}
+                  vbWidth={24}
+                  width={20}
+                >
+                  <RNSVGGroup
+                    fill={4294967295}
+                    fillOpacity={1}
+                    fillRule={1}
+                    font={Object {}}
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    opacity={1}
+                    originX={0}
+                    originY={0}
+                    propList={
+                      Array [
+                        "fill",
+                      ]
+                    }
+                    rotation={0}
+                    scaleX={1}
+                    scaleY={1}
+                    skewX={0}
+                    skewY={0}
+                    stroke={null}
+                    strokeDasharray={null}
+                    strokeDashoffset={null}
+                    strokeLinecap={0}
+                    strokeLinejoin={0}
+                    strokeMiterlimit={4}
+                    strokeOpacity={1}
+                    strokeWidth={1}
+                    vectorEffect={0}
+                    x={0}
+                    y={0}
+                  >
+                    <RNSVGGroup
+                      fill={4278190080}
+                      fillOpacity={1}
+                      fillRule={1}
+                      font={Object {}}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      opacity={1}
+                      originX={0}
+                      originY={0}
+                      propList={Array []}
+                      rotation={0}
+                      scaleX={1}
+                      scaleY={1}
+                      skewX={0}
+                      skewY={0}
+                      stroke={null}
+                      strokeDasharray={null}
+                      strokeDashoffset={null}
+                      strokeLinecap={0}
+                      strokeLinejoin={0}
+                      strokeMiterlimit={4}
+                      strokeOpacity={1}
+                      strokeWidth={1}
+                      vectorEffect={0}
+                      x={0}
+                      y={0}
+                    >
+                      <RNSVGGroup
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        font={Object {}}
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                          ]
+                        }
+                        opacity={1}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        x={0}
+                        y={0}
+                      >
+                        <RNSVGRect
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          height="24"
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={0}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          width="24"
+                          x={0}
+                          y={0}
+                        />
+                        <RNSVGPath
+                          d="M9.86 18a1 1 0 0 1-.73-.32l-4.86-5.17a1 1 0 1 1 1.46-1.37l4.12 4.39 8.41-9.2a1 1 0 1 1 1.48 1.34l-9.14 10a1 1 0 0 1-.73.33z"
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={1}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          x={0}
+                          y={0}
+                        />
+                      </RNSVGGroup>
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </View>
+              <Text
+                appearance="default"
+                category="p1"
+                status="basic"
+                style={
+                  Array [
+                    Object {
+                      "color": "#222B45",
+                      "fontFamily": "System",
+                      "fontSize": 15,
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "color": "#0052AA",
+                    },
+                  ]
+                }
+              >
+                Accurate
+              </Text>
+            </View>
+            <View
+              appearance="default"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#EDF1F7",
+                    "height": 1,
+                  },
+                  undefined,
+                ]
+              }
+            />
+            <View
+              accessible={true}
+              focusable={true}
+              isTVSelectable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#FFFFFF",
+                  "flexDirection": "row",
+                  "opacity": 1,
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 12,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "transform": Array [
+                      Object {
+                        "scale": 1,
+                      },
+                    ],
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight={20}
+                  bbWidth={20}
+                  fill="white"
+                  focusable={false}
+                  height={20}
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      undefined,
+                      Object {
+                        "opacity": 1,
+                      },
+                      Object {
+                        "flex": 0,
+                        "height": 20,
+                        "width": 20,
+                      },
+                    ]
+                  }
+                  vbHeight={24}
+                  vbWidth={24}
+                  width={20}
+                >
+                  <RNSVGGroup
+                    fill={4294967295}
+                    fillOpacity={1}
+                    fillRule={1}
+                    font={Object {}}
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    opacity={1}
+                    originX={0}
+                    originY={0}
+                    propList={
+                      Array [
+                        "fill",
+                      ]
+                    }
+                    rotation={0}
+                    scaleX={1}
+                    scaleY={1}
+                    skewX={0}
+                    skewY={0}
+                    stroke={null}
+                    strokeDasharray={null}
+                    strokeDashoffset={null}
+                    strokeLinecap={0}
+                    strokeLinejoin={0}
+                    strokeMiterlimit={4}
+                    strokeOpacity={1}
+                    strokeWidth={1}
+                    vectorEffect={0}
+                    x={0}
+                    y={0}
+                  >
+                    <RNSVGGroup
+                      fill={4278190080}
+                      fillOpacity={1}
+                      fillRule={1}
+                      font={Object {}}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      opacity={1}
+                      originX={0}
+                      originY={0}
+                      propList={Array []}
+                      rotation={0}
+                      scaleX={1}
+                      scaleY={1}
+                      skewX={0}
+                      skewY={0}
+                      stroke={null}
+                      strokeDasharray={null}
+                      strokeDashoffset={null}
+                      strokeLinecap={0}
+                      strokeLinejoin={0}
+                      strokeMiterlimit={4}
+                      strokeOpacity={1}
+                      strokeWidth={1}
+                      vectorEffect={0}
+                      x={0}
+                      y={0}
+                    >
+                      <RNSVGGroup
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        font={Object {}}
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                          ]
+                        }
+                        opacity={1}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        x={0}
+                        y={0}
+                      >
+                        <RNSVGRect
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          height="24"
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={0}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          width="24"
+                          x={0}
+                          y={0}
+                        />
+                        <RNSVGPath
+                          d="M9.86 18a1 1 0 0 1-.73-.32l-4.86-5.17a1 1 0 1 1 1.46-1.37l4.12 4.39 8.41-9.2a1 1 0 1 1 1.48 1.34l-9.14 10a1 1 0 0 1-.73.33z"
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={1}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          x={0}
+                          y={0}
+                        />
+                      </RNSVGGroup>
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </View>
+              <Text
+                appearance="default"
+                category="p1"
+                status="basic"
+                style={
+                  Array [
+                    Object {
+                      "color": "#222B45",
+                      "fontFamily": "System",
+                      "fontSize": 15,
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "color": "#0052AA",
+                    },
+                  ]
+                }
+              >
+                Slightly Accurate
+              </Text>
+            </View>
+            <View
+              appearance="default"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#EDF1F7",
+                    "height": 1,
+                  },
+                  undefined,
+                ]
+              }
+            />
+            <View
+              accessible={true}
+              focusable={true}
+              isTVSelectable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#FFFFFF",
+                  "flexDirection": "row",
+                  "opacity": 1,
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 12,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "transform": Array [
+                      Object {
+                        "scale": 1,
+                      },
+                    ],
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight={20}
+                  bbWidth={20}
+                  fill="white"
+                  focusable={false}
+                  height={20}
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      undefined,
+                      Object {
+                        "opacity": 1,
+                      },
+                      Object {
+                        "flex": 0,
+                        "height": 20,
+                        "width": 20,
+                      },
+                    ]
+                  }
+                  vbHeight={24}
+                  vbWidth={24}
+                  width={20}
+                >
+                  <RNSVGGroup
+                    fill={4294967295}
+                    fillOpacity={1}
+                    fillRule={1}
+                    font={Object {}}
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    opacity={1}
+                    originX={0}
+                    originY={0}
+                    propList={
+                      Array [
+                        "fill",
+                      ]
+                    }
+                    rotation={0}
+                    scaleX={1}
+                    scaleY={1}
+                    skewX={0}
+                    skewY={0}
+                    stroke={null}
+                    strokeDasharray={null}
+                    strokeDashoffset={null}
+                    strokeLinecap={0}
+                    strokeLinejoin={0}
+                    strokeMiterlimit={4}
+                    strokeOpacity={1}
+                    strokeWidth={1}
+                    vectorEffect={0}
+                    x={0}
+                    y={0}
+                  >
+                    <RNSVGGroup
+                      fill={4278190080}
+                      fillOpacity={1}
+                      fillRule={1}
+                      font={Object {}}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      opacity={1}
+                      originX={0}
+                      originY={0}
+                      propList={Array []}
+                      rotation={0}
+                      scaleX={1}
+                      scaleY={1}
+                      skewX={0}
+                      skewY={0}
+                      stroke={null}
+                      strokeDasharray={null}
+                      strokeDashoffset={null}
+                      strokeLinecap={0}
+                      strokeLinejoin={0}
+                      strokeMiterlimit={4}
+                      strokeOpacity={1}
+                      strokeWidth={1}
+                      vectorEffect={0}
+                      x={0}
+                      y={0}
+                    >
+                      <RNSVGGroup
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        font={Object {}}
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                          ]
+                        }
+                        opacity={1}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        x={0}
+                        y={0}
+                      >
+                        <RNSVGRect
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          height="24"
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={0}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          width="24"
+                          x={0}
+                          y={0}
+                        />
+                        <RNSVGPath
+                          d="M9.86 18a1 1 0 0 1-.73-.32l-4.86-5.17a1 1 0 1 1 1.46-1.37l4.12 4.39 8.41-9.2a1 1 0 1 1 1.48 1.34l-9.14 10a1 1 0 0 1-.73.33z"
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={1}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          x={0}
+                          y={0}
+                        />
+                      </RNSVGGroup>
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </View>
+              <Text
+                appearance="default"
+                category="p1"
+                status="basic"
+                style={
+                  Array [
+                    Object {
+                      "color": "#222B45",
+                      "fontFamily": "System",
+                      "fontSize": 15,
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "color": "#0052AA",
+                    },
+                  ]
+                }
+              >
+                Neutral
+              </Text>
+            </View>
+            <View
+              appearance="default"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#EDF1F7",
+                    "height": 1,
+                  },
+                  undefined,
+                ]
+              }
+            />
+            <View
+              accessible={true}
+              focusable={true}
+              isTVSelectable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#FFFFFF",
+                  "flexDirection": "row",
+                  "opacity": 1,
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 12,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "transform": Array [
+                      Object {
+                        "scale": 1,
+                      },
+                    ],
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight={20}
+                  bbWidth={20}
+                  fill="white"
+                  focusable={false}
+                  height={20}
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      undefined,
+                      Object {
+                        "opacity": 1,
+                      },
+                      Object {
+                        "flex": 0,
+                        "height": 20,
+                        "width": 20,
+                      },
+                    ]
+                  }
+                  vbHeight={24}
+                  vbWidth={24}
+                  width={20}
+                >
+                  <RNSVGGroup
+                    fill={4294967295}
+                    fillOpacity={1}
+                    fillRule={1}
+                    font={Object {}}
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    opacity={1}
+                    originX={0}
+                    originY={0}
+                    propList={
+                      Array [
+                        "fill",
+                      ]
+                    }
+                    rotation={0}
+                    scaleX={1}
+                    scaleY={1}
+                    skewX={0}
+                    skewY={0}
+                    stroke={null}
+                    strokeDasharray={null}
+                    strokeDashoffset={null}
+                    strokeLinecap={0}
+                    strokeLinejoin={0}
+                    strokeMiterlimit={4}
+                    strokeOpacity={1}
+                    strokeWidth={1}
+                    vectorEffect={0}
+                    x={0}
+                    y={0}
+                  >
+                    <RNSVGGroup
+                      fill={4278190080}
+                      fillOpacity={1}
+                      fillRule={1}
+                      font={Object {}}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      opacity={1}
+                      originX={0}
+                      originY={0}
+                      propList={Array []}
+                      rotation={0}
+                      scaleX={1}
+                      scaleY={1}
+                      skewX={0}
+                      skewY={0}
+                      stroke={null}
+                      strokeDasharray={null}
+                      strokeDashoffset={null}
+                      strokeLinecap={0}
+                      strokeLinejoin={0}
+                      strokeMiterlimit={4}
+                      strokeOpacity={1}
+                      strokeWidth={1}
+                      vectorEffect={0}
+                      x={0}
+                      y={0}
+                    >
+                      <RNSVGGroup
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        font={Object {}}
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                          ]
+                        }
+                        opacity={1}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        x={0}
+                        y={0}
+                      >
+                        <RNSVGRect
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          height="24"
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={0}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          width="24"
+                          x={0}
+                          y={0}
+                        />
+                        <RNSVGPath
+                          d="M9.86 18a1 1 0 0 1-.73-.32l-4.86-5.17a1 1 0 1 1 1.46-1.37l4.12 4.39 8.41-9.2a1 1 0 1 1 1.48 1.34l-9.14 10a1 1 0 0 1-.73.33z"
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={1}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          x={0}
+                          y={0}
+                        />
+                      </RNSVGGroup>
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </View>
+              <Text
+                appearance="default"
+                category="p1"
+                status="basic"
+                style={
+                  Array [
+                    Object {
+                      "color": "#222B45",
+                      "fontFamily": "System",
+                      "fontSize": 15,
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "color": "#0052AA",
+                    },
+                  ]
+                }
+              >
+                Slightly Inaccurate
+              </Text>
+            </View>
+            <View
+              appearance="default"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#EDF1F7",
+                    "height": 1,
+                  },
+                  undefined,
+                ]
+              }
+            />
+            <View
+              accessible={true}
+              focusable={true}
+              isTVSelectable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#FFFFFF",
+                  "flexDirection": "row",
+                  "opacity": 1,
+                  "paddingHorizontal": 8,
+                  "paddingVertical": 12,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "transform": Array [
+                      Object {
+                        "scale": 1,
+                      },
+                    ],
+                  }
+                }
+              >
+                <RNSVGSvgView
+                  align="xMidYMid"
+                  bbHeight={20}
+                  bbWidth={20}
+                  fill="white"
+                  focusable={false}
+                  height={20}
+                  meetOrSlice={0}
+                  minX={0}
+                  minY={0}
+                  style={
+                    Array [
+                      Object {
+                        "backgroundColor": "transparent",
+                        "borderWidth": 0,
+                      },
+                      undefined,
+                      Object {
+                        "opacity": 1,
+                      },
+                      Object {
+                        "flex": 0,
+                        "height": 20,
+                        "width": 20,
+                      },
+                    ]
+                  }
+                  vbHeight={24}
+                  vbWidth={24}
+                  width={20}
+                >
+                  <RNSVGGroup
+                    fill={4294967295}
+                    fillOpacity={1}
+                    fillRule={1}
+                    font={Object {}}
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    opacity={1}
+                    originX={0}
+                    originY={0}
+                    propList={
+                      Array [
+                        "fill",
+                      ]
+                    }
+                    rotation={0}
+                    scaleX={1}
+                    scaleY={1}
+                    skewX={0}
+                    skewY={0}
+                    stroke={null}
+                    strokeDasharray={null}
+                    strokeDashoffset={null}
+                    strokeLinecap={0}
+                    strokeLinejoin={0}
+                    strokeMiterlimit={4}
+                    strokeOpacity={1}
+                    strokeWidth={1}
+                    vectorEffect={0}
+                    x={0}
+                    y={0}
+                  >
+                    <RNSVGGroup
+                      fill={4278190080}
+                      fillOpacity={1}
+                      fillRule={1}
+                      font={Object {}}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      opacity={1}
+                      originX={0}
+                      originY={0}
+                      propList={Array []}
+                      rotation={0}
+                      scaleX={1}
+                      scaleY={1}
+                      skewX={0}
+                      skewY={0}
+                      stroke={null}
+                      strokeDasharray={null}
+                      strokeDashoffset={null}
+                      strokeLinecap={0}
+                      strokeLinejoin={0}
+                      strokeMiterlimit={4}
+                      strokeOpacity={1}
+                      strokeWidth={1}
+                      vectorEffect={0}
+                      x={0}
+                      y={0}
+                    >
+                      <RNSVGGroup
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        font={Object {}}
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                          ]
+                        }
+                        opacity={1}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        x={0}
+                        y={0}
+                      >
+                        <RNSVGRect
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          height="24"
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={0}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          width="24"
+                          x={0}
+                          y={0}
+                        />
+                        <RNSVGPath
+                          d="M9.86 18a1 1 0 0 1-.73-.32l-4.86-5.17a1 1 0 1 1 1.46-1.37l4.12 4.39 8.41-9.2a1 1 0 1 1 1.48 1.34l-9.14 10a1 1 0 0 1-.73.33z"
+                          fill={4278190080}
+                          fillOpacity={1}
+                          fillRule={1}
+                          matrix={
+                            Array [
+                              1,
+                              0,
+                              0,
+                              1,
+                              0,
+                              0,
+                            ]
+                          }
+                          opacity={1}
+                          originX={0}
+                          originY={0}
+                          propList={Array []}
+                          rotation={0}
+                          scaleX={1}
+                          scaleY={1}
+                          skewX={0}
+                          skewY={0}
+                          stroke={null}
+                          strokeDasharray={null}
+                          strokeDashoffset={null}
+                          strokeLinecap={0}
+                          strokeLinejoin={0}
+                          strokeMiterlimit={4}
+                          strokeOpacity={1}
+                          strokeWidth={1}
+                          vectorEffect={0}
+                          x={0}
+                          y={0}
+                        />
+                      </RNSVGGroup>
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGSvgView>
+              </View>
+              <Text
+                appearance="default"
+                category="p1"
+                status="basic"
+                style={
+                  Array [
+                    Object {
+                      "color": "#222B45",
+                      "fontFamily": "System",
+                      "fontSize": 15,
+                      "fontWeight": "400",
+                    },
+                    Object {
+                      "color": "#0052AA",
+                    },
+                  ]
+                }
+              >
+                Inaccurate
+              </Text>
+            </View>
+            <View
+              appearance="default"
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#EDF1F7",
+                    "height": 1,
+                  },
+                  undefined,
+                ]
+              }
+            />
+          </View>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          isTVSelectable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "rgba(143, 155, 179, 0.24)",
+              "borderColor": "rgba(143, 155, 179, 0.24)",
+              "borderRadius": 4,
+              "borderWidth": 1,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginTop": 15,
+              "minHeight": 40,
+              "minWidth": 40,
+              "opacity": 1,
+              "paddingHorizontal": 10,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View />
+          <Text
+            appearance="default"
+            category="p1"
+            style={
+              Array [
+                Object {
+                  "color": "#222B45",
+                  "fontFamily": "System",
+                  "fontSize": 15,
+                  "fontWeight": "400",
+                },
+                Object {
+                  "color": "rgba(143, 155, 179, 0.48)",
+                  "fontFamily": "System",
+                  "fontSize": 14,
+                  "fontWeight": "bold",
+                  "marginHorizontal": 10,
+                },
+              ]
+            }
+          >
+            Save Answer
+          </Text>
+        </View>
+      </View>
+      <View
+        appearance="default"
+        level="1"
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#FFFFFF",
+            },
+            Object {
+              "backgroundColor": "transparent",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "padding": 15,
+            },
+          ]
+        }
+      >
+        <View
+          appearance="default"
+          level="1"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+              },
+              undefined,
+            ]
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            isTVSelectable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "rgba(143, 155, 179, 0.24)",
+                "borderColor": "rgba(143, 155, 179, 0.24)",
+                "borderRadius": 4,
+                "borderWidth": 1,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "minHeight": 40,
+                "minWidth": 40,
+                "opacity": 1,
+                "paddingHorizontal": 10,
+                "paddingVertical": 12,
+                "width": 100,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "transform": Array [
+                    Object {
+                      "scale": 1,
+                    },
+                  ],
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={18}
+                bbWidth={18}
+                fill="white"
+                focusable={false}
+                height={18}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    undefined,
+                    Object {
+                      "opacity": 1,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 18,
+                      "width": 18,
+                    },
+                  ]
+                }
+                vbHeight={24}
+                vbWidth={24}
+                width={18}
+              >
+                <RNSVGGroup
+                  fill={4294967295}
+                  fillOpacity={1}
+                  fillRule={1}
+                  font={Object {}}
+                  matrix={
+                    Array [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                    ]
+                  }
+                  opacity={1}
+                  originX={0}
+                  originY={0}
+                  propList={
+                    Array [
+                      "fill",
+                    ]
+                  }
+                  rotation={0}
+                  scaleX={1}
+                  scaleY={1}
+                  skewX={0}
+                  skewY={0}
+                  stroke={null}
+                  strokeDasharray={null}
+                  strokeDashoffset={null}
+                  strokeLinecap={0}
+                  strokeLinejoin={0}
+                  strokeMiterlimit={4}
+                  strokeOpacity={1}
+                  strokeWidth={1}
+                  vectorEffect={0}
+                  x={0}
+                  y={0}
+                >
+                  <RNSVGGroup
+                    fill={4278190080}
+                    fillOpacity={1}
+                    fillRule={1}
+                    font={Object {}}
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    opacity={1}
+                    originX={0}
+                    originY={0}
+                    propList={Array []}
+                    rotation={0}
+                    scaleX={1}
+                    scaleY={1}
+                    skewX={0}
+                    skewY={0}
+                    stroke={null}
+                    strokeDasharray={null}
+                    strokeDashoffset={null}
+                    strokeLinecap={0}
+                    strokeLinejoin={0}
+                    strokeMiterlimit={4}
+                    strokeOpacity={1}
+                    strokeWidth={1}
+                    vectorEffect={0}
+                    x={0}
+                    y={0}
+                  >
+                    <RNSVGGroup
+                      fill={4278190080}
+                      fillOpacity={1}
+                      fillRule={1}
+                      font={Object {}}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      opacity={1}
+                      originX={0}
+                      originY={0}
+                      propList={Array []}
+                      rotation={0}
+                      scaleX={1}
+                      scaleY={1}
+                      skewX={0}
+                      skewY={0}
+                      stroke={null}
+                      strokeDasharray={null}
+                      strokeDashoffset={null}
+                      strokeLinecap={0}
+                      strokeLinejoin={0}
+                      strokeMiterlimit={4}
+                      strokeOpacity={1}
+                      strokeWidth={1}
+                      vectorEffect={0}
+                      x={0}
+                      y={0}
+                    >
+                      <RNSVGRect
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        height="24"
+                        matrix={
+                          Array [
+                            6.123233995736766e-17,
+                            1,
+                            -1,
+                            6.123233995736766e-17,
+                            24,
+                            0,
+                          ]
+                        }
+                        opacity={0}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        width="24"
+                        x={0}
+                        y={0}
+                      />
+                      <RNSVGPath
+                        d="M13.83 19a1 1 0 0 1-.78-.37l-4.83-6a1 1 0 0 1 0-1.27l5-6a1 1 0 0 1 1.54 1.28L10.29 12l4.32 5.36a1 1 0 0 1-.78 1.64z"
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                          ]
+                        }
+                        opacity={1}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        x={0}
+                        y={0}
+                      />
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+            <Text
+              appearance="default"
+              category="p1"
+              style={
+                Array [
+                  Object {
+                    "color": "#222B45",
+                    "fontFamily": "System",
+                    "fontSize": 15,
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "color": "rgba(143, 155, 179, 0.48)",
+                    "fontFamily": "System",
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "marginHorizontal": 10,
+                  },
+                ]
+              }
+            >
+              Previous
+            </Text>
+          </View>
+        </View>
+        <View
+          appearance="default"
+          level="2"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#F7F9FC",
+              },
+              Object {
+                "backgroundColor": "#008EED",
+                "borderRadius": 8,
+                "padding": 10,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+          <Text
+            appearance="alternative"
+            category="p1"
+            status="control"
+            style={
+              Array [
+                Object {
+                  "color": "#FFFFFF",
+                  "fontFamily": "System",
+                  "fontSize": 15,
+                  "fontWeight": "400",
+                },
+                undefined,
+              ]
+            }
+          >
+            1
+            /
+            294
+          </Text>
+        </View>
+        <View
+          appearance="default"
+          level="3"
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#EDF1F7",
+              },
+              undefined,
+            ]
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            isTVSelectable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#008EED",
+                "borderColor": "#008EED",
+                "borderRadius": 4,
+                "borderWidth": 1,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "minHeight": 40,
+                "minWidth": 40,
+                "opacity": 1,
+                "paddingHorizontal": 10,
+                "paddingVertical": 12,
+                "width": 100,
+              }
+            }
+          >
+            <Text
+              appearance="default"
+              category="p1"
+              style={
+                Array [
+                  Object {
+                    "color": "#222B45",
+                    "fontFamily": "System",
+                    "fontSize": 15,
+                    "fontWeight": "400",
+                  },
+                  Object {
+                    "color": "#FFFFFF",
+                    "fontFamily": "System",
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "marginHorizontal": 10,
+                  },
+                ]
+              }
+            >
+              Skip
+            </Text>
+            <View
+              style={
+                Object {
+                  "transform": Array [
+                    Object {
+                      "scale": 1,
+                    },
+                  ],
+                }
+              }
+            >
+              <RNSVGSvgView
+                align="xMidYMid"
+                bbHeight={18}
+                bbWidth={18}
+                fill="white"
+                focusable={false}
+                height={18}
+                meetOrSlice={0}
+                minX={0}
+                minY={0}
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "borderWidth": 0,
+                    },
+                    undefined,
+                    Object {
+                      "opacity": 1,
+                    },
+                    Object {
+                      "flex": 0,
+                      "height": 18,
+                      "width": 18,
+                    },
+                  ]
+                }
+                vbHeight={24}
+                vbWidth={24}
+                width={18}
+              >
+                <RNSVGGroup
+                  fill={4294967295}
+                  fillOpacity={1}
+                  fillRule={1}
+                  font={Object {}}
+                  matrix={
+                    Array [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0,
+                    ]
+                  }
+                  opacity={1}
+                  originX={0}
+                  originY={0}
+                  propList={
+                    Array [
+                      "fill",
+                    ]
+                  }
+                  rotation={0}
+                  scaleX={1}
+                  scaleY={1}
+                  skewX={0}
+                  skewY={0}
+                  stroke={null}
+                  strokeDasharray={null}
+                  strokeDashoffset={null}
+                  strokeLinecap={0}
+                  strokeLinejoin={0}
+                  strokeMiterlimit={4}
+                  strokeOpacity={1}
+                  strokeWidth={1}
+                  vectorEffect={0}
+                  x={0}
+                  y={0}
+                >
+                  <RNSVGGroup
+                    fill={4278190080}
+                    fillOpacity={1}
+                    fillRule={1}
+                    font={Object {}}
+                    matrix={
+                      Array [
+                        1,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                      ]
+                    }
+                    opacity={1}
+                    originX={0}
+                    originY={0}
+                    propList={Array []}
+                    rotation={0}
+                    scaleX={1}
+                    scaleY={1}
+                    skewX={0}
+                    skewY={0}
+                    stroke={null}
+                    strokeDasharray={null}
+                    strokeDashoffset={null}
+                    strokeLinecap={0}
+                    strokeLinejoin={0}
+                    strokeMiterlimit={4}
+                    strokeOpacity={1}
+                    strokeWidth={1}
+                    vectorEffect={0}
+                    x={0}
+                    y={0}
+                  >
+                    <RNSVGGroup
+                      fill={4278190080}
+                      fillOpacity={1}
+                      fillRule={1}
+                      font={Object {}}
+                      matrix={
+                        Array [
+                          1,
+                          0,
+                          0,
+                          1,
+                          0,
+                          0,
+                        ]
+                      }
+                      opacity={1}
+                      originX={0}
+                      originY={0}
+                      propList={Array []}
+                      rotation={0}
+                      scaleX={1}
+                      scaleY={1}
+                      skewX={0}
+                      skewY={0}
+                      stroke={null}
+                      strokeDasharray={null}
+                      strokeDashoffset={null}
+                      strokeLinecap={0}
+                      strokeLinejoin={0}
+                      strokeMiterlimit={4}
+                      strokeOpacity={1}
+                      strokeWidth={1}
+                      vectorEffect={0}
+                      x={0}
+                      y={0}
+                    >
+                      <RNSVGRect
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        height="24"
+                        matrix={
+                          Array [
+                            6.123233995736766e-17,
+                            -1,
+                            1,
+                            6.123233995736766e-17,
+                            0,
+                            24,
+                          ]
+                        }
+                        opacity={0}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        width="24"
+                        x={0}
+                        y={0}
+                      />
+                      <RNSVGPath
+                        d="M10 19a1 1 0 0 1-.64-.23 1 1 0 0 1-.13-1.41L13.71 12 9.39 6.63a1 1 0 0 1 .15-1.41 1 1 0 0 1 1.46.15l4.83 6a1 1 0 0 1 0 1.27l-5 6A1 1 0 0 1 10 19z"
+                        fill={4278190080}
+                        fillOpacity={1}
+                        fillRule={1}
+                        matrix={
+                          Array [
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            0,
+                          ]
+                        }
+                        opacity={1}
+                        originX={0}
+                        originY={0}
+                        propList={Array []}
+                        rotation={0}
+                        scaleX={1}
+                        scaleY={1}
+                        skewX={0}
+                        skewY={0}
+                        stroke={null}
+                        strokeDasharray={null}
+                        strokeDashoffset={null}
+                        strokeLinecap={0}
+                        strokeLinejoin={0}
+                        strokeMiterlimit={4}
+                        strokeOpacity={1}
+                        strokeWidth={1}
+                        vectorEffect={0}
+                        x={0}
+                        y={0}
+                      />
+                    </RNSVGGroup>
+                  </RNSVGGroup>
+                </RNSVGGroup>
+              </RNSVGSvgView>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
