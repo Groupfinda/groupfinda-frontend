@@ -106,6 +106,7 @@ const FormsHandler: React.FC<Props> = (props) => {
               modifyVariable={modifyVariable}
               nextPage={nextPage}
               prevPage={prevPage}
+              validateFieldLength={validateFieldLength}
             />
           )}
           {page === 5 && (

@@ -59,7 +59,7 @@ const EventLocationForm: React.FC<FormPropsWithValidate> = (props) => {
           ref={(ref) => {
             references.secondInput = ref;
           }}
-          status={inputError.description ? "danger" : "basic"}
+          status={inputError.postalCode ? "danger" : "basic"}
           onChange={() => resetInputError("postalCode")}
           autoCorrect={false}
           autoCapitalize="none"
