@@ -9,6 +9,8 @@ import EventCategoryForm from "./EventCategoryForm";
 import SubmitForm from "./SubmitForm";
 import { FormVariablesType } from "./types";
 import { CustomError } from "../../../hooks";
+import { useApolloClient } from "@apollo/react-hooks";
+import { ME } from "../../../graphql/queries";
 
 type Props = {};
 
@@ -31,6 +33,10 @@ const FormsHandler: React.FC<Props> = (props) => {
   const [variables, setVariables] = useState<FormVariablesType>(
     initialVariables
   );
+
+  const client = useApolloClient();
+  const userQuery = client.readQuery({ query: ME });
+  const role = userQuery.me.role;
 
   const nextPage = () => {
     setPage(page + 1);
@@ -107,6 +113,7 @@ const FormsHandler: React.FC<Props> = (props) => {
               variables={variables}
               modifyVariable={modifyVariable}
               prevPage={prevPage}
+              role={role}
             />
           )}
         </Layout>

@@ -14,7 +14,13 @@ type BackActionType = {
   onPress: () => void;
 };
 const BackAction: React.FC<BackActionType> = ({ onPress }) => {
-  return <TopNavigationAction onPress={onPress} icon={BackIcon} />;
+  return (
+    <TopNavigationAction
+      testID="back-button"
+      onPress={onPress}
+      icon={BackIcon}
+    />
+  );
 };
 
 export default () => {

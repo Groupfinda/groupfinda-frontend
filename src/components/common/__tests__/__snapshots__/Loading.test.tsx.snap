@@ -1,0 +1,777 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders UI correctly on size large 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Modal
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={true}
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,0.5)",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Size {
+            "height": 28,
+            "width": 28,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 28,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 28,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                undefined,
+                Size {
+                  "height": 14,
+                  "width": 28,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 28,
+                  "transform": Array [
+                    Object {
+                      "rotate": "-165deg",
+                    },
+                  ],
+                  "width": 28,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 14,
+                      "width": 28,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#008EED",
+                        "borderRadius": 14,
+                        "borderWidth": 3.9,
+                        "height": 28,
+                        "width": 28,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 28,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 28,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "top": 14,
+                },
+                Size {
+                  "height": 14,
+                  "width": 28,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 28,
+                  "transform": Array [
+                    Object {
+                      "translateY": -14,
+                    },
+                    Object {
+                      "rotate": "345deg",
+                    },
+                  ],
+                  "width": 28,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 14,
+                      "width": 28,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#008EED",
+                        "borderRadius": 14,
+                        "borderWidth": 3.9,
+                        "height": 28,
+                        "width": 28,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </Modal>
+</View>
+`;
+
+exports[`renders UI correctly on status danger 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Modal
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={true}
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,0.5)",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Size {
+            "height": 24,
+            "width": 24,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 24,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                undefined,
+                Size {
+                  "height": 12,
+                  "width": 24,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 24,
+                  "transform": Array [
+                    Object {
+                      "rotate": "-165deg",
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 12,
+                      "width": 24,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#FF2B2B",
+                        "borderRadius": 12,
+                        "borderWidth": 3.4,
+                        "height": 24,
+                        "width": 24,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 24,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "top": 12,
+                },
+                Size {
+                  "height": 12,
+                  "width": 24,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 24,
+                  "transform": Array [
+                    Object {
+                      "translateY": -12,
+                    },
+                    Object {
+                      "rotate": "345deg",
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 12,
+                      "width": 24,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#FF2B2B",
+                        "borderRadius": 12,
+                        "borderWidth": 3.4,
+                        "height": 24,
+                        "width": 24,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </Modal>
+</View>
+`;
+
+exports[`renders UI correctly on visible false 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Modal
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={false}
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,0.5)",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Size {
+            "height": 24,
+            "width": 24,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 24,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                undefined,
+                Size {
+                  "height": 12,
+                  "width": 24,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 24,
+                  "transform": Array [
+                    Object {
+                      "rotate": "-165deg",
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 12,
+                      "width": 24,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#008EED",
+                        "borderRadius": 12,
+                        "borderWidth": 3.4,
+                        "height": 24,
+                        "width": 24,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 24,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "top": 12,
+                },
+                Size {
+                  "height": 12,
+                  "width": 24,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 24,
+                  "transform": Array [
+                    Object {
+                      "translateY": -12,
+                    },
+                    Object {
+                      "rotate": "345deg",
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 12,
+                      "width": 24,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#008EED",
+                        "borderRadius": 12,
+                        "borderWidth": 3.4,
+                        "height": 24,
+                        "width": 24,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </Modal>
+</View>
+`;
+
+exports[`renders UI correctly on visible true 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Modal
+    hardwareAccelerated={false}
+    transparent={true}
+    visible={true}
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(0,0,0,0.5)",
+          "flex": 1,
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        style={
+          Size {
+            "height": 24,
+            "width": 24,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 24,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                undefined,
+                Size {
+                  "height": 12,
+                  "width": 24,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 24,
+                  "transform": Array [
+                    Object {
+                      "rotate": "-165deg",
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 12,
+                      "width": 24,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#008EED",
+                        "borderRadius": 12,
+                        "borderWidth": 3.4,
+                        "height": 24,
+                        "width": 24,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "bottom": 0,
+              "height": 24,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+              "transform": Array [
+                Object {
+                  "rotate": "45deg",
+                },
+              ],
+              "width": 24,
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "overflow": "hidden",
+                },
+                Object {
+                  "top": 12,
+                },
+                Size {
+                  "height": 12,
+                  "width": 24,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "height": 24,
+                  "transform": Array [
+                    Object {
+                      "translateY": -12,
+                    },
+                    Object {
+                      "rotate": "345deg",
+                    },
+                  ],
+                  "width": 24,
+                }
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Size {
+                      "height": 12,
+                      "width": 24,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "borderColor": "#008EED",
+                        "borderRadius": 12,
+                        "borderWidth": 3.4,
+                        "height": 24,
+                        "width": 24,
+                      },
+                      undefined,
+                    ]
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </Modal>
+</View>
+`;

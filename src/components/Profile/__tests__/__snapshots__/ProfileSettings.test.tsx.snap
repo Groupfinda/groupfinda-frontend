@@ -67,6 +67,7 @@ exports[`renders error UI correctly 1`] = `
                 "opacity": 1,
               }
             }
+            testID="back-button"
           >
             <View
               style={
@@ -429,6 +430,7 @@ exports[`renders loaded UI correctly 1`] = `
                 "opacity": 1,
               }
             }
+            testID="back-button"
           >
             <View
               style={

@@ -37,8 +37,13 @@ function InfoField(props: {
   );
 }
 
-const SubmitForm: React.FC<FormProps> = (props) => {
-  const { variables, modifyVariable, prevPage } = props;
+type Props = {
+  role: string;
+};
+
+type SubmitFormProps = Props & FormProps;
+const SubmitForm: React.FC<SubmitFormProps> = (props) => {
+  const { variables, modifyVariable, prevPage, role } = props;
   const [tooltip, setTooltip] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -156,6 +161,7 @@ const SubmitForm: React.FC<FormProps> = (props) => {
 
         <Layout style={styles.toggle}>
           <Toggle
+            disabled={role === "USER"}
             status="primary"
             checked={!privateStatus}
             onChange={(checked) => modifyVariable("privateStatus")(!checked)}
