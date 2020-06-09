@@ -19,6 +19,7 @@ import { useError } from "../../../hooks";
 import { Loading } from "../../common";
 import { useNavigation } from "@react-navigation/native";
 import Carousel from "../../common/Carousel";
+import { formatDateTime } from "./EventDateForm";
 
 function InfoField(props: {
   text: string;
@@ -37,8 +38,13 @@ function InfoField(props: {
   );
 }
 
-const SubmitForm: React.FC<FormProps> = (props) => {
-  const { variables, modifyVariable, prevPage } = props;
+type Props = {
+  role: string;
+};
+
+type SubmitFormProps = Props & FormProps;
+const SubmitForm: React.FC<SubmitFormProps> = (props) => {
+  const { variables, modifyVariable, prevPage, role } = props;
   const [tooltip, setTooltip] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -123,12 +129,12 @@ const SubmitForm: React.FC<FormProps> = (props) => {
           error={inputError.description}
         />
         <InfoField
-          text={dateOfEvent.toLocaleDateString()}
+          text={formatDateTime(dateOfEvent)}
           label="Date of event"
           error={inputError.dateOfEvent}
         />
         <InfoField
-          text={dateLastRegister.toLocaleDateString()}
+          text={dateLastRegister.toString().substring(0, 15)}
           label="Last day to register"
           error={inputError.dateLastRegister}
         />
@@ -156,6 +162,7 @@ const SubmitForm: React.FC<FormProps> = (props) => {
 
         <Layout style={styles.toggle}>
           <Toggle
+            disabled={role === "USER"}
             status="primary"
             checked={!privateStatus}
             onChange={(checked) => modifyVariable("privateStatus")(!checked)}

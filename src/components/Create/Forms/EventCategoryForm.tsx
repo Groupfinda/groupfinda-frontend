@@ -12,8 +12,9 @@ import {
   Button,
 } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
-import { FormProps } from "./types";
+import { FormPropsWithValidate } from "./types";
 import Pill from "../../common/Pill";
+import { useError } from "../../../hooks";
 
 const PeopleIcon = (props: IconProps) => <Icon {...props} name="people" />;
 
@@ -22,11 +23,19 @@ const sizes = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 const defaultCategories = ["Fun", "Tech", "Sports", "DIY", "Games"];
 defaultCategories.sort();
 
-const EventCategoryForm: React.FC<FormProps> = (props) => {
-  const { variables, modifyVariable, nextPage, prevPage } = props;
+const EventCategoryForm: React.FC<FormPropsWithValidate> = (props) => {
+  const {
+    variables,
+    modifyVariable,
+    nextPage,
+    prevPage,
+    validateFieldLength,
+  } = props;
   const { groupSize, category } = variables;
+  const { Error, setCustomError, inputError, resetInputError } = useError();
   const setGroupSize = modifyVariable("groupSize");
   const setCategory = modifyVariable("category");
+  const validateCategory = validateFieldLength("category")(setCustomError);
 
   const [selectedIndex, setSelectedIndex] = useState<IndexPath | IndexPath[]>(
     new IndexPath(sizes.indexOf(groupSize))
@@ -59,13 +68,21 @@ const EventCategoryForm: React.FC<FormProps> = (props) => {
   const renderAutocompleteOption = (item: string, index: number) => (
     <AutocompleteItem key={index} title={item} />
   );
+
+  const onNext = () => {
+    if (!validateCategory()) return;
+    if (nextPage) nextPage();
+  };
   return (
     <Layout style={styles.container}>
       <Layout style={styles.section}>
         <Text style={styles.subheading} appearance="hint" category="h5">
           List out some categories that describe your event!
         </Text>
+        <Error />
         <Autocomplete
+          status={inputError.category ? "danger" : "basic"}
+          onChange={() => resetInputError("category")}
           placeholder="Write some categories"
           value={autocomplete}
           onChangeText={setAutocomplete}
@@ -98,7 +115,7 @@ const EventCategoryForm: React.FC<FormProps> = (props) => {
       <Layout style={styles.pageNav}>
         <Button onPress={prevPage}>Prev</Button>
         <Layout style={styles.spacer} />
-        <Button onPress={nextPage}>Next</Button>
+        <Button onPress={onNext}>Next</Button>
       </Layout>
     </Layout>
   );

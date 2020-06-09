@@ -1,8 +1,8 @@
 import React from "react";
-import { Layout, Text, Button, Input, Icon } from "@ui-kitten/components";
+import { Layout, Text, Button, Input } from "@ui-kitten/components";
 import { StyleSheet, KeyboardAvoidingView } from "react-native";
 import { FormPropsWithValidate } from "./types";
-import { useError, CustomError } from "../../../hooks";
+import { useError } from "../../../hooks";
 import { ReferencesType } from "../../types";
 
 const EventDetailsForm: React.FC<FormPropsWithValidate> = (props) => {
