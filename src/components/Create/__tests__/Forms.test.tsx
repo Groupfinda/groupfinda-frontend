@@ -9,6 +9,10 @@ import {
 import FormsHandler from "../Forms/FormsHandler";
 import { wait } from "@apollo/react-testing";
 import { formatDateTime } from "../Forms/EventDateForm";
+import { eventCategories } from "../../../../utils/constants";
+
+eventCategories.sort();
+const FIRST_CATEGORY = eventCategories[0];
 
 jest.mock("@apollo/react-hooks", () => ({
   useApolloClient: () => ({
@@ -350,10 +354,10 @@ test("can select and delete category", async () => {
     await categoriesInput.props.onSelect(0);
   });
 
-  expect(component.queryByText("DIY")).toBeTruthy;
-  const pill = component.getByText("DIY");
+  expect(component.queryByText(FIRST_CATEGORY)).toBeTruthy;
+  const pill = component.getByText(FIRST_CATEGORY);
   fireEvent.press(pill);
-  expect(component.queryByText("DIY")).not.toBeTruthy;
+  expect(component.queryByText(FIRST_CATEGORY)).not.toBeTruthy;
 });
 
 /* Does not work because date changes
@@ -395,7 +399,7 @@ test("renders submit form text correctly", async () => {
   expect(component.queryByText("addressInput")).toBeTruthy;
   expect(component.queryByText("postalCodeInput")).toBeTruthy;
   expect(component.queryByText("4")).toBeTruthy;
-  expect(component.queryByText("DIY")).toBeTruthy;
+  expect(component.queryByText(FIRST_CATEGORY)).toBeTruthy;
 });
 
 test("state is preserved on clicking prev", async () => {
@@ -411,7 +415,7 @@ test("state is preserved on clicking prev", async () => {
     component.queryByText("List out some categories that describe your event!")
   ).toBeTruthy;
   expect(component.queryByText("4")).toBeTruthy;
-  expect(component.queryByText("DIY")).toBeTruthy;
+  expect(component.queryByText(FIRST_CATEGORY)).toBeTruthy;
 
   pressPrev(component);
   expect(component.queryByText("Upload images to decorate your listing"))

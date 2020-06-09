@@ -15,12 +15,13 @@ import { StyleSheet } from "react-native";
 import { FormPropsWithValidate } from "./types";
 import Pill from "../../common/Pill";
 import { useError } from "../../../hooks";
+import { eventCategories } from "../../../../utils/constants";
 
 const PeopleIcon = (props: IconProps) => <Icon {...props} name="people" />;
 
 const sizes = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const defaultCategories = ["Fun", "Tech", "Sports", "DIY", "Games"];
+const defaultCategories = eventCategories;
 defaultCategories.sort();
 
 const EventCategoryForm: React.FC<FormPropsWithValidate> = (props) => {
