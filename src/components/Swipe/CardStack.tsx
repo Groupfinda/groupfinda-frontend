@@ -1,202 +1,160 @@
 import React, { useState, useEffect, useRef } from "react";
-import { SafeAreaView, StyleSheet, View, Dimensions } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Dimensions,
+  PanResponder,
+  Animated,
+} from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
 import type { EventType } from "./event";
 import Card from "./Card";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
-import Animated, {
-  Extrapolate,
-  clockRunning,
-  startClock,
-  stopClock,
-  Clock,
-  and,
-} from "react-native-reanimated";
-import { valueFromAST } from "graphql";
 
-const {
-  event,
-  Value,
-  interpolate,
-  concat,
-  cond,
-  eq,
-  set,
-  spring,
-  greaterThan,
-  lessThan,
-} = Animated;
 type CardStackProps = {
   events: EventType[];
 };
-function runSpring(clock, value, velocity, dest) {
-  const state = {
-    finished: new Value(0),
-    velocity: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-  };
 
-  const config = {
-    damping: 7,
-    mass: 1,
-    stiffness: 121.6,
-    overshootClamping: false,
-    restSpeedThreshold: 0.001,
-    restDisplacementThreshold: 0.001,
-    toValue: new Value(0),
-  };
-
-  return [
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.velocity, velocity),
-      set(state.position, value),
-      set(config.toValue, dest),
-      startClock(clock),
-    ]),
-    spring(clock, state, config),
-    cond(state.finished, stopClock(clock)),
-    state.position,
-  ];
-}
 const { width, height } = Dimensions.get("window");
-const rotatedWidth =
-  width * Math.sin((75 * Math.PI) / 180) +
-  height * Math.sin((15 * Math.PI) / 180);
 
 const CardStack: React.FC<CardStackProps> = (props) => {
   const [events, setEvents] = useState<EventType[]>(props.events);
+  const position = new Animated.ValueXY();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [lastEvent, ...eventsLeft] = events;
-
-  const translationX = useRef(new Value(0));
-  const translationY = useRef(new Value(0));
-  const velocityX = useRef(new Value(0));
-  const gestureState = useRef(new Value(State.UNDETERMINED));
-
-  const onPanGestureEvent = event(
-    [
-      {
-        nativeEvent: {
-          translationX: translationX.current,
-          translationY: translationY.current,
-          velocityX: velocityX.current,
-          state: gestureState.current,
-        },
-      },
-    ],
-    {
-      useNativeDriver: true,
+  useEffect(() => {
+    if (events.length === 0) {
+      setEvents(props.events);
     }
-  );
-
-  const snapPoint = cond(
-    and(lessThan(translationX.current, 0), lessThan(velocityX.current, -10)),
-    -width,
-    cond(
-      and(
-        greaterThan(translationX.current, 0),
-        greaterThan(velocityX.current, 10)
-      ),
-      width,
-      0
-    )
-  );
-
-  const clockX = new Clock();
-
-  const translateX = cond(
-    eq(gestureState.current, State.END),
-    [
-      set(
-        translationX.current,
-        runSpring(clockX, translationX.current, velocityX.current, snapPoint)
-      ),
-      translationX.current,
+  }, [events]);
+  const rotate = position.x.interpolate({
+    inputRange: [-width / 2, 0, width / 2],
+    outputRange: ["-10deg", "0deg", "10deg"],
+    extrapolate: "clamp",
+  });
+  const transformRotate = {
+    transform: [
+      {
+        rotate,
+      },
+      ...position.getTranslateTransform(),
     ],
-    translationX.current
-  );
+  };
 
-  const clockY = new Clock();
-  const translateY = cond(
-    eq(gestureState.current, State.END),
-    [
-      set(translationY.current, runSpring(clockY, translationY.current, 0, 0)),
-      translationY.current,
-    ],
-    translationY.current
-  );
-
-  const likeOpacity = interpolate(translateX, {
-    inputRange: [0, width / 4],
-    outputRange: [0, 1],
-    extrapolate: Extrapolate.CLAMP,
+  const likeOpacity = position.x.interpolate({
+    inputRange: [-width / 4, 0, width / 4],
+    outputRange: [0, 0, 1],
+    extrapolate: "clamp",
   });
-
-  const nopeOpacity = interpolate(translateX, {
-    inputRange: [-width / 4, 0],
-    outputRange: [1, 0],
-    extrapolate: Extrapolate.CLAMP,
+  const nopeOpacity = position.x.interpolate({
+    inputRange: [-width / 4, 0, width / 4],
+    outputRange: [1, 0, 0],
+    extrapolate: "clamp",
   });
-
-  const registerOpacity = interpolate(translateY, {
-    inputRange: [-height / 4, 0],
-    outputRange: [1, 0],
-    extrapolate: Extrapolate.CLAMP,
+  const registerOpacity = position.y.interpolate({
+    inputRange: [-height / 4, 0, height / 4],
+    outputRange: [1, 0, 0],
+    extrapolate: "clamp",
   });
-
-  const rotateZ = concat(
-    interpolate(translateX, {
-      inputRange: [-width / 2, width / 2],
-      outputRange: [15, -15],
-      extrapolate: Extrapolate.CLAMP,
-    }),
-    "deg"
-  );
-
+  const nextCardOpacityX = position.x.interpolate({
+    inputRange: [-width / 2, 0, width / 2],
+    outputRange: [1, 0, 1],
+    extrapolate: "clamp",
+  });
+  const nextCardOpacityY = position.y.interpolate({
+    inputRange: [-height / 2, 0, height / 2],
+    outputRange: [1, 0, 1],
+    extrapolate: "clamp",
+  });
+  const nextCardOpacity = Animated.add(nextCardOpacityX, nextCardOpacityY);
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: (evt, gestureState) => true,
+    onPanResponderMove: (evt, gestureState) => {
+      position.setValue({ x: gestureState.dx, y: gestureState.dy });
+    },
+    onPanResponderRelease: (evt, gestureState) => {
+      if (gestureState.dx > width / 3) {
+        Animated.spring(position, {
+          toValue: { x: width + 50, y: gestureState.dy },
+          restDisplacementThreshold: 100,
+          restSpeedThreshold: 100,
+        }).start(() => {
+          setEvents(events.slice(0, events.length - 1));
+          position.setValue({ x: 0, y: 0 });
+          console.log("yay");
+        });
+      } else if (gestureState.dx < -width / 3) {
+        Animated.spring(position, {
+          toValue: { x: -width - 50, y: gestureState.dy },
+          restDisplacementThreshold: 100,
+          restSpeedThreshold: 100,
+        }).start(() => {
+          setEvents(events.slice(0, events.length - 1));
+          position.setValue({ x: 0, y: 0 });
+          console.log("noo");
+        });
+      } else if (gestureState.dy < -height / 4) {
+        Animated.spring(position, {
+          toValue: { x: gestureState.dx, y: -height },
+          restDisplacementThreshold: 100,
+          restSpeedThreshold: 100,
+        }).start(() => {
+          setEvents(events.slice(0, events.length - 1));
+          position.setValue({ x: 0, y: 0 });
+          console.log("woohoo");
+        });
+      } else {
+        Animated.spring(position, {
+          toValue: { x: 0, y: 0 },
+        }).start();
+      }
+    },
+  });
+  console.log(events.reverse());
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.cards}>
-        {eventsLeft.reverse().map((event) => (
-          <Card key={event.id} {...{ event }} />
-        ))}
-        <PanGestureHandler
-          onHandlerStateChange={onPanGestureEvent}
-          onGestureEvent={onPanGestureEvent}
-        >
-          <Animated.View
-            style={{
-              ...StyleSheet.absoluteFillObject,
-              transform: [
+      {events.reverse().map((event, index) => {
+        if (index === events.length - 1) {
+          return (
+            <Animated.View
+              key={event.id}
+              {...panResponder.panHandlers}
+              style={[transformRotate, styles.cards]}
+            >
+              <Card
+                likeOpacity={likeOpacity}
+                nopeOpacity={nopeOpacity}
+                registerOpacity={registerOpacity}
+                key={event.id}
+                event={event}
+              />
+            </Animated.View>
+          );
+        } else if (index === events.length - 2) {
+          return (
+            <Animated.View
+              key={event.id}
+              style={[
+                styles.cards,
                 {
-                  translateX: translationX.current,
+                  opacity: nextCardOpacity,
                 },
-                { translateY: translationY.current },
-                { rotateZ },
-              ],
-            }}
-          >
-            <Card
-              event={lastEvent}
-              nopeOpacity={nopeOpacity}
-              likeOpacity={likeOpacity}
-              registerOpacity={registerOpacity}
-            />
-          </Animated.View>
-        </PanGestureHandler>
-      </View>
-      <View style={styles.footer}>
-        <View style={styles.circle}>
-          <Icon name="x" size={32} color="#ec5288" />
-        </View>
-        <View style={styles.circle}>
-          <Icon name="heart" size={32} color="#3DB5F4" />
-        </View>
-        <View style={styles.circle}>
-          <Icon name="check" size={32} color="#6ee3b4" />
-        </View>
-      </View>
+              ]}
+            >
+              <Card key={event.id} event={event} />
+            </Animated.View>
+          );
+        } else {
+          return (
+            <Animated.View
+              key={event.id}
+              style={[styles.cards, { opacity: 0 }]}
+            >
+              <Card key={event.id} event={event} />
+            </Animated.View>
+          );
+        }
+      })}
     </SafeAreaView>
   );
 };
@@ -212,27 +170,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   cards: {
+    ...StyleSheet.absoluteFillObject,
     flex: 1,
     margin: 8,
-    zIndex: 100,
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    padding: 16,
-  },
-  circle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    padding: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    shadowColor: "gray",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.18,
-    shadowRadius: 2,
   },
 });
 

@@ -1,39 +1,39 @@
 // @flow
 import * as React from "react";
-import { Image, StyleSheet, View, Text } from "react-native";
-import Animated from "react-native-reanimated";
+import { Image, StyleSheet, View, Text, Animated } from "react-native";
 import { EventType } from "./event";
+import { Layout } from "@ui-kitten/components";
 
 type CardProps = {
   event: EventType;
-  likeOpacity?: Animated.Node<number>;
-  nopeOpacity?: Animated.Node<number>;
-  registerOpacity?: Animated.Node<number>;
+  likeOpacity?: Animated.AnimatedInterpolation;
+  nopeOpacity?: Animated.AnimatedInterpolation;
+  registerOpacity?: Animated.AnimatedInterpolation;
 };
 const Card: React.FC<CardProps> = (props) => {
   const { event, likeOpacity, nopeOpacity, registerOpacity } = props;
   return (
-    <View style={StyleSheet.absoluteFill}>
-      <Image style={styles.image} source={event.image} />
+    <Layout level="2" style={styles.container}>
+      <Image style={styles.image} source={{ uri: event.image }} />
       <View style={styles.overlay}>
         <View style={styles.header}>
           <Animated.View
-            style={(styles.like, { opacity: likeOpacity ? likeOpacity : 0 })}
+            style={[styles.like, { opacity: likeOpacity ? likeOpacity : 0 }]}
           >
             <Text style={styles.likeLabel}>LIKE</Text>
           </Animated.View>
           <Animated.View
-            style={(styles.nope, { opacity: nopeOpacity ? nopeOpacity : 0 })}
+            style={[styles.nope, { opacity: nopeOpacity ? nopeOpacity : 0 }]}
           >
             <Text style={styles.nopeLabel}>NOPE</Text>
           </Animated.View>
         </View>
         <View style={styles.middle}>
           <Animated.View
-            style={
-              (styles.register,
-              { opacity: registerOpacity ? registerOpacity : 0 })
-            }
+            style={[
+              styles.register,
+              { opacity: registerOpacity ? registerOpacity : 0 },
+            ]}
           >
             <Text style={styles.registerLabel}>REGISTER</Text>
           </Animated.View>
@@ -42,16 +42,20 @@ const Card: React.FC<CardProps> = (props) => {
           <Text style={styles.title}>{event.title}</Text>
         </View>
       </View>
-    </View>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
   image: {
     ...StyleSheet.absoluteFillObject,
-    width: null,
-    height: null,
-    borderRadius: 8,
+    width: "100%",
+    height: "80%",
+    borderRadius: 20,
+  },
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 20,
   },
   overlay: {
     flex: 1,
@@ -68,9 +72,12 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
+
+    height: "20%",
+    paddingTop: 10,
   },
   title: {
-    color: "white",
+    color: "black",
     fontSize: 32,
   },
   like: {
