@@ -188,6 +188,35 @@ const CardStack: React.FC<CardStackProps> = (props) => {
     }
   };
 
+  if (error) {
+    return (
+      <Layout
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 30,
+        }}
+      >
+        <Loading visible={loading} />
+        <Text
+          style={{ textAlign: "center", marginBottom: 30 }}
+          category="h3"
+          status="danger"
+        >
+          There seems to be a connection issue...
+        </Text>
+        <Button
+          onPress={() => getSwipeEvents()}
+          appearance="outline"
+          status="warning"
+        >
+          Click here to refresh
+        </Button>
+      </Layout>
+    );
+  }
+
   if (data?.getSwipeEvents.length === 0) {
     return (
       <Layout
