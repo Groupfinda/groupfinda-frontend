@@ -51,3 +51,33 @@ export const CREATE_EVENT = gql`
     }
   }
 `;
+
+export type RegisterEventVariables = {
+  eventId: string;
+};
+export type RegisterEventData = {
+  registerEvent: {
+    id: string;
+  };
+};
+export const REGISTER_EVENT = gql`
+  mutation registerEvent($eventId: String!) {
+    registerEvent(eventId: $eventId) {
+      id
+    }
+  }
+`;
+
+export type ViewEventVariables = {
+  eventId: string;
+  type: "LIKE" | "DISLIKE";
+};
+
+export type ViewEventData = {
+  viewEvent: boolean;
+};
+export const VIEW_EVENT = gql`
+  mutation viewEvent($eventId: String!, $type: String!) {
+    viewEvent(eventId: $eventId, type: $type)
+  }
+`;

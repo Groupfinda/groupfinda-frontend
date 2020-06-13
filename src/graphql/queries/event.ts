@@ -78,3 +78,50 @@ export type SearchEventCodeData = Array<{
 export type SearchEventCodeVariables = {
   eventCode: string;
 };
+
+export type GetSwipeEventsVariables = {};
+export type GetSwipeEventsType = {
+  id: string;
+  title: string;
+  description: string;
+  dateOfEvent: Date;
+  dateLastRegister: Date;
+  images: string[];
+  groupSize: number;
+  category: string[];
+  eventCode: string;
+  location: {
+    address: string;
+    postalCode: string;
+  };
+  owner: {
+    username: string;
+    avatar: string;
+  };
+};
+export type GetSwipeEventsData = {
+  getSwipeEvents: GetSwipeEventsType[];
+};
+export const GET_SWIPE_EVENTS = gql`
+  query {
+    getSwipeEvents {
+      id
+      title
+      description
+      dateOfEvent
+      dateLastRegister
+      images
+      groupSize
+      category
+      eventCode
+      location {
+        address
+        postalCode
+      }
+      owner {
+        username
+        avatar
+      }
+    }
+  }
+`;
