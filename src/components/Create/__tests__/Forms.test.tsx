@@ -8,7 +8,11 @@ import {
 } from "../../../../utils/test-utils";
 import FormsHandler from "../Forms/FormsHandler";
 import { wait } from "@apollo/react-testing";
-import { formatDateTime } from "../Forms/EventDateForm";
+import { getDateFormat } from "../../util";
+import { eventCategories } from "../../../../utils/constants";
+
+eventCategories.sort();
+const FIRST_CATEGORY = eventCategories[0];
 
 jest.mock("@apollo/react-hooks", () => ({
   useApolloClient: () => ({
@@ -190,7 +194,7 @@ test("event date renders text correctly", () => {
   expect(component.queryAllByText(dateString)).toBeTruthy();
   expect(component.queryAllByText(dateString).length).toBe(2);
 
-  const formattedDate = formatDateTime(dateNow);
+  const formattedDate = getDateFormat(dateNow);
   expect(component.queryByText(formattedDate)).toBeTruthy();
   expect(component.queryByText("Prev")).toBeTruthy();
   expect(component.queryByText("Next")).toBeTruthy();
@@ -350,10 +354,10 @@ test("can select and delete category", async () => {
     await categoriesInput.props.onSelect(0);
   });
 
-  expect(component.queryByText("DIY")).toBeTruthy;
-  const pill = component.getByText("DIY");
+  expect(component.queryByText(FIRST_CATEGORY)).toBeTruthy;
+  const pill = component.getByText(FIRST_CATEGORY);
   fireEvent.press(pill);
-  expect(component.queryByText("DIY")).not.toBeTruthy;
+  expect(component.queryByText(FIRST_CATEGORY)).not.toBeTruthy;
 });
 
 /* Does not work because date changes
@@ -389,13 +393,12 @@ test("renders submit form text correctly", async () => {
 
   expect(component.queryByText("titleInput")).toBeTruthy;
   expect(component.queryByText("descriptionInput")).toBeTruthy;
-  const dateString = formatDateTime(dateNow);
+  const dateString = getDateFormat(dateNow);
   expect(component.queryByText(dateString)).toBeTruthy;
-  expect(component.queryByText(dateString.substring(0, 15))).toBeTruthy();
   expect(component.queryByText("addressInput")).toBeTruthy;
   expect(component.queryByText("postalCodeInput")).toBeTruthy;
   expect(component.queryByText("4")).toBeTruthy;
-  expect(component.queryByText("DIY")).toBeTruthy;
+  expect(component.queryByText(FIRST_CATEGORY)).toBeTruthy;
 });
 
 test("state is preserved on clicking prev", async () => {
@@ -411,7 +414,7 @@ test("state is preserved on clicking prev", async () => {
     component.queryByText("List out some categories that describe your event!")
   ).toBeTruthy;
   expect(component.queryByText("4")).toBeTruthy;
-  expect(component.queryByText("DIY")).toBeTruthy;
+  expect(component.queryByText(FIRST_CATEGORY)).toBeTruthy;
 
   pressPrev(component);
   expect(component.queryByText("Upload images to decorate your listing"))
@@ -429,7 +432,7 @@ test("state is preserved on clicking prev", async () => {
   expect(component.queryAllByText(dateString)).toBeTruthy;
   expect(component.queryAllByText(dateString).length).toBe(2);
 
-  const formattedString = formatDateTime(dateNow);
+  const formattedString = getDateFormat(dateNow);
   expect(component.queryByText(formattedString)).toBeTruthy();
 
   pressPrev(component);
