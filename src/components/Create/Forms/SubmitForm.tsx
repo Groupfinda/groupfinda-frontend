@@ -19,7 +19,7 @@ import { useError } from "../../../hooks";
 import { Loading } from "../../common";
 import { useNavigation } from "@react-navigation/native";
 import Carousel from "../../common/Carousel";
-import { formatDateTime } from "./EventDateForm";
+import { getDateFormat } from "../../util";
 
 function InfoField(props: {
   text: string;
@@ -129,7 +129,7 @@ const SubmitForm: React.FC<SubmitFormProps> = (props) => {
           error={inputError.description}
         />
         <InfoField
-          text={formatDateTime(dateOfEvent)}
+          text={getDateFormat(dateOfEvent)}
           label="Date of event"
           error={inputError.dateOfEvent}
         />

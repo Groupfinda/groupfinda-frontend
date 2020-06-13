@@ -8,17 +8,9 @@ import {
   Button,
 } from "@ui-kitten/components";
 import DateTimePicker, { Event } from "@react-native-community/datetimepicker";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { FormProps } from "./types";
-
-export const formatDateTime = (date: Date) => {
-  const dateString = date.toString().substring(0, 15);
-  const timeString = date.toLocaleTimeString().split(" ");
-  const ampm = timeString.pop();
-  const time = timeString[0];
-  const formattedTime = time.split(":").slice(0, 2).join(":");
-  return `${dateString} @ ${formattedTime} ${ampm}`;
-};
+import { getDateFormat } from "../../util";
 
 const CalendarIcon = (props: IconProps) => <Icon {...props} name="calendar" />;
 const EventDateForm: React.FC<FormProps> = (props) => {
@@ -26,10 +18,19 @@ const EventDateForm: React.FC<FormProps> = (props) => {
   const { dateOfEvent, dateLastRegister } = variables;
   const [selectTime, setSelectTime] = useState<boolean>(false);
 
-  const onSelectTime = (_: Event, selectedDate?: Date) => {
-    const finalDate = selectedDate ? selectedDate : dateOfEvent;
+  const onSelectTime = (event: Event, selectedDate?: Date) => {
+    console.log(event);
+    if (Platform.OS === "ios") {
+      const finalDate = selectedDate ? selectedDate : dateOfEvent;
 
-    modifyVariable("dateOfEvent")(finalDate);
+      modifyVariable("dateOfEvent")(finalDate);
+    } else {
+      if (event.type === "set") {
+        setSelectTime(false);
+        const finalDate = selectedDate ? selectedDate : dateOfEvent;
+        modifyVariable("dateOfEvent")(finalDate);
+      }
+    }
   };
 
   const onSelectDate = (date: Date) => {
@@ -47,7 +48,7 @@ const EventDateForm: React.FC<FormProps> = (props) => {
           When is this event taking place?
         </Text>
         <Text category="h6" appearance="hint" style={styles.datepicker}>
-          {formatDateTime(dateOfEvent)}
+          {getDateFormat(dateOfEvent)}
         </Text>
 
         <Datepicker
@@ -60,7 +61,10 @@ const EventDateForm: React.FC<FormProps> = (props) => {
           accessoryRight={CalendarIcon}
           style={styles.datepicker}
         />
-        <Button appearance="outline" onPress={() => setSelectTime(!selectTime)}>
+        <Button
+          appearance="outline"
+          onPress={() => setSelectTime((prev) => !prev)}
+        >
           Set Time!
         </Button>
         {selectTime && (
@@ -68,6 +72,7 @@ const EventDateForm: React.FC<FormProps> = (props) => {
             mode="time"
             value={dateOfEvent}
             onChange={onSelectTime}
+            neutralButtonLabel="clear"
           />
         )}
       </Layout>

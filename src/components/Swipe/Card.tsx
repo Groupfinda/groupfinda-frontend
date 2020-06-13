@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { GetSwipeEventsType } from "../../graphql/queries";
 import { Layout, Text, Icon, Divider } from "@ui-kitten/components";
+import { getDateFormat } from "../util";
 
 type CardProps = {
   event: GetSwipeEventsType;
@@ -16,34 +17,6 @@ type CardProps = {
   nopeOpacity?: Animated.AnimatedInterpolation;
   registerOpacity?: Animated.AnimatedInterpolation;
   getInfo?: () => void;
-};
-
-const getDateFormat = (date: Date): string => {
-  const d = new Date(date);
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const day = d.getDate();
-  const month = monthNames[d.getMonth()];
-  const year = d.getFullYear();
-
-  let hours = d.getHours();
-  const min = d.getMinutes();
-  const ampm = hours > 12 ? "PM" : "AM";
-  hours = hours % 12;
-  const minutes = min < 10 ? "0" + min : min.toString();
-  return `${day} ${month} ${year} @ ${hours}:${minutes}${ampm}`;
 };
 
 const Card: React.FC<CardProps> = (props) => {
@@ -63,11 +36,11 @@ const Card: React.FC<CardProps> = (props) => {
     <Layout level="1" style={styles.container}>
       {event.images.map((image, index) => (
         <Image
-          key={image}
-          style={[
-            styles.image,
-            { display: index === currentIndex ? "flex" : "none" },
-          ]}
+          key={index}
+          style={{
+            ...styles.image,
+            opacity: index === currentIndex ? 1 : 0,
+          }}
           source={{ uri: image }}
         />
       ))}
@@ -167,7 +140,7 @@ const Card: React.FC<CardProps> = (props) => {
 
             <View style={styles.infoStyle}>
               <TouchableOpacity onPress={getInfo}>
-                <Icon width={32} height={32} name="info-outline" />
+                <Icon width={32} height={32} fill="grey" name="info-outline" />
               </TouchableOpacity>
             </View>
           </View>
