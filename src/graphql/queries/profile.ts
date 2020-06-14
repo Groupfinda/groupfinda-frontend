@@ -11,3 +11,13 @@ export const getUserQuestions = gql`
         }
     }
 `;
+
+export const getUserLikes = gql`
+    query {
+        getUserProfile {
+            eventsLiked {
+                id
+            }
+        }
+    }
+`

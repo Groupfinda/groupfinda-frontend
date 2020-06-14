@@ -83,7 +83,9 @@ export default () => {
             <Stack.Screen name="Questions" component={QuestionsScreen} />
             <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
             <Stack.Screen name="JoinEvent" component={JoinEventScreen} />
-            <Stack.Screen name="EventPage" component={EventScreen} />
+            <Stack.Screen name="EventPage">
+             {props => <EventScreen {...props} userId={user.id}/>}
+            </Stack.Screen>
           </>
         ) : (
           <>
