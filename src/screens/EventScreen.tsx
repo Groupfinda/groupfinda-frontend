@@ -70,14 +70,18 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
     {
       onCompleted: (data) => {
         if (data.registerEvent.id === id) {
-          setEventRegistered(true)
+          setEventRegistered(true);
         }
         setRegisterEventLoading(false);
       },
       onError: (err) => {
         console.log(err)
+        if (err.graphQLErrors.some(el=>el.message.includes("User is already registered"))) {
+          setEventRegistered(true);
+        }
         setRegisterEventLoading(false);
-      }
+      },
+      errorPolicy: 'all'
     }
   )
 

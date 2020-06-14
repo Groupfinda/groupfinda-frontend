@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ScrollView, Keyboard } from "react-native";
-import { Layout, Input, IconElement, Icon, StyleService, useStyleSheet, Card, Button } from "@ui-kitten/components";
+import { Layout, Input, IconElement, Icon, StyleService, useStyleSheet, Card, Button, Spinner } from "@ui-kitten/components";
 import { EventCard } from "./extra/event-card.component"
 import { useQuery, useApolloClient, useLazyQuery } from "@apollo/react-hooks";
 import { searchEventByTerm, upcomingEvents } from '../../graphql/queries'
@@ -45,6 +45,7 @@ export default (): React.ReactElement => {
     }
 
     const handleSearch = () => {
+        setEvents([]);
         executeSearch({variables: {searchTerm: searchValue}})
         Keyboard.dismiss();
     }
@@ -98,7 +99,8 @@ export default (): React.ReactElement => {
                     </Layout>
                 </Layout>
                 <Layout>
-                    {events.length>0?<ScrollView style={styles.cardScrollContainer}>
+                    {events.length>0?
+                    <ScrollView style={styles.cardScrollContainer}>
                         <Layout style={styles.cardsContainer}>
                             {events.map((event) => (
                                 <EventCard
@@ -106,7 +108,12 @@ export default (): React.ReactElement => {
                                     event={event}/>
                                 ))}
                         </Layout>
-                    </ScrollView>:null}
+                    </ScrollView>
+                    :<ScrollView style={styles.cardScrollContainer}>
+                        <Layout style={styles.spinnerContainer}>
+                            <Spinner size='large'/>
+                        </Layout>
+                    </ScrollView>}
                 </Layout>
             </Layout>
         )
@@ -149,5 +156,13 @@ const themedStyle = StyleService.create({
         backgroundColor: "background-basic-color-2",
         borderRadius: 30,
         paddingBottom: 80
+    },
+    spinnerContainer: {
+        flexDirection: "row",
+        justifyContent:"center",
+        paddingTop: 40,
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
+        paddingBottom: 120
     }
 })
