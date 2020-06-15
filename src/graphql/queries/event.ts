@@ -34,6 +34,7 @@ export const singleEvent = gql`
       groupSize
       category
       registeredUsers {
+        id
         firstName
         lastName
         avatar
