@@ -17,7 +17,7 @@ import Carousel from "../components/common/Carousel";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { singleEvent, getUserLikes } from "../graphql/queries";
+import { singleEvent } from "../graphql/queries";
 import { Loading } from "../components/common";
 import { REGISTER_EVENT, VIEW_EVENT } from "../graphql/mutations";
 import { View } from "react-native";
@@ -35,10 +35,8 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
   const theme = useTheme();
   const styles = useStyleSheet(themedStyle);
   const { id } = route.params;
-  const [eventLiked, setEventLiked] = useState<boolean>(false);
   const [eventRegistered, setEventRegistered] = useState<boolean>(false);
   const [registerEventLoading, setRegisterEventLoading] = useState<boolean>(true);
-  const [likeEventLoading, setLikeEventLoading] = useState<boolean>(true);
 
   const { loading, error, data } = useQuery(singleEvent, {
     variables: { eventId: id },
@@ -52,18 +50,6 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       setRegisterEventLoading(false);
     }
   });
-  const res = useQuery(getUserLikes, {
-    onCompleted: (response) => {
-      const likeData = response['getUserProfile']['eventsLiked']
-      setEventLiked(likeData.some((el:any) => el.id === id))
-      setLikeEventLoading(false);
-    },
-    onError: (err) => {
-      console.log(err);
-      setLikeEventLoading(false);
-    }
-  })
-  //Link to profile and check if event has been liked/registered
 
   const [ registerEvent ] = useMutation(
     REGISTER_EVENT,
@@ -84,38 +70,6 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       errorPolicy: 'all'
     }
   )
-
-  const [ likeEvent ] = useMutation(
-    VIEW_EVENT,
-    {
-      onCompleted: (data) => {
-        console.log(data);
-        setLikeEventLoading(false);
-      },
-      onError: (err) => {
-        console.log(err);
-        setLikeEventLoading(false);
-      }
-    }
-  )
-
-  const likeEventHandler = () => {
-    setLikeEventLoading(true);
-    if (eventLiked) {
-      const variables = {
-        eventId: id,
-        type: "DISLIKE"
-      }
-      likeEvent({ variables })
-    } else {
-      const variables = {
-        eventId: id,
-        type: "LIKE"
-      }
-      likeEvent({ variables })
-    }
-    setEventLiked(!eventLiked);
-  };
 
   const registerEventHandler = () => {
     setRegisterEventLoading(true);
@@ -197,35 +151,12 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                   style={{
                     marginTop: 15,
                     flexDirection: "row",
-                    justifyContent: "space-around",
+                    justifyContent: "center",
                   }}
                 >
                   <Button
-                    style={{ borderRadius: 100 }}
-                    appearance={eventLiked ? "filled" : "outline"}
-                    status={eventLiked ? "danger" : "basic"}
-                    onPress={likeEventHandler}
-                    accessoryLeft={() => {
-                      if (likeEventLoading) {
-                        return <View>
-                          <Spinner/>
-                        </View>
-                      }
-                      return (<Icon
-                        height={16}
-                        width={16}
-                        fill={
-                          eventLiked ? "white" : theme["color-danger-default"]
-                        }
-                        name="heart-outline"
-                      />
-                    )}}
-                  >
-                    {eventLiked ? "Event Liked!" : "Like Event"}
-                  </Button>
-                  <Button
                     disabled={registerEventLoading}
-                    style={{ borderRadius: 100 }}
+                    style={{ borderRadius: 100, width: "100%" }}
                     appearance={eventRegistered ? "filled" : "outline"}
                     status={eventRegistered ? "primary" : "basic"}
                     onPress={registerEventHandler}
