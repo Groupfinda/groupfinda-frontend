@@ -25,3 +25,25 @@ export const UPDATE_PROFILE = gql `
         )
     }
 `;
+
+export const UPDATE_NEW_USER = gql`
+    mutation updateNewUser(
+        $newUser: Boolean
+        $lowerAge: Int
+        $upperAge: Int
+        $userHobbies: [String]
+        $userFaculty: String
+        $userYearOfStudy: Int
+    ) {
+        updateUserField(
+            newUser: $newUser
+            lowerAge: $lowerAge
+            upperAge: $upperAge
+        ),
+        updateProfileField(
+            userHobbies: $userHobbies
+            userFaculty: $userFaculty
+            userYearOfStudy: $userYearOfStudy
+        )
+    }
+`;

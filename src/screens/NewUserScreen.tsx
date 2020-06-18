@@ -2,7 +2,7 @@ import React from "react";
 import { NewUsersNavigationProp } from "../navigation/types";
 import { ViewPager, Layout, StyleService, useStyleSheet, Text } from "@ui-kitten/components";
 import { View } from "react-native";
-import { QuestionsSlide, IntroSlide } from "../components/NewUser";
+import { QuestionsSlide, IntroSlide, FormSlide } from "../components/NewUser";
 
 type Props = NewUsersNavigationProp;
 
@@ -47,12 +47,11 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
                 </Layout>
                 <Layout
                     style={styles.tab}>
-                    <Text category='h5'>
-                        Page 4
-                    </Text>
+                    <FormSlide />
                 </Layout>
             </ViewPager>
-            <View style={styles.bullets}>{bullets}</View>
+            {selectedIndex !==3?
+            <View style={styles.bullets}>{bullets}</View>:null}
         </React.Fragment>
     )
 };
@@ -63,7 +62,7 @@ const themedStyle = StyleService.create({
     },
     bullets: {
         position: "absolute",
-        bottom: 25,
+        bottom: 32,
         alignSelf: "center",
         display: "flex",
         justifyContent: "center",

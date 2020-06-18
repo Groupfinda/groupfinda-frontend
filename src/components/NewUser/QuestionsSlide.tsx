@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import Constants from 'expo-constants'
 import { useStyleSheet, StyleService, Layout, Text } from '@ui-kitten/components';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { Loading } from '../common';
 
 export default (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
+  let [fontsLoaded] = useFonts({
+    Inter_900Black
+  })
+
+  if (!fontsLoaded) {
+    return <Loading visible />
+  }
   
   return (
     <View style={styles.imageContainer}>

@@ -64,6 +64,7 @@ export const UPDATE_USER = gql`
     $lowerAge: Int
     $upperAge: Int
     $maxDistance: Int
+    $newUser: Boolean
   ) {
     updateUserField(
       firstName: $firstName
@@ -74,6 +75,7 @@ export const UPDATE_USER = gql`
       lowerAge: $lowerAge
       upperAge: $upperAge
       maxDistance: $maxDistance
+      newUser: $newUser
     )
   }
 `;
