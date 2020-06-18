@@ -7,6 +7,7 @@ export const ME = gql`
       username
       role
       isVerified
+      newUser
     }
   }
 `;

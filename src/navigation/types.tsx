@@ -11,6 +11,7 @@ export type RootStackParamList = {
   CreateEvent: undefined;
   JoinEvent: undefined;
   EventPage: { id: string };
+  NewUser: undefined;
 };
 
 export type SignUpScreenNavigationProp = StackScreenProps<
@@ -51,4 +52,9 @@ export type JoinEventScreenNavigationProp = StackScreenProps<
 export type EventScreenNavigationProp = StackScreenProps<
   RootStackParamList,
   "EventPage"
+>;
+
+export type NewUsersNavigationProp = StackScreenProps<
+  RootStackParamList,
+  "NewUser"
 >;
