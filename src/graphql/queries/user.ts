@@ -24,6 +24,30 @@ export const USER = gql`
   }
 `;
 
+export type FullUserVariables = {};
+export type FullUserData = {
+  me: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    gender: string;
+    avatar: string;
+    birthday: Date;
+    location: string;
+    preferences: {
+      lowerAge: number;
+      upperAge: number;
+      maxDistance: number;
+    };
+    profile: {
+      userHobbies: string[];
+      userFaculty: string[];
+      userYearOfStudy: string[];
+    };
+  };
+};
 export const FULLUSER = gql`
   query {
     me {

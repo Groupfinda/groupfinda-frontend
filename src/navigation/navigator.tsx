@@ -17,6 +17,7 @@ import {
   QuestionsScreen,
   CreateEventScreen,
   JoinEventScreen,
+  MessageRoomScreen,
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
@@ -84,8 +85,9 @@ export default () => {
             <Stack.Screen name="CreateEvent" component={CreateEventScreen} />
             <Stack.Screen name="JoinEvent" component={JoinEventScreen} />
             <Stack.Screen name="EventPage">
-             {props => <EventScreen {...props} userId={user.id}/>}
+              {(props) => <EventScreen {...props} userId={user.id} />}
             </Stack.Screen>
+            <Stack.Screen name="MessageRoom" component={MessageRoomScreen} />
           </>
         ) : (
           <>
