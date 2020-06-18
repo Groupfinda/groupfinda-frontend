@@ -1,7 +1,8 @@
 import React from "react";
 import { NewUsersNavigationProp } from "../navigation/types";
 import { ViewPager, Layout, StyleService, useStyleSheet, Text } from "@ui-kitten/components";
-import { View, Image } from "react-native";
+import { View } from "react-native";
+import { QuestionsSlide, IntroSlide } from "../components/NewUser";
 
 type Props = NewUsersNavigationProp;
 
@@ -32,16 +33,11 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
                 onSelect={index => setSelectedIndex(index)}>
                 <Layout
                     style={styles.tab}>
-                    <Text category='h5'>
-                        Page 1
-                    </Text>
+                    <IntroSlide />
                 </Layout>
                 <Layout
                     style={styles.tab}>
-                    <Text category='h5'>
-                        <Image
-                            source={require('../../assets/questionsgif.gif')}/>
-                    </Text>
+                    <QuestionsSlide />
                 </Layout>
                 <Layout
                     style={styles.tab}>
@@ -64,7 +60,6 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
 const themedStyle = StyleService.create({
     tab: {
         height: "100%",
-        backgroundColor: "background-basic-color-4",
     },
     bullets: {
         position: "absolute",
@@ -79,7 +74,7 @@ const themedStyle = StyleService.create({
     bullet: {
         paddingHorizontal: 5,
         fontSize: 30,
-    },
+    }
 })
 
 export default NewUserScreen;
