@@ -2,7 +2,7 @@ import React from "react";
 import { NewUsersNavigationProp } from "../navigation/types";
 import { ViewPager, Layout, StyleService, useStyleSheet, Text } from "@ui-kitten/components";
 import { View } from "react-native";
-import { QuestionsSlide, IntroSlide, FormSlide } from "../components/NewUser";
+import { QuestionsSlide, IntroSlide, FormSlide, EventSlide } from "../components/NewUser";
 
 type Props = NewUsersNavigationProp;
 
@@ -37,13 +37,11 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
                 </Layout>
                 <Layout
                     style={styles.tab}>
-                    <QuestionsSlide />
+                    <EventSlide />
                 </Layout>
                 <Layout
                     style={styles.tab}>
-                    <Text category='h5'>
-                        Page 3
-                    </Text>
+                    <QuestionsSlide />
                 </Layout>
                 <Layout
                     style={styles.tab}>

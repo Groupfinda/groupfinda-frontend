@@ -3,9 +3,10 @@ import { View } from 'react-native';
 import { Button, useStyleSheet, StyleService, Text, Layout, Input, Select, IndexPath, SelectItem, Spinner } from '@ui-kitten/components';
 import { useMutation } from '@apollo/react-hooks';
 import { UPDATE_NEW_USER } from '../../graphql/mutations';
-import Constants from 'expo-constants'
 import { faculties, interests } from '../../../utils/constants';
 import { useNavigation } from '@react-navigation/native';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { Loading } from '../common';
 
 export default (): React.ReactElement => {
     const styles = useStyleSheet(themedStyle);
@@ -69,14 +70,28 @@ export default (): React.ReactElement => {
             setUserHobbies(value.map((index: IndexPath)=>interests[index.row]))
         }
     }
+    let [fontsLoaded] = useFonts({
+        Inter_900Black
+    })
+    
+    if (!fontsLoaded) {
+        return <Loading visible />
+    }
+    
 
     return (
         <React.Fragment>
             <View style={styles.container}>
-                <Text category='h4'>
+                <Text
+                    style={{fontFamily: "Inter_900Black", marginVertical: 10}}
+                    status="primary"
+                    category='h4'>
                     Complete Your Profile
                 </Text>
                 <Layout>
+                    <Text category='h5' style={styles.sectionTitle}>
+                        Group Preferences
+                    </Text>
                     <Input
                         style={styles.inputStyle}
                         status='basic'
@@ -98,6 +113,9 @@ export default (): React.ReactElement => {
                         {upperAge}
                     </Input>
 
+                    <Text category='h5' style={styles.sectionTitle}>
+                        Profile Details
+                    </Text>
                     <Input
                         style={styles.inputStyle}
                         status='basic'
@@ -109,7 +127,7 @@ export default (): React.ReactElement => {
                         {userYearOfStudy}
                     </Input>
                     <Select
-                    style={styles.inputStyle}
+                        style={styles.inputStyle}
                         label="Faculty of Study"
                         value={userFaculty}
                         selectedIndex={new IndexPath(faculties.indexOf(userFaculty))}
@@ -119,9 +137,10 @@ export default (): React.ReactElement => {
                         ))}
                     </Select>
                     <Select
-                    style={styles.inputStyle}
+                        placeholder="Pick your interests/hobbies"
+                        style={styles.inputStyle}
                         label="Interests"
-                        value={(props)=><Text {...props}>{userHobbies.join(", ")}</Text>}
+                        value={(props)=>{return userHobbies.length>0?<Text {...props}>{userHobbies.join(", ")}</Text>:<Text appearance='hint'>Pick your hobbies/interests!</Text>}}
                         multiSelect={true}
                         selectedIndex={userHobbies.map((value:string) => (
                             new IndexPath(interests.indexOf(value))
@@ -149,8 +168,12 @@ export default (): React.ReactElement => {
 const themedStyle = StyleService.create({
     container: {
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
+        paddingTop: 50,
         paddingHorizontal: 20
+    },
+    sectionTitle: {
+        fontWeight: "700",
+        marginTop: 15
     },
     inputStyle: {
         marginVertical: 5
