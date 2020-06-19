@@ -190,7 +190,6 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                 <ListItem
                   disabled
                   title={(props) => <Text {...props}>Event Code: <Text style={{color:theme["color-primary-default"]}}>{event.eventCode}</Text></Text>}
-                  
                   accessoryLeft={() => (
                     <Icon
                       width={30}

@@ -16,6 +16,8 @@ import {
   useTheme,
   Icon,
   Layout,
+  Divider,
+  ListItem,
 } from "@ui-kitten/components";
 import { ImageOverlay } from "./extra/image-overlay.component";
 import { ProfileSocial } from "./extra/profile-social.component";
@@ -25,6 +27,7 @@ import { useLazyQuery, useApolloClient, useQuery } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
 import { SettingsIcon } from "./extra/icons";
+import { BasicEventType } from "../types";
 
 YellowBox.ignoreWarnings([
   "VirtualizedLists should never be nested inside plain ScrollViews",
@@ -57,6 +60,7 @@ interface User {
 export default (): React.ReactElement => {
   const client = useApolloClient();
   const styles = useStyleSheet(themedStyle);
+  const theme = useTheme();
 
   const navigation = useNavigation();
 
@@ -71,6 +75,7 @@ export default (): React.ReactElement => {
       </ScrollView>
     );
   } else {
+    console.log(data)
     return (
       <ScrollView style={styles.container}>
         <React.Fragment>
@@ -121,21 +126,68 @@ export default (): React.ReactElement => {
               <ProfileSocial
                 style={styles.profileSocial}
                 hint="Events"
-                value="7"
+                value={data.me.profile.eventsRegistered.length}
               />
               <ProfileSocial
                 style={styles.profileSocial}
-                hint="Groups"
-                value="6"
+                hint="Like/Dislikes"
+                value={data.me.profile.eventsLiked.length + data.me.profile.eventsDisliked.length}
               />
+              {/* <ProfileSocial
+                style={styles.profileSocial}
+                hint="Groups"
+                value={data.me.groups.length}
+              /> */}
               <ProfileSocial
                 style={styles.profileSocial}
                 hint="Interests"
-                value="13"
+                value={data.me.profile.userHobbies.length}
               />
             </View>
           </ImageOverlay>
-          <DrawerGroupUser />
+          <Divider />
+          <Layout style={{padding: 12}}>
+            <Text style={{ fontWeight: "bold" }} category='h6'>
+              Profile Overview
+            </Text>
+            <ListItem
+              disabled
+              title="Hobbies/Interests"
+              description={data.me.profile.userHobbies.join(", ")}
+              accessoryLeft={() => (
+                <Icon
+                  width={20}
+                  height={20}
+                  fill={theme['color-primary-default']}
+                  name="brush-outline" />
+              )}/>
+            <ListItem
+              disabled
+              title="Faculty"
+              description={data.me.profile.userFaculty}
+              accessoryLeft={() => (
+                <Icon
+                  width={20}
+                  height={20}
+                  fill={theme['color-primary-default']}
+                  name="book-outline" />
+              )}/>
+              <ListItem
+                disabled
+                title="Year of Study"
+                description={data.me.profile.userYearOfStudy}
+                accessoryLeft={() => (
+                  <Icon
+                    width={20}
+                    height={20}
+                    fill={theme['color-primary-default']}
+                    name="clock-outline" />
+                )}/>
+          </Layout>
+          <Divider />
+          <DrawerGroupUser
+            eventsLiked={data.me.profile.eventsLiked}
+            eventsRegistered={data.me.profile.eventsRegistered.filter((event: BasicEventType)=>event.dateOfEvent>(new Date()).getTime())}/>
           <Button
             status="danger"
             onPress={async () => {

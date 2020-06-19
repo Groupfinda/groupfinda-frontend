@@ -7,10 +7,13 @@ import { faculties, interests } from '../../../utils/constants';
 import { useNavigation } from '@react-navigation/native';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Loading } from '../common';
+import { ReferencesType } from '../types';
 
 export default (): React.ReactElement => {
     const styles = useStyleSheet(themedStyle);
     const navigation = useNavigation();
+
+    const references: ReferencesType = {};
 
     const [ submitLoading, setSubmitLoading ] = useState<boolean>(false);
 
@@ -99,7 +102,8 @@ export default (): React.ReactElement => {
                         keyboardType="number-pad"
                         placeholder="Lower Age Limit"
                         label="Minimum Age Preference"
-                        onChangeText={(newValue: string) => handleNumericInput(newValue, setLowerAge)}>
+                        onChangeText={(newValue: string) => handleNumericInput(newValue, setLowerAge)}
+                        onSubmitEditing={() => references.secondInput?.focus()}>
                         {lowerAge}
                     </Input>
                     <Input
@@ -109,7 +113,9 @@ export default (): React.ReactElement => {
                         keyboardType="number-pad"
                         placeholder="Upper Age Limit"
                         label="Maximum Age Preference"
-                        onChangeText={(newValue: string) => handleNumericInput(newValue, setUpperAge)}>
+                        onChangeText={(newValue: string) => handleNumericInput(newValue, setUpperAge)}
+                        ref={(ref)=>(references.secondInput=ref)}
+                        onSubmitEditing={()=>references.thirdInput?.focus()}>
                         {upperAge}
                     </Input>
 
@@ -123,7 +129,9 @@ export default (): React.ReactElement => {
                         keyboardType="number-pad"
                         placeholder="Set to 0 if not applicable"
                         label="Year of Study"
-                        onChangeText={(newValue: string) => handleNumericInput(newValue, setUserYearOfStudy)}>
+                        onChangeText={(newValue: string) => handleNumericInput(newValue, setUserYearOfStudy)}
+                        ref={(ref)=>(references.thirdInput=ref)}
+                        onSubmitEditing={()=>references.fourthInput?.focus()}>
                         {userYearOfStudy}
                     </Input>
                     <Select
@@ -131,7 +139,8 @@ export default (): React.ReactElement => {
                         label="Faculty of Study"
                         value={userFaculty}
                         selectedIndex={new IndexPath(faculties.indexOf(userFaculty))}
-                        onSelect={(value: IndexPath | IndexPath[]) => {if(value instanceof IndexPath){setUserFaculty(faculties[value.row])}}}>
+                        onSelect={(value: IndexPath | IndexPath[]) => {if(value instanceof IndexPath){setUserFaculty(faculties[value.row])};references.fifthInput?.focus()}}
+                        ref={(ref)=>(references.fourthInput=ref)}>
                         {faculties.map((value: string) => (
                             <SelectItem key={value} title={value} />
                         ))}
@@ -145,7 +154,8 @@ export default (): React.ReactElement => {
                         selectedIndex={userHobbies.map((value:string) => (
                             new IndexPath(interests.indexOf(value))
                         ))}
-                        onSelect={setHobbies}>
+                        onSelect={setHobbies}
+                        ref={(ref)=>(references.fifthInput=ref)}>
                         {interests.map((value: string) => (
                             <SelectItem key={value} title={value} />
                         ))}

@@ -15,12 +15,29 @@ export const ME = gql`
 export const USER = gql`
   query {
     me {
-      id
       firstName
       lastName
       username
       location
-      email
+      groups
+      profile{
+        eventsRegistered {
+          id
+          title
+          dateOfEvent
+        }
+        eventsLiked {
+          id
+          title
+          dateOfEvent
+        }
+        eventsDisliked {
+          id
+        }
+        userHobbies
+        userFaculty
+        userYearOfStudy
+      }
     }
   }
 `;
