@@ -15,7 +15,8 @@ import {
   FullUserData,
   FullUserVariables,
   MESSAGE_SENT,
-  MessageSent,
+  MessageSentData,
+  MessageSentVariables,
   GET_MESSAGE_ROOM,
   GetMessageRoomData,
   GetMessageRoomVariables,
@@ -36,7 +37,10 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
     GET_MESSAGE_ROOM,
     { variables: { id: group.messageRoom } }
   );
-  useSubscription<MessageSent>(MESSAGE_SENT, {
+  useSubscription<MessageSentData, MessageSentVariables>(MESSAGE_SENT, {
+    variables: {
+      messageRoomId: group.messageRoom,
+    },
     onSubscriptionData: (all) => {
       const data = all.subscriptionData.data;
       setMessages(

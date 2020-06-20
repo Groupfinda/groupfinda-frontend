@@ -31,6 +31,9 @@ const wsLink = new WebSocketLink({
   uri: WEBSOCKET_ENDPOINT,
   options: {
     reconnect: true,
+    connectionParams: {
+      token: AsyncStorage.getItem("userToken"),
+    },
   },
 });
 

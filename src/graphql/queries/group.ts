@@ -68,15 +68,19 @@ export const GET_MESSAGE_ROOM = gql`
   }
 `;
 
-export type MessageSent = {
+export type MessageSentData = {
   messageSent: {
     room: string;
     message: MessageType;
   };
 };
+
+export type MessageSentVariables = {
+  messageRoomId: string;
+};
 export const MESSAGE_SENT = gql`
-  subscription {
-    messageSent {
+  subscription messageSent($messageRoomId: String!) {
+    messageSent(messageRoomId: $messageRoomId) {
       message {
         text
         _id
