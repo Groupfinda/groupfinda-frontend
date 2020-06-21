@@ -23,6 +23,7 @@ import { useError, useRefetch } from "../../hooks";
 import { ApolloError } from "apollo-client";
 import { Loading } from "../common";
 import { ReferencesType } from "../types";
+import { genders } from "../../../utils/constants";
 
 type Props = {};
 
@@ -43,7 +44,6 @@ type SignUpVariables = {
 
 const SignUpForm: React.FC<Props> = () => {
   const references: ReferencesType = {};
-  const genders = ["Male", "Female"];
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");

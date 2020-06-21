@@ -21,7 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { FULLUSER } from "../../graphql/queries";
 import { TransparentBackHeader, Loading } from "../common";
-import { genders, faculties, interests } from "../common/variables"
+import { genders, faculties, interests } from "../../../utils/constants"
 
 import {
   PersonIcon,

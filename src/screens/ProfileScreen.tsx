@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { ProfilePage } from '../components/Profile'
 
-type Props = {};
 
-const ProfileScreen: React.FC<Props> = (props) => {
+
+const ProfileScreen: React.FC = () => {
 
   return (
     <ProfilePage />
