@@ -1,4 +1,5 @@
 import { StackScreenProps } from "@react-navigation/stack";
+import { GetMyGroupsData } from "../graphql/queries";
 
 export type RootStackParamList = {
   LogIn: undefined;
@@ -11,6 +12,7 @@ export type RootStackParamList = {
   CreateEvent: undefined;
   JoinEvent: undefined;
   EventPage: { id: string };
+  MessageRoom: { group: GetMyGroupsData["me"]["groups"][0] };
   NewUser: undefined;
 };
 
@@ -54,7 +56,14 @@ export type EventScreenNavigationProp = StackScreenProps<
   "EventPage"
 >;
 
+
+export type MessageRoomNavigationProp = StackScreenProps<
+  RootStackParamList,
+  "MessageRoom"
+>;
+
 export type NewUsersNavigationProp = StackScreenProps<
   RootStackParamList,
   "NewUser"
 >;
+
