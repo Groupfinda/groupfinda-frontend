@@ -1,7 +1,7 @@
-import { Input } from "@ui-kitten/components";
+import { Input, Select } from "@ui-kitten/components";
 
 export type ReferencesType = {
-  [key: string]: Input | null;
+  [key: string]: Input | Select | null;
 };
 
 export type QuestionType = {
@@ -9,3 +9,9 @@ export type QuestionType = {
   content: string,
   value: number
 };
+
+export type BasicEventType = {
+  id: string,
+  title: string,
+  dateOfEvent: number
+}

@@ -25,10 +25,12 @@ import { ME } from "../graphql/queries";
 import { ChangePassword } from "../components/Profile";
 import { BottomTabBar } from "../components/common";
 import EventScreen from "../screens/EventScreen";
+import NewUserScreen from "../screens/NewUserScreen";
 
 type MeType = {
   id: string;
   username: string;
+  newUser: boolean;
 };
 
 export default () => {
@@ -75,6 +77,9 @@ export default () => {
       >
         {user ? (
           <>
+            {user.newUser?
+            <Stack.Screen name="NewUser" component={NewUserScreen} />
+            :null}
             <Stack.Screen name="Main" component={TabNavigation} />
             <Stack.Screen
               name="ProfileSettings"
