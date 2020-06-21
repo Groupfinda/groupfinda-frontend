@@ -6,7 +6,7 @@ type Props = {};
 
 export const Header: React.FC<Props> = () => {
   const renderLogo = () => (
-    <Avatar source={require("../../../assets/icon.png")} />
+    <Avatar source={require("../../../assets/logov2.png")} />
   );
   return (
     <TopNavigation

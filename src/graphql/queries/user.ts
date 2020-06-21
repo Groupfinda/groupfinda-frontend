@@ -19,8 +19,10 @@ export const USER = gql`
       lastName
       username
       location
-      groups
-      profile{
+      groups {
+        id
+      }
+      profile {
         eventsRegistered {
           id
           title

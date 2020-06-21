@@ -2,19 +2,25 @@
   "expo": {
     "name": "groupfinda-frontend",
     "slug": "groupfinda-frontend",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logov2.png",
     "splash": {
-      "image": "./assets/icon.png",
+      "image": "./assets/logov2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -27,6 +33,7 @@
         "INTERNET",
         "ACCESS_NETWORK_STATE"
       ]
-    }
+    },
+    "description": ""
   }
 }
