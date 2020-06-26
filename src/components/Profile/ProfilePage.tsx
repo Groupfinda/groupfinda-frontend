@@ -59,7 +59,15 @@ export default (): React.ReactElement => {
   const { loading, error, data } = useQuery(USER, { fetchPolicy: "no-cache", pollInterval: 15000 });
 
   if (error) {
-    return <Text>ERROR</Text>
+    return (
+      <View style={[styles.errorContainer]}>
+        <View>
+          <Text style={{textAlign: "center"}}>
+            Something went wrong: Please restart the application or contact the Development team
+          </Text>
+        </View>
+      </View>
+    )
   };
 
   if (loading || !data || !data.me) {
@@ -197,6 +205,14 @@ export default (): React.ReactElement => {
 };
 
 const themedStyle = StyleService.create({
+  errorContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "center",
+    alignContent: "center",
+    paddingHorizontal: 12
+  },
   layoutContainer: {
     flex: 1,
     flexDirection: "row",

@@ -700,7 +700,7 @@ exports[`renders loaded UI correctly 1`] = `
           size="medium"
           source={
             Object {
-              "testUri": "../../../src/components/Profile/temp/gab.jpg",
+              "uri": "https://postmediacanoe.files.wordpress.com/2019/07/gettyimages-910314172-e1564420108411.jpg?w=840&h=630&crop=1&quality=80&strip=all",
             }
           }
           style={
@@ -721,7 +721,7 @@ exports[`renders loaded UI correctly 1`] = `
         />
         <View
           accessible={true}
-          focusable={false}
+          focusable={true}
           isTVSelectable={true}
           onClick={[Function]}
           onResponderGrant={[Function]}
