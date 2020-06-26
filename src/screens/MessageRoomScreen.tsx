@@ -35,7 +35,7 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
   const user = useQuery<FullUserData, FullUserVariables>(FULLUSER);
   const messageRoom = useQuery<GetMessageRoomData, GetMessageRoomVariables>(
     GET_MESSAGE_ROOM,
-    { variables: { id: group.messageRoom } }
+    { variables: { id: group.messageRoom }, fetchPolicy: "network-only" }
   );
   useSubscription<MessageSentData, MessageSentVariables>(MESSAGE_SENT, {
     variables: {
@@ -51,7 +51,12 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (messageRoom.data) {
-      setMessages(messageRoom.data.getMessageRoom.messages.reverse());
+      const oldMessages = messageRoom.data.getMessageRoom.messages;
+      oldMessages.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+      setMessages(oldMessages);
     }
   }, [messageRoom.data]);
 

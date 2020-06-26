@@ -1,7 +1,6 @@
 import React from "react";
 import { Layout, Text, Divider } from "@ui-kitten/components";
-import { StyleSheet, ScrollView, View, Image, StatusBar } from "react-native";
-import Constants from "expo-constants";
+import { StyleSheet, ScrollView } from "react-native";
 import { Header } from "../components/Create";
 import { useQuery } from "@apollo/react-hooks";
 import {
@@ -21,7 +20,6 @@ const ChatScreen: React.FC<Props> = (props) => {
 
   return (
     <Layout level="2" style={styles.container}>
-      <StatusBar barStyle="dark-content" />
       <Header />
       <Divider />
       <ScrollView>
