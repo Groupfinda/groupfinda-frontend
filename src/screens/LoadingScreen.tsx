@@ -7,7 +7,7 @@ type Props = {};
 const LoadingScreen: React.FC<Props> = () => {
   return (
     <Layout style={styles.container}>
-      <Image source={require("../../assets/icon.png")} />
+      <Image source={require("../../assets/logov2.png")} />
       <Text category="h1">Groupfinda</Text>
     </Layout>
   );

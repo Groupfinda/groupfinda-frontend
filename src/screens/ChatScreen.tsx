@@ -23,7 +23,6 @@ const ChatScreen: React.FC<Props> = (props) => {
       <Header />
       <Divider />
       <ScrollView>
-        {loading && <Text>Loading...</Text>}
         {!loading &&
           groups?.map((group) => <GroupItem key={group.id} group={group} />)}
       </ScrollView>

@@ -18,6 +18,7 @@ import {
   GetPresignedUrlData,
   GetPresignedUrlVariables,
 } from "../../../graphql/mutations";
+import { useImageUpload } from "../../../hooks";
 
 const defaultImage = [
   "https://groupfinda.s3-ap-southeast-1.amazonaws.com/fun.png",
@@ -27,66 +28,12 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
   const { images } = variables;
   //const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [displayImages, setDisplayImages] = useState<string[]>([]);
-
-  const uploadImage = async (url: GetPresignedUrlData, uri: string) => {
-    const formData = new FormData();
-    Object.keys(url.getPresignedURL.fields).forEach((key) => {
-      formData.append(key, url.getPresignedURL.fields[key]);
-    });
-
-    const urisplit = uri.split(".");
-    const ext = urisplit[-1];
-    //@ts-ignore
-    formData.append("file", { uri: uri, type: `image/${ext}` });
-
-    try {
-      const response = await fetch(url.getPresignedURL.url, {
-        method: "POST",
-        body: formData,
-      });
-      alert("Successfully uploaded image");
-    } catch (err) {
-      console.log(err);
-      alert("Failed to upload image");
-    }
-
-    /*
-    return new Promise((resolve, reject) => {
-      const formData = new FormData();
-      Object.keys(url.getPresignedURL.fields).forEach((key) => {
-        formData.append(key, url.getPresignedURL.fields[key]);
-      });
-      //@ts-ignore
-      formData.append("file", { uri: uri, type: "image" });
-
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", url.getPresignedURL.url, true);
-      xhr.send(formData);
-      xhr.onload = () => {
-        if (xhr.status === 204) {
-          alert("Successfully uploaded image");
-          resolve();
-        } else {
-          alert("Failed to upload, please try again");
-          reject(xhr.responseText);
-        }
-      };
-    });
-    */
-  };
+  const toUpload = useImageUpload();
 
   const [getPresigned] = useMutation<
     GetPresignedUrlData,
     GetPresignedUrlVariables
-  >(GET_PRESIGNED_URL, {
-    onCompleted: async (data) => {
-      try {
-        await uploadImage(data, images[images.length - 1]);
-      } catch (err) {
-        alert(err);
-      }
-    },
-  });
+  >(GET_PRESIGNED_URL);
 
   useEffect(() => {
     if (images.length > 0) {
@@ -125,29 +72,9 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
 
     if (!result.cancelled) {
       modifyVariable("images")([...images, result.uri]);
-
-      await getPresigned({
-        variables: { key: result.uri.slice(result.uri.length - 15) },
-      });
+      await toUpload(result.uri.slice(result.uri.length - 15), result.uri);
     }
   };
-  /*
-  const renderBullets = () => (
-    <Layout style={styles.bullets}>
-      {displayImages.map((_, i) => (
-        <Text
-          key={i}
-          style={{
-            ...styles.bullet,
-            opacity: selectedIndex === i ? 0.8 : 0.3,
-          }}
-        >
-          &bull;
-        </Text>
-      ))}
-    </Layout>
-  );
-  */
 
   return (
     <Layout style={styles.container}>
@@ -156,21 +83,6 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
       </Text>
       <Layout>
         <Carousel imageHeight={250} items={displayImages} />
-        {/* 
-        <ViewPager
-          style={{ height: 250 }}
-          selectedIndex={selectedIndex}
-          onSelect={setSelectedIndex}
-        >
-          
-          
-           {displayImages.map((image) => (
-            <ImageCard key={image} height={250} imageLink={image} />
-          ))}
-          
-         
-        </ViewPager>
-        */}
       </Layout>
       <Layout level="4" style={styles.addImageContainer}>
         <TouchableOpacity onPress={getPermissionsAsync} style={styles.wrapper}>
