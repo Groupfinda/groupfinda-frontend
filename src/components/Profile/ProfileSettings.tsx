@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, Platform, Alert, Linking } from "react-native";
 import {
   Button,
   StyleService,
@@ -22,7 +22,8 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { FULLUSER } from "../../graphql/queries";
 import { TransparentBackHeader, Loading } from "../common";
 import { genders, faculties, interests } from "../../../utils/constants"
-
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 import {
   PersonIcon,
   PeopleIcon,
@@ -32,9 +33,10 @@ import {
   CameraIcon,
 } from "./extra/icons";
 import { UPDATE_USER, UPDATE_PROFILE } from "../../graphql/mutations";
+import { useImageUpload } from "../../hooks";
 
 const dummyUser = {
-  avatar: "",
+  avatar: "https://publicdomainvectors.org/photos/abstract-user-flat-3.png",
   firstName: "",
   gender: "",
   lastName: "", 
@@ -76,6 +78,7 @@ export default (): React.ReactElement => {
   const [editBasic, editBasicToggle] = React.useState(false);
   const [editPreferences, editPreferencesToggle] = React.useState(false);
   const [editProfile, editProfileToggle] = React.useState(false);
+  const toUpload = useImageUpload();
 
   const { loading, error, data } = useQuery(FULLUSER, {
     onCompleted: (userData) => {
@@ -95,6 +98,15 @@ export default (): React.ReactElement => {
     },
     fetchPolicy: "cache-and-network"
   });
+
+  const [ updateUserAvatar ] = useMutation(
+    UPDATE_USER,
+    {
+      onError: (err) => {
+        console.log(err);
+      }
+    }
+  )
 
   const [ updateUserBasic ] = useMutation(
     UPDATE_USER,
@@ -207,12 +219,47 @@ export default (): React.ReactElement => {
     }
   )
 
+  const showAlert = () => {
+    Alert.alert(
+      "Please allow access",
+      [
+        "This applicaton needs access to your photo library to upload images.",
+        "\n\n",
+        "Please go to Settings of your device and grant permissions to Photos.",
+      ].join(""),
+      [
+        { text: "Not Now", style: "cancel" },
+        { text: "Settings", onPress: () => Linking.openURL("app-settings:") },
+      ]
+    );
+  };
+
+  const getPermissionsAsync = async () => {
+    if (Platform.OS === "ios") {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        showAlert();
+        return;
+      }
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+    });
+
+    if (!result.cancelled) {
+      await toUpload(result.uri.slice(result.uri.length - 15), result.uri);
+      submitUserImage(result.uri);
+    }
+  };
+
   const renderPhotoButton = (): React.ReactElement => (
     <Button
       style={styles.editAvatarButton}
       status="basic"
       accessoryLeft={CameraIcon}
-    />
+      onPress={getPermissionsAsync}/>
   );
 
   const EditIcon = (): IconElement => {
@@ -232,6 +279,17 @@ export default (): React.ReactElement => {
         fill={props.disabled?theme['color-basic-600']:theme['color-success-default']}
         name='save'/>
     )
+  }
+
+  const submitUserImage = (imageUri: string) => {
+    const variables = {
+      avatar: imageUri
+    }
+    updateUserAvatar({ variables })
+    editUser({
+      ...user,
+      avatar: imageUri,
+    })
   }
 
   const submitBasicChanges = () => {
@@ -346,9 +404,8 @@ export default (): React.ReactElement => {
               height: 124,
               alignSelf: "center",
             }}
-            source={require("./temp/gab.jpg")}
-            editButton={renderPhotoButton}
-          />
+            source={{ uri: user.avatar }}
+            editButton={renderPhotoButton}/>
 
           <Layout style={styles.sectionHeader} level="1">
             <Layout style={styles.sectionHeaderText}>
@@ -612,7 +669,6 @@ export default (): React.ReactElement => {
           <Button
             style={styles.doneButton}
             onPress={() => {
-              console.log(user);
               navigation.navigate("Profile");
             }}>
             Back

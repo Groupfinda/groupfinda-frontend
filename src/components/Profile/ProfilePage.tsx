@@ -49,14 +49,6 @@ const QuestionsIcon = (): IconElement => {
   return <Icon width={16} height={16} fill="white" name="clipboard" />;
 };
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-}
-
 export default (): React.ReactElement => {
   const client = useApolloClient();
   const styles = useStyleSheet(themedStyle);
@@ -64,9 +56,11 @@ export default (): React.ReactElement => {
 
   const navigation = useNavigation();
 
-  const { loading, error, data } = useQuery(USER, { fetchPolicy: "no-cache" });
+  const { loading, error, data } = useQuery(USER, { fetchPolicy: "no-cache", pollInterval: 15000 });
 
-  if (error) return <Text>ERROR</Text>;
+  if (error) {
+    return <Text>ERROR</Text>
+  };
 
   if (loading || !data || !data.me) {
     return (
@@ -75,7 +69,6 @@ export default (): React.ReactElement => {
       </ScrollView>
     );
   } else {
-    console.log(data)
     return (
       <ScrollView style={styles.container}>
         <React.Fragment>
@@ -111,7 +104,7 @@ export default (): React.ReactElement => {
             </Layout>
             <Avatar
               style={{ width: 148, height: 148, marginBottom: 16 }}
-              source={require("./temp/gab.jpg")}
+              source={{ uri: data.me.avatar }}
             />
             <Text style={styles.profileName} category="h5" status="control">
               {data.me.firstName} {data.me.lastName}

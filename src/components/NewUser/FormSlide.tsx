@@ -35,7 +35,6 @@ export default (): React.ReactElement => {
                     setSubmitLoading(false);
                     navigation.navigate("Main");
                 } else {
-                    console.log(data)
                     setSubmitLoading(false);
                 }
             },

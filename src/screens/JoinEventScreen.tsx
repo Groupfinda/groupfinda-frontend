@@ -57,7 +57,7 @@ const JoinEventScreen: React.FC<Props> = ({ navigation }) => {
     }
     searchEvent({ variables: { eventCode } });
   };
-  console.log(data);
+
   return (
     <Layout style={styles.container}>
       <ScrollView contentContainerStyle={styles.container}>

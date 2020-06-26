@@ -15,6 +15,8 @@ export const ME = gql`
 export const USER = gql`
   query {
     me {
+      id
+      avatar
       firstName
       lastName
       username
