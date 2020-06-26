@@ -12,12 +12,6 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
 import Carousel from "../../common/Carousel";
-import { useMutation } from "@apollo/react-hooks";
-import {
-  GET_PRESIGNED_URL,
-  GetPresignedUrlData,
-  GetPresignedUrlVariables,
-} from "../../../graphql/mutations";
 import { useImageUpload } from "../../../hooks";
 
 const defaultImage = [
@@ -29,11 +23,6 @@ const EventImagesForm: React.FC<FormProps> = (props) => {
   //const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [displayImages, setDisplayImages] = useState<string[]>([]);
   const toUpload = useImageUpload();
-
-  const [getPresigned] = useMutation<
-    GetPresignedUrlData,
-    GetPresignedUrlVariables
-  >(GET_PRESIGNED_URL);
 
   useEffect(() => {
     if (images.length > 0) {

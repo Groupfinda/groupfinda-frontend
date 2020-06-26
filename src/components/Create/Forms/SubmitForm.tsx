@@ -90,7 +90,6 @@ const SubmitForm: React.FC<SubmitFormProps> = (props) => {
   );
 
   const onSubmit = async () => {
-    console.log(variables);
     setLoading(true);
     const mutationVariables: CreateEventVariables = {
       title,
