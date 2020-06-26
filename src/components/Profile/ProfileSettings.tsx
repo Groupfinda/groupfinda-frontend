@@ -249,8 +249,8 @@ export default (): React.ReactElement => {
     });
 
     if (!result.cancelled) {
-      await toUpload(result.uri.slice(result.uri.length - 15), result.uri);
-      submitUserImage(result.uri);
+      await toUpload("avatar", result.uri);
+      submitUserImage("avatar");
     }
   };
 
