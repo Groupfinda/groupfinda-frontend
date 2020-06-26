@@ -23,7 +23,7 @@ import { ImageOverlay } from "./extra/image-overlay.component";
 import { ProfileSocial } from "./extra/profile-social.component";
 import { DrawerGroupUser } from "./extra/drawer.component";
 import { useNavigation } from "@react-navigation/native";
-import { useLazyQuery, useApolloClient, useQuery } from "@apollo/react-hooks";
+import { useApolloClient, useQuery } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
 import { SettingsIcon } from "./extra/icons";
@@ -53,22 +53,22 @@ export default (): React.ReactElement => {
   const client = useApolloClient();
   const styles = useStyleSheet(themedStyle);
   const theme = useTheme();
-
   const navigation = useNavigation();
 
-  const { loading, error, data } = useQuery(USER, { fetchPolicy: "no-cache", pollInterval: 15000 });
+  const { loading, error, data } = useQuery(USER);
 
   if (error) {
     return (
       <View style={[styles.errorContainer]}>
         <View>
-          <Text style={{textAlign: "center"}}>
-            Something went wrong: Please restart the application or contact the Development team
+          <Text style={{ textAlign: "center" }}>
+            Something went wrong: Please restart the application or contact the
+            Development team
           </Text>
         </View>
       </View>
-    )
-  };
+    );
+  }
 
   if (loading || !data || !data.me) {
     return (
@@ -132,7 +132,10 @@ export default (): React.ReactElement => {
               <ProfileSocial
                 style={styles.profileSocial}
                 hint="Like/Dislikes"
-                value={data.me.profile.eventsLiked.length + data.me.profile.eventsDisliked.length}
+                value={
+                  data.me.profile.eventsLiked.length +
+                  data.me.profile.eventsDisliked.length
+                }
               />
               {/* <ProfileSocial
                 style={styles.profileSocial}
@@ -147,8 +150,8 @@ export default (): React.ReactElement => {
             </View>
           </ImageOverlay>
           <Divider />
-          <Layout style={{padding: 12}}>
-            <Text style={{ fontWeight: "bold" }} category='h6'>
+          <Layout style={{ padding: 12 }}>
+            <Text style={{ fontWeight: "bold" }} category="h6">
               Profile Overview
             </Text>
             <ListItem
@@ -159,9 +162,11 @@ export default (): React.ReactElement => {
                 <Icon
                   width={20}
                   height={20}
-                  fill={theme['color-primary-default']}
-                  name="brush-outline" />
-              )}/>
+                  fill={theme["color-primary-default"]}
+                  name="brush-outline"
+                />
+              )}
+            />
             <ListItem
               disabled
               title="Faculty"
@@ -170,25 +175,33 @@ export default (): React.ReactElement => {
                 <Icon
                   width={20}
                   height={20}
-                  fill={theme['color-primary-default']}
-                  name="book-outline" />
-              )}/>
-              <ListItem
-                disabled
-                title="Year of Study"
-                description={data.me.profile.userYearOfStudy}
-                accessoryLeft={() => (
-                  <Icon
-                    width={20}
-                    height={20}
-                    fill={theme['color-primary-default']}
-                    name="clock-outline" />
-                )}/>
+                  fill={theme["color-primary-default"]}
+                  name="book-outline"
+                />
+              )}
+            />
+            <ListItem
+              disabled
+              title="Year of Study"
+              description={data.me.profile.userYearOfStudy}
+              accessoryLeft={() => (
+                <Icon
+                  width={20}
+                  height={20}
+                  fill={theme["color-primary-default"]}
+                  name="clock-outline"
+                />
+              )}
+            />
           </Layout>
           <Divider />
           <DrawerGroupUser
             eventsLiked={data.me.profile.eventsLiked}
-            eventsRegistered={data.me.profile.eventsRegistered.filter((event: BasicEventType)=>event.dateOfEvent>(new Date()).getTime())}/>
+            eventsRegistered={data.me.profile.eventsRegistered.filter(
+              (event: BasicEventType) =>
+                event.dateOfEvent > new Date().getTime()
+            )}
+          />
           <Button
             status="danger"
             onPress={async () => {
@@ -211,7 +224,7 @@ const themedStyle = StyleService.create({
     alignItems: "stretch",
     justifyContent: "center",
     alignContent: "center",
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
   },
   layoutContainer: {
     flex: 1,

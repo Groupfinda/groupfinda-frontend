@@ -1,5 +1,11 @@
 import React from "react";
-import { ScrollView, TouchableOpacity, Platform, Alert, Linking } from "react-native";
+import {
+  ScrollView,
+  TouchableOpacity,
+  Platform,
+  Alert,
+  Linking,
+} from "react-native";
 import {
   Button,
   StyleService,
@@ -19,9 +25,9 @@ import { EditAvatar } from "./extra/edit-avatar.component";
 import { ProfileField } from "./extra/profile-field.component";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { FULLUSER } from "../../graphql/queries";
+import { FULLUSER, USER } from "../../graphql/queries";
 import { TransparentBackHeader, Loading } from "../common";
-import { genders, faculties, interests } from "../../../utils/constants"
+import { genders, faculties, interests } from "../../../utils/constants";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import {
@@ -39,12 +45,12 @@ const dummyUser = {
   avatar: "https://publicdomainvectors.org/photos/abstract-user-flat-3.png",
   firstName: "",
   gender: "",
-  lastName: "", 
+  lastName: "",
   birthday: 1,
   userOriginalBasic: {
     firstName: "",
     gender: "",
-    lastName: "", 
+    lastName: "",
     birthday: 1,
   },
   username: "",
@@ -53,19 +59,19 @@ const dummyUser = {
   preferences: {
     lowerAge: 0,
     maxDistance: 100,
-    upperAge: 0
+    upperAge: 0,
   },
   profile: {
     userFaculty: "",
     userHobbies: ["game"],
-    userYearOfStudy: 0
+    userYearOfStudy: 0,
   },
   lowerAge: 0,
   maxDistance: 100,
   upperAge: 0,
   userFaculty: "",
   userHobbies: ["game"],
-  userYearOfStudy: 0
+  userYearOfStudy: 0,
 };
 
 export default (): React.ReactElement => {
@@ -73,7 +79,6 @@ export default (): React.ReactElement => {
   const theme = useTheme();
 
   const navigation = useNavigation();
-
   const [user, editUser] = React.useState(dummyUser);
   const [editBasic, editBasicToggle] = React.useState(false);
   const [editPreferences, editPreferencesToggle] = React.useState(false);
@@ -89,135 +94,132 @@ export default (): React.ReactElement => {
         ...userData.me.profile,
         userOriginalBasic: {
           firstName: userData.me.firstName,
-          lastName: userData.me.lastName, 
+          lastName: userData.me.lastName,
           birthday: userData.me.birthday,
           gender: userData.me.gender,
-        }
-      }
+        },
+      };
       editUser(fetchedUser);
     },
-    fetchPolicy: "cache-and-network"
+    fetchPolicy: "cache-and-network",
   });
 
-  const [ updateUserAvatar ] = useMutation(
-    UPDATE_USER,
-    {
-      onError: (err) => {
-        console.log(err);
-      }
-    }
-  )
+  const [updateUserAvatar] = useMutation(UPDATE_USER, {
+    onError: (err) => {
+      console.log(err);
+    },
+    update: (cache, _) => {
+      const query: any = cache.readQuery({ query: USER });
+      cache.writeQuery({
+        query: USER,
+        data: {
+          me: { ...query.me, avatar: `${query.me.avatar}?${new Date()}` },
+        },
+      });
+    },
+  });
 
-  const [ updateUserBasic ] = useMutation(
-    UPDATE_USER,
-    {
-      onCompleted: async (data: boolean) => {
-        if (data) {
-          editUser({
-            ...user,
-            userOriginalBasic: {
-              firstName: user.firstName,
-              lastName: user.lastName,
-              birthday: user.birthday,
-              gender: user.gender
-            }
-          })
-        } else {
-          editUser({
-            ...user,
-            firstName: user.userOriginalBasic.firstName,
-            lastName: user.userOriginalBasic.lastName,
-            birthday: user.userOriginalBasic.birthday,
-            gender: user.userOriginalBasic.gender
-          })
-        }
-        editBasicToggle(!editBasic);
-      },
-      onError: (err) => {
-        console.log(err)
+  const [updateUserBasic] = useMutation(UPDATE_USER, {
+    onCompleted: async (data: boolean) => {
+      if (data) {
+        editUser({
+          ...user,
+          userOriginalBasic: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            birthday: user.birthday,
+            gender: user.gender,
+          },
+        });
+      } else {
         editUser({
           ...user,
           firstName: user.userOriginalBasic.firstName,
           lastName: user.userOriginalBasic.lastName,
           birthday: user.userOriginalBasic.birthday,
-          gender: user.userOriginalBasic.gender
-        })
-        editBasicToggle(!editBasic)
+          gender: user.userOriginalBasic.gender,
+        });
       }
-    }
-  )
+      editBasicToggle(!editBasic);
+    },
+    onError: (err) => {
+      console.log(err);
+      editUser({
+        ...user,
+        firstName: user.userOriginalBasic.firstName,
+        lastName: user.userOriginalBasic.lastName,
+        birthday: user.userOriginalBasic.birthday,
+        gender: user.userOriginalBasic.gender,
+      });
+      editBasicToggle(!editBasic);
+    },
+  });
 
-  const [ updateUserPreferences ] = useMutation(
-    UPDATE_USER,
-    {
-      onCompleted: async(data: boolean) => {
-        if (data) {
-          editUser({
-            ...user,
-            preferences: {
-              lowerAge: user.lowerAge,
-              upperAge: user.upperAge,
-              maxDistance: user.maxDistance
-            }
-          })
-        } else {
-          editUser({
-            ...user,
-            lowerAge: user.preferences.lowerAge,
-            upperAge: user.preferences.upperAge,
-            maxDistance: user.preferences.maxDistance,
-          })
-        }
-        editPreferencesToggle(!editPreferences)
-      },
-      onError: (err) => {
-        console.log(err);
+  const [updateUserPreferences] = useMutation(UPDATE_USER, {
+    onCompleted: async (data: boolean) => {
+      if (data) {
+        editUser({
+          ...user,
+          preferences: {
+            lowerAge: user.lowerAge,
+            upperAge: user.upperAge,
+            maxDistance: user.maxDistance,
+          },
+        });
+      } else {
         editUser({
           ...user,
           lowerAge: user.preferences.lowerAge,
           upperAge: user.preferences.upperAge,
           maxDistance: user.preferences.maxDistance,
-        })
-        editPreferencesToggle(!editPreferences)
+        });
       }
-    }
-  )
+      editPreferencesToggle(!editPreferences);
+    },
+    onError: (err) => {
+      console.log(err);
+      editUser({
+        ...user,
+        lowerAge: user.preferences.lowerAge,
+        upperAge: user.preferences.upperAge,
+        maxDistance: user.preferences.maxDistance,
+      });
+      editPreferencesToggle(!editPreferences);
+    },
+  });
 
-  const [ updateUserProfile ] = useMutation(
-    UPDATE_PROFILE,
-    {
-      onCompleted: async(data: boolean) => {
-        if (data) {
-          editUser({
-            ...user,
-            profile: {
-              userFaculty: user.userFaculty,
-              userHobbies: user.userHobbies,
-              userYearOfStudy: user.userYearOfStudy
-            }
-          })
-        } else {
-          editUser({
-            ...user,
-            userHobbies: user.profile.userHobbies,
-            userFaculty: user.profile.userFaculty,
-            userYearOfStudy: user.profile.userYearOfStudy
-          })
-        }
-        editProfileToggle(!editProfile)
-      },
-      onError: (err) => {
-        console.log(err)
+  const [updateUserProfile] = useMutation(UPDATE_PROFILE, {
+    onCompleted: async (data: boolean) => {
+      if (data) {
+        editUser({
+          ...user,
+          profile: {
+            userFaculty: user.userFaculty,
+            userHobbies: user.userHobbies,
+            userYearOfStudy: user.userYearOfStudy,
+          },
+        });
+      } else {
         editUser({
           ...user,
           userHobbies: user.profile.userHobbies,
           userFaculty: user.profile.userFaculty,
-          userYearOfStudy: user.profile.userYearOfStudy
-        })
-        editProfileToggle(!editProfile)
+          userYearOfStudy: user.profile.userYearOfStudy,
+        });
       }
-    }
-  )
+      editProfileToggle(!editProfile);
+    },
+    onError: (err) => {
+      console.log(err);
+      editUser({
+        ...user,
+        userHobbies: user.profile.userHobbies,
+        userFaculty: user.profile.userFaculty,
+        userYearOfStudy: user.profile.userYearOfStudy,
+      });
+      editProfileToggle(!editProfile);
+    },
+  });
 
   const showAlert = () => {
     Alert.alert(
@@ -250,7 +252,7 @@ export default (): React.ReactElement => {
 
     if (!result.cancelled) {
       await toUpload("avatar", result.uri);
-      submitUserImage("avatar");
+      submitUserImage("avatar", result.uri);
     }
   };
 
@@ -259,7 +261,8 @@ export default (): React.ReactElement => {
       style={styles.editAvatarButton}
       status="basic"
       accessoryLeft={CameraIcon}
-      onPress={getPermissionsAsync}/>
+      onPress={getPermissionsAsync}
+    />
   );
 
   const EditIcon = (): IconElement => {
@@ -267,127 +270,137 @@ export default (): React.ReactElement => {
       <Icon
         width={16}
         height={16}
-        fill={theme['color-info-default']}
-        name='edit-2'/>
-    )
-  }
+        fill={theme["color-info-default"]}
+        name="edit-2"
+      />
+    );
+  };
   const SaveIcon = (props: any): IconElement => {
     return (
       <Icon
         width={16}
         height={16}
-        fill={props.disabled?theme['color-basic-600']:theme['color-success-default']}
-        name='save'/>
-    )
-  }
+        fill={
+          props.disabled
+            ? theme["color-basic-600"]
+            : theme["color-success-default"]
+        }
+        name="save"
+      />
+    );
+  };
 
-  const submitUserImage = (imageUri: string) => {
+  const submitUserImage = (imageUri: string, uri: string) => {
     const variables = {
-      avatar: imageUri
-    }
-    updateUserAvatar({ variables })
+      avatar: imageUri,
+    };
+    updateUserAvatar({ variables });
     editUser({
       ...user,
-      avatar: imageUri,
-    })
-  }
+      avatar: uri,
+    });
+  };
 
   const submitBasicChanges = () => {
     if (!editBasic) {
       editBasicToggle(!editBasic);
     } else {
-      let variables = {}
+      let variables = {};
       if (user.firstName !== user.userOriginalBasic.firstName) {
-        variables = {firstName: user.firstName}
+        variables = { firstName: user.firstName };
       }
       if (user.lastName !== user.userOriginalBasic.lastName) {
-        variables = {...variables, lastName: user.lastName}
+        variables = { ...variables, lastName: user.lastName };
       }
       if (user.birthday !== user.userOriginalBasic.birthday) {
-        variables = {...variables, birthday: user.birthday}
+        variables = { ...variables, birthday: user.birthday };
       }
       if (user.gender !== user.userOriginalBasic.gender) {
-        variables = {...variables, gender: user.gender}
+        variables = { ...variables, gender: user.gender };
       }
       if (Object.keys(variables).length !== 0) {
-        updateUserBasic({ variables })
+        updateUserBasic({ variables });
       } else {
         editBasicToggle(!editBasic);
       }
     }
-  }
+  };
 
   const submitProfileChanges = () => {
     if (!editProfile) {
       editProfileToggle(!editProfile);
     } else {
-      let variables = {}
+      let variables = {};
       if (user.userYearOfStudy !== user.profile.userYearOfStudy) {
-        variables = {userYearOfStudy: user.userYearOfStudy}
+        variables = { userYearOfStudy: user.userYearOfStudy };
       }
       if (user.userFaculty !== user.profile.userFaculty) {
-        variables = {...variables, userFaculty: user.userFaculty}
+        variables = { ...variables, userFaculty: user.userFaculty };
       }
       if (user.userHobbies !== user.profile.userHobbies) {
-        variables = {...variables, userHobbies: user.userHobbies}
+        variables = { ...variables, userHobbies: user.userHobbies };
       }
       if (Object.keys(variables).length !== 0) {
-        updateUserProfile({variables})
+        updateUserProfile({ variables });
       } else {
         editProfileToggle(!editProfile);
       }
     }
-  }
+  };
 
   const submitPreferenceChanges = () => {
     if (!editPreferences) {
       editPreferencesToggle(!editPreferences);
     } else {
-      let variables = {}
+      let variables = {};
       if (user.lowerAge !== user.preferences.lowerAge) {
-        variables = {lowerAge: user.lowerAge}
+        variables = { lowerAge: user.lowerAge };
       }
       if (user.upperAge !== user.preferences.upperAge) {
-        variables = {...variables, upperAge: user.upperAge}
+        variables = { ...variables, upperAge: user.upperAge };
       }
       if (user.maxDistance !== user.preferences.maxDistance) {
-        variables = {...variables, maxDistance: user.maxDistance}
+        variables = { ...variables, maxDistance: user.maxDistance };
       }
       if (Object.keys(variables).length !== 0) {
-        updateUserPreferences({ variables })
+        updateUserPreferences({ variables });
       } else {
         editPreferencesToggle(!editPreferences);
       }
     }
-  }
+  };
 
   const setGender = (value: IndexPath | IndexPath[]) => {
     if (value instanceof IndexPath) {
-      editUser({...user, gender: genders[value.row]})
+      editUser({ ...user, gender: genders[value.row] });
     }
-  }
+  };
 
   const setFaculty = (value: IndexPath | IndexPath[]) => {
     if (value instanceof IndexPath) {
-      editUser({...user, userFaculty: faculties[value.row]})
+      editUser({ ...user, userFaculty: faculties[value.row] });
     }
-  }
+  };
 
   const setHobbies = (value: IndexPath | IndexPath[]) => {
     if (value instanceof IndexPath) {
     } else {
-      editUser({...user, userHobbies:value.map((index: IndexPath)=>interests[index.row])})
+      editUser({
+        ...user,
+        userHobbies: value.map((index: IndexPath) => interests[index.row]),
+      });
     }
-  }
+  };
   if (error) {
-    return <ScrollView style={styles.container}>
-      <TransparentBackHeader />
-      <Layout style={{paddingTop: 30}}>
-        <Text category='h1'>Error Loading this Page</Text>
-      </Layout>
-    </ScrollView>
-  }
-  else if (loading || !data) {
+    return (
+      <ScrollView style={styles.container}>
+        <TransparentBackHeader />
+        <Layout style={{ paddingTop: 30 }}>
+          <Text category="h1">Error Loading this Page</Text>
+        </Layout>
+      </ScrollView>
+    );
+  } else if (loading || !data) {
     return <Loading visible={loading} />;
   } else {
     return (
@@ -405,7 +418,8 @@ export default (): React.ReactElement => {
               alignSelf: "center",
             }}
             source={{ uri: user.avatar }}
-            editButton={renderPhotoButton}/>
+            editButton={renderPhotoButton}
+          />
 
           <Layout style={styles.sectionHeader} level="1">
             <Layout style={styles.sectionHeaderText}>
@@ -414,16 +428,34 @@ export default (): React.ReactElement => {
             </Layout>
             <TouchableOpacity
               testID="toggle-edit-basic"
-              disabled={user.firstName.length===0 || user.lastName.length===0}
+              disabled={
+                user.firstName.length === 0 || user.lastName.length === 0
+              }
               style={{ flexDirection: "row", alignItems: "center" }}
               onPress={submitBasicChanges}
             >
-              {!editBasic ? <EditIcon/>
-              :<SaveIcon disabled={user.firstName.length===0 || user.lastName.length===0}/>}
+              {!editBasic ? (
+                <EditIcon />
+              ) : (
+                <SaveIcon
+                  disabled={
+                    user.firstName.length === 0 || user.lastName.length === 0
+                  }
+                />
+              )}
               {!editBasic ? (
                 <Text status="info">Edit</Text>
               ) : (
-                <Text status="success" style={(user.firstName.length===0 || user.lastName.length===0)?{color:theme['color-basic-600']}:{}}>Update</Text>
+                <Text
+                  status="success"
+                  style={
+                    user.firstName.length === 0 || user.lastName.length === 0
+                      ? { color: theme["color-basic-600"] }
+                      : {}
+                  }
+                >
+                  Update
+                </Text>
               )}
             </TouchableOpacity>
           </Layout>
@@ -464,50 +496,77 @@ export default (): React.ReactElement => {
             editUser={editUser}
           />
           <Layout
-            level='1'
-            style={[styles.profileSetting, {flexDirection:"row",justifyContent:"space-between",alignItems:"center"}]}>
+            level="1"
+            style={[
+              styles.profileSetting,
+              {
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              },
+            ]}
+          >
             <Text
-              appearance='hint'
-              style={{paddingVertical:13}}
-              category='s1'>
+              appearance="hint"
+              style={{ paddingVertical: 13 }}
+              category="s1"
+            >
               Birthday
             </Text>
-            {editBasic?
-            <Datepicker
-              accessoryRight={(props)=>(<Icon {...props} name='calendar-outline'/>)}
-              style={{width: 150}}
-              min={new Date(new Date().setFullYear(1920))}
-              max={new Date()}
-              date={new Date(user['birthday'])}
-              onSelect={(date)=>editUser({...user, birthday: date.getTime()})}/>
-            :<Text category='s1'>
-              {formattedDate(new Date(user['birthday']))}
-            </Text>}
+            {editBasic ? (
+              <Datepicker
+                accessoryRight={(props) => (
+                  <Icon {...props} name="calendar-outline" />
+                )}
+                style={{ width: 150 }}
+                min={new Date(new Date().setFullYear(1920))}
+                max={new Date()}
+                date={new Date(user["birthday"])}
+                onSelect={(date) =>
+                  editUser({ ...user, birthday: date.getTime() })
+                }
+              />
+            ) : (
+              <Text category="s1">
+                {formattedDate(new Date(user["birthday"]))}
+              </Text>
+            )}
           </Layout>
           <Divider />
           <Layout
-            level='1'
-            style={[styles.profileSetting, {flexDirection:"row",justifyContent:"space-between",alignItems:"center"}]}>
+            level="1"
+            style={[
+              styles.profileSetting,
+              {
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              },
+            ]}
+          >
             <Text
-              appearance='hint'
-              style={{paddingVertical:13}}
-              category='s1'>
+              appearance="hint"
+              style={{ paddingVertical: 13 }}
+              category="s1"
+            >
               Gender
             </Text>
-            {editBasic?<Select
-              value={user.gender}
-              selectedIndex={new IndexPath(genders.indexOf(user.gender))}
-              onSelect={setGender}
-              style={{width:130}}>
-              {genders.map((value: string) => (
-                <SelectItem key={value} title={value} />
-              ))}
-            </Select>
-            :<Text category='s1'>
-              {user.gender}
-            </Text>}
+            {editBasic ? (
+              <Select
+                value={user.gender}
+                selectedIndex={new IndexPath(genders.indexOf(user.gender))}
+                onSelect={setGender}
+                style={{ width: 130 }}
+              >
+                {genders.map((value: string) => (
+                  <SelectItem key={value} title={value} />
+                ))}
+              </Select>
+            ) : (
+              <Text category="s1">{user.gender}</Text>
+            )}
           </Layout>
-          <Divider/>
+          <Divider />
           <ProfileField
             numericInput={false}
             style={[styles.profileSetting]}
@@ -517,7 +576,6 @@ export default (): React.ReactElement => {
             editable={false}
             editUser={editUser}
           />
-          
 
           <Layout style={styles.sectionHeader} level="1">
             <Layout style={styles.sectionHeaderText}>
@@ -549,20 +607,34 @@ export default (): React.ReactElement => {
             </Layout>
             <TouchableOpacity
               testID="toggle-edit-profile"
-              disabled={user.userYearOfStudy.toString().length===0}
+              disabled={user.userYearOfStudy.toString().length === 0}
               style={{ flexDirection: "row", alignItems: "center" }}
               onPress={submitProfileChanges}
             >
-              {!editProfile ? <EditIcon/>
-              : <SaveIcon disabled={user.userYearOfStudy.toString().length===0}/>}
+              {!editProfile ? (
+                <EditIcon />
+              ) : (
+                <SaveIcon
+                  disabled={user.userYearOfStudy.toString().length === 0}
+                />
+              )}
               {!editProfile ? (
                 <Text status="info">Edit</Text>
               ) : (
-                <Text status="success" style={user.userYearOfStudy.toString().length===0?{color:theme['color-basic-600']}:{}}>Update</Text>
+                <Text
+                  status="success"
+                  style={
+                    user.userYearOfStudy.toString().length === 0
+                      ? { color: theme["color-basic-600"] }
+                      : {}
+                  }
+                >
+                  Update
+                </Text>
               )}
             </TouchableOpacity>
           </Layout>
-          <ProfileField 
+          <ProfileField
             numericInput={true}
             style={[styles.profileSetting]}
             hint="Year of Study"
@@ -572,52 +644,69 @@ export default (): React.ReactElement => {
             editUser={editUser}
           />
           <Layout
-            level='1'
-            style={[styles.profileSetting, {flexDirection:"row",justifyContent:"space-between",alignItems:"center"}]}>
+            level="1"
+            style={[
+              styles.profileSetting,
+              {
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              },
+            ]}
+          >
             <Text
-              appearance='hint'
-              style={{paddingVertical:13}}
-              category='s1'>
+              appearance="hint"
+              style={{ paddingVertical: 13 }}
+              category="s1"
+            >
               Faculty
             </Text>
-            {editProfile?<Select
-              value={user.userFaculty}
-              selectedIndex={new IndexPath(faculties.indexOf(user.userFaculty))}
-              onSelect={setFaculty}
-              style={{width:200}}>
-              {faculties.map((value: string) => (
-                <SelectItem key={value} title={value} />
-              ))}
-            </Select>
-            :<Text category='s1'>
-              {user.userFaculty}
-            </Text>}
+            {editProfile ? (
+              <Select
+                value={user.userFaculty}
+                selectedIndex={
+                  new IndexPath(faculties.indexOf(user.userFaculty))
+                }
+                onSelect={setFaculty}
+                style={{ width: 200 }}
+              >
+                {faculties.map((value: string) => (
+                  <SelectItem key={value} title={value} />
+                ))}
+              </Select>
+            ) : (
+              <Text category="s1">{user.userFaculty}</Text>
+            )}
           </Layout>
-          <Divider/>
+          <Divider />
           <Layout
-            level='1'
-            style={[styles.profileSetting, {flexDirection:"column"}]}>
+            level="1"
+            style={[styles.profileSetting, { flexDirection: "column" }]}
+          >
             <Text
-              appearance='hint'
-              style={{paddingVertical:13}}
-              category='s1'>
+              appearance="hint"
+              style={{ paddingVertical: 13 }}
+              category="s1"
+            >
               Interests
             </Text>
             <Select
               disabled={!editProfile}
-              value={(props)=><Text {...props}>{user.userHobbies.join(", ")}</Text>}
+              value={(props) => (
+                <Text {...props}>{user.userHobbies.join(", ")}</Text>
+              )}
               multiSelect={true}
-              selectedIndex={user.userHobbies.map((value:string) => (
-                new IndexPath(interests.indexOf(value))
-              ))}
-              onSelect={setHobbies}>
+              selectedIndex={user.userHobbies.map(
+                (value: string) => new IndexPath(interests.indexOf(value))
+              )}
+              onSelect={setHobbies}
+            >
               {interests.map((value: string) => (
                 <SelectItem key={value} title={value} />
               ))}
             </Select>
           </Layout>
-          <Divider/>
-          
+          <Divider />
 
           <Layout style={styles.sectionHeader} level="1">
             <Layout style={styles.sectionHeaderText}>
@@ -626,15 +715,40 @@ export default (): React.ReactElement => {
             </Layout>
             <TouchableOpacity
               testID="toggle-edit-preferences"
-              disabled={user.lowerAge.toString().length===0||user.upperAge.toString().length===0||user.maxDistance.toString().length===0}
+              disabled={
+                user.lowerAge.toString().length === 0 ||
+                user.upperAge.toString().length === 0 ||
+                user.maxDistance.toString().length === 0
+              }
               style={{ flexDirection: "row", alignItems: "center" }}
-              onPress={submitPreferenceChanges}>
-              {!editPreferences ? <EditIcon/>
-              :<SaveIcon disabled={user.lowerAge.toString().length===0||user.upperAge.toString().length===0||user.maxDistance.toString().length===0}/>}
+              onPress={submitPreferenceChanges}
+            >
+              {!editPreferences ? (
+                <EditIcon />
+              ) : (
+                <SaveIcon
+                  disabled={
+                    user.lowerAge.toString().length === 0 ||
+                    user.upperAge.toString().length === 0 ||
+                    user.maxDistance.toString().length === 0
+                  }
+                />
+              )}
               {!editPreferences ? (
                 <Text status="info">Edit</Text>
               ) : (
-                <Text status="success" style={(user.lowerAge.toString().length===0||user.upperAge.toString().length===0||user.maxDistance.toString().length===0)?{color:theme['color-basic-600']}:{}}>Update</Text>
+                <Text
+                  status="success"
+                  style={
+                    user.lowerAge.toString().length === 0 ||
+                    user.upperAge.toString().length === 0 ||
+                    user.maxDistance.toString().length === 0
+                      ? { color: theme["color-basic-600"] }
+                      : {}
+                  }
+                >
+                  Update
+                </Text>
               )}
             </TouchableOpacity>
           </Layout>
@@ -670,7 +784,8 @@ export default (): React.ReactElement => {
             style={styles.doneButton}
             onPress={() => {
               navigation.navigate("Profile");
-            }}>
+            }}
+          >
             Back
           </Button>
         </React.Fragment>
@@ -679,16 +794,17 @@ export default (): React.ReactElement => {
   }
 };
 
-function formattedDate(d = new Date) {
-  return [d.getDate(), d.getMonth()+1, d.getFullYear()]
-      .map(n => n < 10 ? `0${n}` : `${n}`).join('/');
+function formattedDate(d = new Date()) {
+  return [d.getDate(), d.getMonth() + 1, d.getFullYear()]
+    .map((n) => (n < 10 ? `0${n}` : `${n}`))
+    .join("/");
 }
 
 const themedStyle = StyleService.create({
   container: {
     flex: 1,
     backgroundColor: "background-basic-color-2",
-    paddingTop: 16
+    paddingTop: 16,
   },
   contentContainer: {
     paddingVertical: 24,
