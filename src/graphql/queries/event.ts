@@ -12,6 +12,7 @@ export const upcomingEvents = gql`
       private
       groupSize
       locationOn
+      category
     }
   }
 `;
@@ -49,6 +50,19 @@ export const singleEvent = gql`
   }
 `;
 
+export type searchEventType = {
+  id: string,
+  title: string,
+  description: string,
+  dateOfEvent: Date,
+  dateLastRegister: Date,
+  images: string[],
+  private: boolean,
+  groupSize: number,
+  locationOn: boolean,
+  category: string[]
+}
+
 export const searchEventByTerm = gql`
   query Event($searchTerm: String!) {
     searchEvent(searchTerm: $searchTerm) {
@@ -61,6 +75,7 @@ export const searchEventByTerm = gql`
       private
       groupSize
       locationOn
+      category
     }
   }
 `;
