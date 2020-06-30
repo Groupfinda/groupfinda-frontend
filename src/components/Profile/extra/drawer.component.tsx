@@ -1,12 +1,12 @@
 import React from 'react';
 import { Drawer, DrawerGroup, DrawerItem, IndexPath, Icon, Text, Divider, StyleService, useStyleSheet, useTheme } from '@ui-kitten/components';
 import { BasicEventType } from '../../types';
-import styles from '../../common/Carousel/styles';
 import { useNavigation } from '@react-navigation/native';
 
 interface Props {
     eventsRegistered: BasicEventType[];
     eventsLiked: BasicEventType[];
+    eventsOwned: BasicEventType[];
 }
 
 export const DrawerGroupUser = (props: Props) => {
@@ -14,9 +14,10 @@ export const DrawerGroupUser = (props: Props) => {
     const theme = useTheme();
     const navigation = useNavigation();
 
-    let { eventsLiked, eventsRegistered } = props;
-    eventsLiked.sort((eventA: BasicEventType, eventB: BasicEventType) => eventA.dateOfEvent - eventB.dateOfEvent)
+    let { eventsLiked, eventsRegistered, eventsOwned } = props;
+    eventsRegistered.sort((eventA: BasicEventType, eventB: BasicEventType) => eventA.dateOfEvent - eventB.dateOfEvent)
     eventsLiked.sort((eventA: BasicEventType, eventB: BasicEventType) => eventB.dateOfEvent - eventA.dateOfEvent)
+    eventsOwned.sort((eventA: BasicEventType, eventB: BasicEventType) => eventB.dateOfEvent - eventA.dateOfEvent)
 
     const [selectedIndex, setSelectedIndex] = React.useState<IndexPath>();
     
@@ -67,7 +68,29 @@ export const DrawerGroupUser = (props: Props) => {
                         accessoryRight={(props)=><Icon
                             {...props}
                             fill={theme["color-primary-700"]}
-                            name='search' />}/>
+                            name='expand' />}/>
+                    )
+                })}
+            </DrawerGroup>
+            <DrawerGroup
+                accessoryLeft={(props)=><Icon {...props} name='browser-outline'/>}
+                title='My Events Created'>
+                {eventsOwned.map((event:BasicEventType)=>{
+                    const dateOfEvent = new Date(event.dateOfEvent);
+                    return (
+                        <DrawerItem
+                            onPress={()=>navigation.navigate("EventPage", { id: event.id})}
+                            style={styles.drawerItem}    
+                            title={(props)=><Text {...props}>
+                            {event.title} - <Text category='c1' appearance='hint'>
+                                {dateOfEvent.getDate()+"/"+dateOfEvent.getMonth()+"/"+dateOfEvent.getFullYear()}
+                            </Text>
+                        </Text>}
+                        key={event.id}
+                        accessoryRight={(props)=><Icon
+                            {...props}
+                            fill={theme["color-primary-700"]}
+                            name='expand' />}/>
                     )
                 })}
             </DrawerGroup>

@@ -43,6 +43,11 @@ export const USER = gql`
         userYearOfStudy
       }
     }
+    getUserEvents {
+      id
+      title
+      dateOfEvent
+    }
   }
 `;
 
