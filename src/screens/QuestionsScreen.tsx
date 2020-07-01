@@ -5,7 +5,8 @@ import { Layout, Text, useStyleSheet, StyleService, TabView, Tab, Icon, Modal, C
 import { Loading } from "../components/common";
 import { getUserQuestions } from "../graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
-import { QuestionType } from "../components/types"
+import { QuestionType, RawQuestionType } from "../components/types"
+import { View } from "react-native";
 
 type Props = QuestionsScreenNavigationProp;
 
@@ -23,7 +24,12 @@ const QuestionsScreen: React.FC<Props> = ({ navigation }) => {
       const answers = response['getUserProfile']['rangeQuestions']
       let newQuestions: QuestionType[] = []
       let oldQuestions: QuestionType[] = []
-      for (let question of response['getAllRangeQuestions']) {
+      for (let question of response['getAllRangeQuestions']
+        .sort(function(a: RawQuestionType, b: RawQuestionType) {
+          if (a.order < b.order) return -1;
+          if (a.order > b.order) return 1;
+          return 0
+        })) {
         const order = question['order']
         if (answers[order] === 0) {
           newQuestions.push({value: answers[order], ...question})
@@ -40,6 +46,19 @@ const QuestionsScreen: React.FC<Props> = ({ navigation }) => {
     },
     fetchPolicy: "no-cache"
   })
+
+  if (error) {
+    return (
+      <View style={[styles.errorContainer]}>
+        <View>
+          <Text style={{ textAlign: "center" }}>
+            Something went wrong: Please restart the application or contact the
+            Development team
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   if (loading) {
     return <Loading visible />;
@@ -99,6 +118,14 @@ const QuestionsScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 const themedStyle = StyleService.create({
+  errorContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "center",
+    alignContent: "center",
+    paddingHorizontal: 12,
+  },
   layoutHeader: {
     paddingTop: 35,
     paddingBottom: 18,

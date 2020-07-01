@@ -58,6 +58,7 @@ export default (): React.ReactElement => {
   const { loading, error, data } = useQuery(USER);
 
   if (error) {
+    console.log(error)
     return (
       <View style={[styles.errorContainer]}>
         <View>
@@ -201,6 +202,7 @@ export default (): React.ReactElement => {
               (event: BasicEventType) =>
                 event.dateOfEvent > new Date().getTime()
             )}
+            eventsOwned={data.getUserEvents}
           />
           <Button
             status="danger"

@@ -7,52 +7,108 @@ import {
   Icon,
   StyleService,
   useStyleSheet,
-  Card,
   Button,
   Spinner,
+  Text,
 } from "@ui-kitten/components";
 import { EventCard } from "./extra/event-card.component";
-import { useQuery, useApolloClient, useLazyQuery } from "@apollo/react-hooks";
-import { searchEventByTerm, upcomingEvents } from "../../graphql/queries";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { searchEventByTerm, upcomingEvents, searchEventType } from "../../graphql/queries";
 import { Loading } from "../common";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { eventCategories } from "../../../utils/constants";
 
 const searchIcon = (): IconElement => {
   return <Icon width={20} height={20} fill="grey" name="search" />;
 };
 
-const filters = ["Sports", "Tech", "Music", "Dining", "Art"];
-
 export default (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [events, setEvents] = React.useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [noResult, setNoResult] = useState<boolean>(false);
 
   const { loading, data, error } = useQuery(upcomingEvents, {
     onCompleted: (response) => {
+      setNoResult(false);
+      setSearchResults(response['searchEvent']);
       setEvents(response["searchEvent"]);
     },
   });
 
   const [executeSearch, { called }] = useLazyQuery(searchEventByTerm, {
     onCompleted: (response) => {
-      setEvents(response["searchEvent"]);
+      if (response["searchEvent"].length>0) {
+        setSearchResults(response['searchEvent'])
+        setEvents(response["searchEvent"].filter((event: searchEventType) => {
+          if (activeFilters.length>0) {
+            return event.category.filter(value => activeFilters.includes(value)).length>0
+          }
+          return true
+        }));
+      } else {
+        setNoResult(true);
+      }
     },
   });
 
   const handleFilter = (filter: string) => {
+    setEvents([]);
+    setNoResult(false);
+    let currentFilters = activeFilters
     if (activeFilters.includes(filter)) {
-      setActiveFilters(activeFilters.filter((x) => x !== filter));
+      currentFilters = activeFilters.filter((x) => x !== filter)
     } else {
-      setActiveFilters([filter, ...activeFilters]);
+      currentFilters = [filter, ...activeFilters];
     }
+    let currentEvents = searchResults
+    if (currentFilters.length>0) {
+      currentEvents = searchResults.filter((event: searchEventType) => {
+        return event.category.filter(value => currentFilters.includes(value)).length>0
+      })
+    }
+    if (currentEvents.length === 0) {
+      setNoResult(true);
+    }
+    setEvents(currentEvents);
+    setActiveFilters(currentFilters);
   };
 
   const handleSearch = () => {
     setEvents([]);
+    setNoResult(false);
     executeSearch({ variables: { searchTerm: searchValue } });
     Keyboard.dismiss();
   };
+
+  const clearSearchIcon = () => (
+    <TouchableOpacity
+      onPress={()=>{setSearchValue("")}}>
+      <Icon width={23} height={23} fill="grey" name='close-outline'/>
+    </TouchableOpacity>
+  );
+
+  const renderLoading = () => {
+    if (noResult) {
+      return (
+      <ScrollView style={styles.cardScrollContainer}>
+        <Layout style={styles.spinnerContainer}>
+          <Text>
+            No results found
+          </Text>
+        </Layout>  
+      </ScrollView>)
+    }
+    return (
+      <ScrollView style={styles.cardScrollContainer}>
+        <Layout style={styles.spinnerContainer}>
+          <Spinner size="large" />
+        </Layout>
+      </ScrollView>
+    )
+  }
 
   if (loading) {
     return (
@@ -71,13 +127,12 @@ export default (): React.ReactElement => {
               value={searchValue}
               onChangeText={(value) => setSearchValue(value)}
               accessoryLeft={searchIcon}
-              placeholder="Search Events"
-            />
+              accessoryRight={clearSearchIcon}
+              placeholder="Search Events"/>
             <Button
               appearance="ghost"
               style={{ paddingTop: 5 }}
-              onPress={handleSearch}
-            >
+              onPress={handleSearch}>
               Search
             </Button>
           </Layout>
@@ -87,17 +142,15 @@ export default (): React.ReactElement => {
             <ScrollView
               horizontal={true}
               style={styles.filterScroll}
-              showsHorizontalScrollIndicator={false}
-            >
+              showsHorizontalScrollIndicator={false}>
               <Button
                 style={styles.buttonStyle}
                 status={activeFilters.length === 0 ? "primary" : "basic"}
                 appearance={activeFilters.length === 0 ? "filled" : "outline"}
-                onPress={() => setActiveFilters([])}
-              >
+                onPress={() => {setActiveFilters([]); if(events.length !== searchResults.length){setEvents(searchResults)}}}>
                 All
               </Button>
-              {filters.map((filter) => (
+              {eventCategories.map((filter) => (
                 <Button
                   style={styles.buttonStyle}
                   key={filter}
@@ -122,13 +175,7 @@ export default (): React.ReactElement => {
                 ))}
               </Layout>
             </ScrollView>
-          ) : (
-            <ScrollView style={styles.cardScrollContainer}>
-              <Layout style={styles.spinnerContainer}>
-                <Spinner size="large" />
-              </Layout>
-            </ScrollView>
-          )}
+          ) : renderLoading()}
         </Layout>
       </Layout>
     );

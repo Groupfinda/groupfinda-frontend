@@ -48,7 +48,8 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
     onError: (err) => {
       console.log(err)
       setRegisterEventLoading(false);
-    }
+    },
+    fetchPolicy: "network-only"
   });
 
   const [ registerEvent ] = useMutation(
@@ -89,19 +90,6 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
     return <Loading visible />;
   } else {
     const event = data["getEvent"];
-    //Add fake registered users for now
-    const randomGuy =
-      "https://img3.stockfresh.com/files/p/palangsi/m/45/894367_stock-photo-vietnamese-man-meditating-pose.jpg";
-    const randomImage =
-      "https://image.jimcdn.com/app/cms/image/transf/none/path/sa716b1500dd60f05/image/ic839a74ed6a8a054/version/1519833130/image.jpg";
-    event["registeredUsers"].push(...[
-      { avatar: randomImage, id: 1 },
-      { avatar: randomGuy, id: 2 },
-      { avatar: randomGuy, id: 3 },
-      { avatar: randomImage, id: 4 },
-      { avatar: randomGuy, id: 5 },
-      { avatar: randomImage, id: 6 },
-    ]);
     const dateOfEvent = new Date(event["dateOfEvent"]);
     const dateLastRegister = new Date(event["dateLastRegister"]);
     return (

@@ -4,6 +4,11 @@ export type ReferencesType = {
   [key: string]: Input | Select | null;
 };
 
+export type RawQuestionType = {
+  order: number,
+  content: string
+}
+
 export type QuestionType = {
   order: number,
   content: string,
