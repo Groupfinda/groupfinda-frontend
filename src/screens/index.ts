@@ -12,3 +12,4 @@ export { default as QuestionsScreen } from "./QuestionsScreen";
 export { default as CreateEventScreen } from "./CreateEventScreen";
 export { default as JoinEventScreen } from "./JoinEventScreen";
 export { default as MessageRoomScreen } from "./MessageRoomScreen";
+export { default as NewEventScreen } from "./NewEventScreen";

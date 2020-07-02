@@ -2,7 +2,7 @@ import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { LogInForm } from "../components/Auth";
-import { TouchableOpacity, ScrollView } from "react-native";
+import { TouchableOpacity, ScrollView, Image } from "react-native";
 import { LogInScreenNavigationProp } from "../navigation/types";
 
 type Props = LogInScreenNavigationProp;
@@ -13,10 +13,13 @@ const LogInScreen: React.FC<Props> = ({ navigation }) => {
       <ScrollView>
         <Layout style={styles.containerStyle}>
           <Layout style={styles.headerStyle}>
-            <Text style={styles.textStyle} category="h1">
-              Groupfinda
-            </Text>
-            <Text style={styles.textStyle} category="s1" appearance="hint">
+            <Image
+              style={{ width: 300, height: 100 }}
+              resizeMode="contain"
+              source={require("../../assets/logowithwords.png")}
+            />
+
+            <Text style={styles.textStyle} category="h6" appearance="hint">
               Log In
             </Text>
           </Layout>

@@ -17,6 +17,29 @@ export const upcomingEvents = gql`
   }
 `;
 
+export type NewEventVariables = {
+  eventId: string;
+};
+
+export type NewEventData = {
+  getEvent: {
+    id: string;
+    title: string;
+    description: string;
+    eventCode: string;
+  };
+};
+export const NEW_EVENT = gql`
+  query getEvent($eventId: ID!) {
+    getEvent(eventId: $eventId) {
+      id
+      title
+      description
+      eventCode
+    }
+  }
+`;
+
 export const singleEvent = gql`
   query Event($eventId: ID!) {
     getEvent(eventId: $eventId) {
@@ -51,17 +74,17 @@ export const singleEvent = gql`
 `;
 
 export type searchEventType = {
-  id: string,
-  title: string,
-  description: string,
-  dateOfEvent: Date,
-  dateLastRegister: Date,
-  images: string[],
-  private: boolean,
-  groupSize: number,
-  locationOn: boolean,
-  category: string[]
-}
+  id: string;
+  title: string;
+  description: string;
+  dateOfEvent: Date;
+  dateLastRegister: Date;
+  images: string[];
+  private: boolean;
+  groupSize: number;
+  locationOn: boolean;
+  category: string[];
+};
 
 export const searchEventByTerm = gql`
   query Event($searchTerm: String!) {

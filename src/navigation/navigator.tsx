@@ -18,6 +18,7 @@ import {
   CreateEventScreen,
   JoinEventScreen,
   MessageRoomScreen,
+  NewEventScreen,
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
@@ -77,9 +78,9 @@ export default () => {
       >
         {user ? (
           <>
-            {user.newUser?
-            <Stack.Screen name="NewUser" component={NewUserScreen} />
-            :null}
+            {user.newUser ? (
+              <Stack.Screen name="NewUser" component={NewUserScreen} />
+            ) : null}
             <Stack.Screen name="Main" component={TabNavigation} />
             <Stack.Screen
               name="ProfileSettings"
@@ -93,6 +94,7 @@ export default () => {
               {(props) => <EventScreen {...props} userId={user.id} />}
             </Stack.Screen>
             <Stack.Screen name="MessageRoom" component={MessageRoomScreen} />
+            <Stack.Screen name="NewEvent" component={NewEventScreen} />
           </>
         ) : (
           <>

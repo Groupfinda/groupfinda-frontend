@@ -10,6 +10,7 @@ import {
 import { StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { FormProps } from "./types";
 import { useMutation } from "@apollo/react-hooks";
+import { GET_SWIPE_EVENTS, upcomingEvents } from "../../../graphql/queries";
 import {
   CREATE_EVENT,
   CreateEventData,
@@ -71,13 +72,14 @@ const SubmitForm: React.FC<SubmitFormProps> = (props) => {
       setGraphQLError(err);
       setLoading(false);
     },
+    refetchQueries: [{ query: GET_SWIPE_EVENTS }, { query: upcomingEvents }],
     onCompleted: (data) => {
       setLoading(false);
       navigation.reset({
         index: 1,
         routes: [
           { name: "Main" },
-          { name: "EventPage", params: { id: data.createEvent.id } },
+          { name: "NewEvent", params: { id: data.createEvent.id } },
         ],
       });
     },

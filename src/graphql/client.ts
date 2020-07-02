@@ -21,7 +21,7 @@ const authLink = setContext(async (_, { headers }) => {
 
 let GRAPHQL_URL: string;
 let WEBSOCKET_URL: string;
-
+console.log(ENV);
 if (ENV === "development") {
   GRAPHQL_URL = GRAPHQL_ENDPOINT;
   WEBSOCKET_URL = WEBSOCKET_ENDPOINT;

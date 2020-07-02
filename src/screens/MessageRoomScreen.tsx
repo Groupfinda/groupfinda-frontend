@@ -79,6 +79,7 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
           name: user.data?.me.username,
           avatar: user.data?.me.avatar,
         }}
+        renderUsernameOnMessage={true}
       />
     </Layout>
   );
