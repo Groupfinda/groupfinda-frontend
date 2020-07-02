@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Text, Divider } from "@ui-kitten/components";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import { Header } from "../components/Create";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import {
   GET_MY_GROUPS,
   GetMyGroupsVariables,
@@ -12,17 +12,36 @@ import { GroupItem } from "../components/Chat";
 type Props = {};
 
 const ChatScreen: React.FC<Props> = (props) => {
-  const { data, loading, error } = useQuery<
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [groups, setGroups] = useState<GetMyGroupsData["me"]["groups"]>([]);
+  const [getGroups, { loading }] = useLazyQuery<
     GetMyGroupsData,
     GetMyGroupsVariables
-  >(GET_MY_GROUPS);
-  const groups = data?.me.groups;
+  >(GET_MY_GROUPS, {
+    onCompleted: (data) => {
+      setGroups(data.me.groups);
+    },
+    fetchPolicy: "cache-and-network",
+  });
 
+  useEffect(() => {
+    getGroups();
+  }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    getGroups();
+    setRefreshing(false);
+  };
   return (
     <Layout level="2" style={styles.container}>
       <Header />
       <Divider />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         {!loading &&
           groups?.map((group) => <GroupItem key={group.id} group={group} />)}
       </ScrollView>

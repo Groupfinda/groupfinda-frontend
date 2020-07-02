@@ -39,11 +39,18 @@ const handleError = (err: ApolloError) => {
 };
 
 const CardStack: React.FC<CardStackProps> = (props) => {
+  const [displayLoading, setDisplayLoading] = useState<boolean>(false);
   const [getSwipeEvents, { data, loading, error }] = useLazyQuery<
     GetSwipeEventsData,
     GetSwipeEventsVariables
   >(GET_SWIPE_EVENTS, {
     fetchPolicy: "network-only",
+    onCompleted: (data) => {
+      if (data.getSwipeEvents.length !== 0) {
+        setEvents(data.getSwipeEvents);
+        setDisplayLoading(false);
+      }
+    },
   });
   const [registerEvent] = useMutation<
     RegisterEventData,
@@ -61,15 +68,12 @@ const CardStack: React.FC<CardStackProps> = (props) => {
 
   useEffect(() => {
     if (events.length === 0) {
-      getSwipeEvents();
+      setDisplayLoading(true);
+      setTimeout(() => {
+        getSwipeEvents();
+      }, 500);
     }
   }, [events]);
-
-  useEffect(() => {
-    if (data && data.getSwipeEvents.length !== 0) {
-      setEvents(data.getSwipeEvents);
-    }
-  }, [data]);
 
   const likeEvent = async () => {
     await viewEvent({
@@ -198,7 +202,7 @@ const CardStack: React.FC<CardStackProps> = (props) => {
           padding: 30,
         }}
       >
-        <Loading visible={loading} />
+        <Loading visible={loading || displayLoading} />
         <Text
           style={{ textAlign: "center", marginBottom: 30 }}
           category="h3"

@@ -1,12 +1,12 @@
 import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
+
 import { StyleSheet } from "react-native";
-import { Card, EventType, CardStack, events } from "../components/Swipe";
+import { CardStack } from "../components/Swipe";
 
 type Props = {};
 
 const SwipeScreen: React.FC<Props> = (props) => {
-  return <CardStack {...{ events }} />;
+  return <CardStack />;
 };
 
 const styles = StyleSheet.create({

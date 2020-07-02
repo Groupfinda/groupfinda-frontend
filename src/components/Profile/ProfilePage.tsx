@@ -5,6 +5,7 @@ import {
   YellowBox,
   TouchableOpacity,
   AsyncStorage,
+  RefreshControl,
 } from "react-native";
 import {
   Avatar,
@@ -23,7 +24,7 @@ import { ImageOverlay } from "./extra/image-overlay.component";
 import { ProfileSocial } from "./extra/profile-social.component";
 import { DrawerGroupUser } from "./extra/drawer.component";
 import { useNavigation } from "@react-navigation/native";
-import { useApolloClient, useQuery } from "@apollo/react-hooks";
+import { useApolloClient, useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
 import { SettingsIcon } from "./extra/icons";
@@ -54,11 +55,22 @@ export default (): React.ReactElement => {
   const styles = useStyleSheet(themedStyle);
   const theme = useTheme();
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = React.useState<boolean>(false);
+  const [getUser, { loading, error, data }] = useLazyQuery(USER, {
+    fetchPolicy: "cache-and-network",
+  });
 
-  const { loading, error, data } = useQuery(USER);
+  React.useEffect(() => {
+    getUser();
+  }, []);
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getUser();
+    setRefreshing(false);
+  };
   if (error) {
-    console.log(error)
+    console.log(error);
     return (
       <View style={[styles.errorContainer]}>
         <View>
@@ -79,142 +91,153 @@ export default (): React.ReactElement => {
     );
   } else {
     return (
-      <ScrollView style={styles.container}>
-        <React.Fragment>
-          <ImageOverlay
-            style={styles.header}
-            source={require("./temp/image-background.jpg")}
-          >
-            <Layout style={styles.layoutContainer}>
-              <Layout style={styles.layout} level="1">
-                <Button
-                  status="control"
-                  appearance="ghost"
-                  accessoryLeft={QuestionsIcon}
-                  onPress={() => {
-                    navigation.navigate("Questions");
-                  }}
-                >
-                  Questions
-                </Button>
-                <TouchableOpacity>
+      <Layout style={styles.container}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              style={{ height: 0 }}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
+          style={styles.container}
+        >
+          <React.Fragment>
+            <ImageOverlay
+              style={styles.header}
+              source={require("./temp/image-background.jpg")}
+            >
+              <Layout style={styles.layoutContainer}>
+                <Layout style={styles.layout} level="1">
                   <Button
                     status="control"
                     appearance="ghost"
-                    accessoryLeft={SettingsIcon}
+                    accessoryLeft={QuestionsIcon}
                     onPress={() => {
-                      navigation.navigate("ProfileSettings");
+                      navigation.navigate("Questions");
                     }}
                   >
-                    Profile Settings
+                    Questions
                   </Button>
-                </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Button
+                      status="control"
+                      appearance="ghost"
+                      accessoryLeft={SettingsIcon}
+                      onPress={() => {
+                        navigation.navigate("ProfileSettings");
+                      }}
+                    >
+                      Profile Settings
+                    </Button>
+                  </TouchableOpacity>
+                </Layout>
               </Layout>
-            </Layout>
-            <Avatar
-              style={{ width: 148, height: 148, marginBottom: 16 }}
-              source={{ uri: data.me.avatar }}
-            />
-            <Text style={styles.profileName} category="h5" status="control">
-              {data.me.firstName} {data.me.lastName}
-            </Text>
-            <View style={styles.locationContainer}>
-              <PinIcon />
-              <Text style={styles.location} status="control">
-                {data.me.location}
+              <Avatar
+                style={{ width: 148, height: 148, marginBottom: 16 }}
+                source={{ uri: data.me.avatar }}
+              />
+              <Text style={styles.profileName} category="h5" status="control">
+                {data.me.firstName} {data.me.lastName}
               </Text>
-            </View>
-            <View style={styles.socialsContainer}>
-              <ProfileSocial
-                style={styles.profileSocial}
-                hint="Events"
-                value={data.me.profile.eventsRegistered.length}
-              />
-              <ProfileSocial
-                style={styles.profileSocial}
-                hint="Like/Dislikes"
-                value={
-                  data.me.profile.eventsLiked.length +
-                  data.me.profile.eventsDisliked.length
-                }
-              />
-              {/* <ProfileSocial
+              <View style={styles.locationContainer}>
+                <PinIcon />
+                <Text style={styles.location} status="control">
+                  {data.me.location}
+                </Text>
+              </View>
+              <View style={styles.socialsContainer}>
+                <ProfileSocial
+                  style={styles.profileSocial}
+                  hint="Events"
+                  value={data.me.profile.eventsRegistered.length}
+                />
+                <ProfileSocial
+                  style={styles.profileSocial}
+                  hint="Like/Dislikes"
+                  value={
+                    data.me.profile.eventsLiked.length +
+                    data.me.profile.eventsDisliked.length
+                  }
+                />
+                {/* <ProfileSocial
                 style={styles.profileSocial}
                 hint="Groups"
                 value={data.me.groups.length}
               /> */}
-              <ProfileSocial
-                style={styles.profileSocial}
-                hint="Interests"
-                value={data.me.profile.userHobbies.length}
+                <ProfileSocial
+                  style={styles.profileSocial}
+                  hint="Interests"
+                  value={data.me.profile.userHobbies.length}
+                />
+              </View>
+            </ImageOverlay>
+            <Divider />
+            <Layout style={{ padding: 12 }}>
+              <Text style={{ fontWeight: "bold" }} category="h6">
+                Profile Overview
+              </Text>
+              <ListItem
+                disabled
+                title="Hobbies/Interests"
+                description={data.me.profile.userHobbies.join(", ")}
+                accessoryLeft={() => (
+                  <Icon
+                    width={20}
+                    height={20}
+                    fill={theme["color-primary-default"]}
+                    name="brush-outline"
+                  />
+                )}
               />
-            </View>
-          </ImageOverlay>
-          <Divider />
-          <Layout style={{ padding: 12 }}>
-            <Text style={{ fontWeight: "bold" }} category="h6">
-              Profile Overview
-            </Text>
-            <ListItem
-              disabled
-              title="Hobbies/Interests"
-              description={data.me.profile.userHobbies.join(", ")}
-              accessoryLeft={() => (
-                <Icon
-                  width={20}
-                  height={20}
-                  fill={theme["color-primary-default"]}
-                  name="brush-outline"
-                />
+              <ListItem
+                disabled
+                title="Faculty"
+                description={data.me.profile.userFaculty}
+                accessoryLeft={() => (
+                  <Icon
+                    width={20}
+                    height={20}
+                    fill={theme["color-primary-default"]}
+                    name="book-outline"
+                  />
+                )}
+              />
+              <ListItem
+                disabled
+                title="Year of Study"
+                description={data.me.profile.userYearOfStudy}
+                accessoryLeft={() => (
+                  <Icon
+                    width={20}
+                    height={20}
+                    fill={theme["color-primary-default"]}
+                    name="clock-outline"
+                  />
+                )}
+              />
+            </Layout>
+            <Divider />
+            <DrawerGroupUser
+              eventsLiked={data.me.profile.eventsLiked}
+              eventsRegistered={data.me.profile.eventsRegistered.filter(
+                (event: BasicEventType) =>
+                  event.dateOfEvent > new Date().getTime()
               )}
+              eventsOwned={data.getUserEvents}
             />
-            <ListItem
-              disabled
-              title="Faculty"
-              description={data.me.profile.userFaculty}
-              accessoryLeft={() => (
-                <Icon
-                  width={20}
-                  height={20}
-                  fill={theme["color-primary-default"]}
-                  name="book-outline"
-                />
-              )}
-            />
-            <ListItem
-              disabled
-              title="Year of Study"
-              description={data.me.profile.userYearOfStudy}
-              accessoryLeft={() => (
-                <Icon
-                  width={20}
-                  height={20}
-                  fill={theme["color-primary-default"]}
-                  name="clock-outline"
-                />
-              )}
-            />
-          </Layout>
-          <Divider />
-          <DrawerGroupUser
-            eventsLiked={data.me.profile.eventsLiked}
-            eventsRegistered={data.me.profile.eventsRegistered.filter(
-              (event: BasicEventType) =>
-                event.dateOfEvent > new Date().getTime()
-            )}
-            eventsOwned={data.getUserEvents}
-          />
-          <Button
-            status="danger"
-            onPress={async () => {
-              await AsyncStorage.removeItem("userToken");
-              client.resetStore();
-            }}
-          >
-            Log out
-          </Button>
-        </React.Fragment>
-      </ScrollView>
+            <Button
+              status="danger"
+              onPress={async () => {
+                await AsyncStorage.removeItem("userToken");
+                client.resetStore();
+              }}
+            >
+              Log out
+            </Button>
+          </React.Fragment>
+        </ScrollView>
+      </Layout>
     );
   }
 };

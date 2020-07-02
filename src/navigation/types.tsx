@@ -14,6 +14,7 @@ export type RootStackParamList = {
   EventPage: { id: string };
   MessageRoom: { group: GetMyGroupsData["me"]["groups"][0] };
   NewUser: undefined;
+  NewEvent: { id: string };
 };
 
 export type SignUpScreenNavigationProp = StackScreenProps<
@@ -56,7 +57,6 @@ export type EventScreenNavigationProp = StackScreenProps<
   "EventPage"
 >;
 
-
 export type MessageRoomNavigationProp = StackScreenProps<
   RootStackParamList,
   "MessageRoom"
@@ -67,3 +67,7 @@ export type NewUsersNavigationProp = StackScreenProps<
   "NewUser"
 >;
 
+export type NewEventNavigationProp = StackScreenProps<
+  RootStackParamList,
+  "NewEvent"
+>;
