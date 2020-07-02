@@ -20,7 +20,7 @@ exports[`renders UI correctly 1`] = `
       <Modal
         hardwareAccelerated={false}
         transparent={true}
-        visible={true}
+        visible={false}
       >
         <View
           style={

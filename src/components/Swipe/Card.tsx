@@ -31,7 +31,9 @@ const Card: React.FC<CardProps> = (props) => {
     if (currentIndex === 0) return;
     setCurrentIndex(currentIndex - 1);
   };
-
+  if (event.images.length === 0) {
+    event.images.push("https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80")
+  }
   return (
     <Layout level="1" style={styles.container}>
       {event.images.map((image, index) => (
