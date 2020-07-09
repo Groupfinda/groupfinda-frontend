@@ -61,7 +61,7 @@ const skipEventImages = (component: RenderAPI): void => {
 };
 
 const skipEventCategory = async (component: RenderAPI): Promise<void> => {
-  const categoriesInput = component.getByPlaceholder("Write some categories");
+  const categoriesInput = component.getByPlaceholder("Choose some categories");
   await act(async () => {
     await categoriesInput.props.onSelect(0);
   });
@@ -321,7 +321,7 @@ test("event categories renders text correctly", () => {
   expect(
     component.queryByText("List out some categories that describe your event!")
   ).toBeTruthy();
-  expect(component.queryByPlaceholder("Write some categories")).toBeTruthy();
+  expect(component.queryByPlaceholder("Choose some categories")).toBeTruthy();
   expect(component.queryByText("What size should groups be?")).toBeTruthy();
   expect(component.queryByText("Group size")).toBeTruthy();
   expect(component.queryByText("4")).toBeTruthy();
@@ -336,7 +336,7 @@ test("cannot move on from event categories if categories is empty", () => {
   skipEventDate(component);
   skipEventLocation(component);
   skipEventImages(component);
-  const categoriesInput = component.getByPlaceholder("Write some categories");
+  const categoriesInput = component.getByPlaceholder("Choose some categories");
   expect(categoriesInput).toHaveProp("status", "basic");
   pressNext(component);
   expect(categoriesInput).toHaveProp("status", "danger");
@@ -349,7 +349,7 @@ test("can select and delete category", async () => {
   skipEventDate(component);
   skipEventLocation(component);
   skipEventImages(component);
-  const categoriesInput = component.getByPlaceholder("Write some categories");
+  const categoriesInput = component.getByPlaceholder("Choose some categories");
   await act(async () => {
     await categoriesInput.props.onSelect(0);
   });
