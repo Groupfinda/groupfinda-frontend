@@ -20,7 +20,7 @@ const ChatScreen: React.FC<Props> = (props) => {
     GetMyGroupsVariables
   >(GET_MY_GROUPS, {
     onCompleted: (data) => {
-      setGroups(data.me.groups);
+      if (data && data.me) setGroups(data.me.groups);
     },
     fetchPolicy: "cache-and-network",
   });

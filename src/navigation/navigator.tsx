@@ -22,7 +22,7 @@ import {
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
-import { ME } from "../graphql/queries";
+import { ME, MeData } from "../graphql/queries";
 import { ChangePassword } from "../components/Profile";
 import { BottomTabBar } from "../components/common";
 import EventScreen from "../screens/EventScreen";
@@ -41,19 +41,14 @@ Notifications.setNotificationHandler({
 })
 
 
-type MeType = {
-  id: string;
-  username: string;
-  newUser: boolean;
-  expoToken: string;
-};
+
 
 export default () => {
   const Tab = createBottomTabNavigator();
   const Stack = createStackNavigator<RootStackParamList>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<MeType | null>(null);
-  const { data, loading, error } = useQuery<{ me: MeType }, void>(ME);
+  const [user, setUser] = useState<MeData['me'] | null>(null);
+  const { data, loading, error } = useQuery<MeData, void>(ME);
 
   const [notification, setNotification] = useState<Notifications.Notification | boolean>(false);
 

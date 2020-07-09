@@ -3,13 +3,11 @@ import { NewUsersNavigationProp } from "../navigation/types";
 import { ViewPager, Layout, StyleService, useStyleSheet, Text } from "@ui-kitten/components";
 import { View } from "react-native";
 import { QuestionsSlide, IntroSlide, FormSlide, EventSlide } from "../components/NewUser";
-import Constants from 'expo-constants'
-import * as Permissions from 'expo-permissions'
-import { Platform } from "react-native";
-import * as Notifications from 'expo-notifications'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/react-hooks'
 import { ADD_EXPO_TOKEN, AddExpoTokenData, AddExpoTokenVariables } from '../graphql/mutations'
+import { ME, MeData } from '../graphql/queries'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { registerForPushNotificationsAsync } from '../../utils/notification'
 
 type Props = NewUsersNavigationProp;
 
@@ -17,15 +15,22 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
     const styles = useStyleSheet(themedStyle);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [numPages, setIntervals] = React.useState(4);
-    const [addExpoToken] = useMutation<AddExpoTokenData, AddExpoTokenVariables>(ADD_EXPO_TOKEN)
+    const [addExpoToken] = useMutation<AddExpoTokenData, AddExpoTokenVariables>(ADD_EXPO_TOKEN, {
+        onError: () => { }
+    })
+    const { data } = useQuery<MeData, void>(ME)
 
     React.useEffect(() => {
         registerForPushNotificationsAsync().then(token => {
-            if (token) {
-                return addExpoToken({ variables: { token } })
+            if (token && data) {
+                if (data.me && data.me.expoToken) {
+                    console.log("Token already exists")
+                } else {
+                    return addExpoToken({ variables: { token } })
+                }
             }
         }).then(data => console.log("Got data ", data))
-    }, [])
+    }, [data])
 
     let bullets = [];
     for (let i = 0; i < numPages; i++) {
@@ -89,35 +94,6 @@ const themedStyle = StyleService.create({
     }
 })
 
-async function registerForPushNotificationsAsync() {
-    let token;
-    if (Constants.isDevice) {
-        const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-            const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-            finalStatus = status;
-        }
 
-        if (finalStatus !== 'granted') {
-            alert("Notifications allow us to send you updates on group matches and chat messages!")
-            return
-        }
-
-        token = (await Notifications.getExpoPushTokenAsync()).data
-        console.log(token)
-    }
-
-    if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: "#FF231F7C"
-        })
-    }
-
-    return token
-}
 
 export default NewUserScreen;

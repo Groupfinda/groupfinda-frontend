@@ -1,5 +1,15 @@
 import gql from "graphql-tag";
 
+export type MeData = {
+  me: {
+    id: string;
+    username: string;
+    newUser: boolean;
+    role: string;
+    isVerified: boolean;
+    expoToken: string;
+  }
+}
 export const ME = gql`
   query {
     me {
@@ -8,6 +18,7 @@ export const ME = gql`
       role
       isVerified
       newUser
+      expoToken
     }
   }
 `;
