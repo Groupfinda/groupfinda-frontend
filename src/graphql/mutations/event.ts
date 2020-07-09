@@ -68,6 +68,14 @@ export const REGISTER_EVENT = gql`
   }
 `;
 
+export const UNREGISTER_EVENT= gql`
+  mutation unregisterEvent($eventId: String!) {
+    unregisterEvent(eventId: $eventId) {
+      id
+    }
+  }
+`;
+
 export type ViewEventVariables = {
   eventId: string;
   type: "LIKE" | "DISLIKE";

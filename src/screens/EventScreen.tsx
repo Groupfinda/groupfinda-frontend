@@ -19,7 +19,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { singleEvent } from "../graphql/queries";
 import { Loading } from "../components/common";
-import { REGISTER_EVENT } from "../graphql/mutations";
+import { REGISTER_EVENT, UNREGISTER_EVENT } from "../graphql/mutations";
 import { View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -75,6 +75,22 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
     }
   )
 
+  const [unregisterEvent] = useMutation(
+    UNREGISTER_EVENT,
+    {
+      onCompleted: (data) => {
+        if (data.unregisterEvent.id === id) {
+          setEventRegistered(false);
+        }
+        setRegisterEventLoading(false);
+      },
+      onError: (err) => {
+        console.log(err)
+        setRegisterEventLoading(false)
+      }
+    }
+  )
+
   const registerEventHandler = () => {
     setRegisterEventLoading(true);
     if (!eventRegistered) {
@@ -96,9 +112,12 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
           }
         })
       }
-      //unregister event
-      setEventRegistered(!eventRegistered);
-      setRegisterEventLoading(false);
+      else {
+        const variables = {
+          eventId: id
+        }
+        unregisterEvent({ variables })
+      }
     }
   };
 
