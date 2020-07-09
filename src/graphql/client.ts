@@ -7,7 +7,7 @@ import { AsyncStorage } from "react-native";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 // @ts-ignore
-import { GRAPHQL_ENDPOINT, WEBSOCKET_ENDPOINT, ENV } from "react-native-dotenv";
+import { GRAPHQL_ENDPOINT, WEBSOCKET_ENDPOINT, DEV_GRAPHQL_ENDPOINT, DEV_WEBSOCKET_ENDPOINT, ENV } from "react-native-dotenv";
 
 const authLink = setContext(async (_, { headers }) => {
   const token = await AsyncStorage.getItem("userToken");
@@ -21,15 +21,17 @@ const authLink = setContext(async (_, { headers }) => {
 
 let GRAPHQL_URL: string;
 let WEBSOCKET_URL: string;
-console.log(ENV);
+console.log("Running in ", ENV)
 if (ENV === "development") {
-  GRAPHQL_URL = GRAPHQL_ENDPOINT;
-  WEBSOCKET_URL = WEBSOCKET_ENDPOINT;
+  GRAPHQL_URL = DEV_GRAPHQL_ENDPOINT;
+  WEBSOCKET_URL = DEV_WEBSOCKET_ENDPOINT;
 } else {
-  GRAPHQL_URL = "http://13.229.108.197:3002/graphql";
-  WEBSOCKET_URL = "ws://13.229.108.197:3002/graphql";
+  GRAPHQL_URL = GRAPHQL_ENDPOINT
+  WEBSOCKET_URL = WEBSOCKET_ENDPOINT
 }
 
+console.log("GraphQL is at ", GRAPHQL_URL)
+console.log("Websocket is at ", WEBSOCKET_URL)
 const httplink = createHttpLink({
   uri: GRAPHQL_URL,
 });

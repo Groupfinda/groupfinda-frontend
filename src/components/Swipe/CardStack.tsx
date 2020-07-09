@@ -48,10 +48,14 @@ const CardStack: React.FC<CardStackProps> = (props) => {
     onCompleted: (data) => {
       if (data.getSwipeEvents.length !== 0) {
         setEvents(data.getSwipeEvents);
-        setDisplayLoading(false);
       }
+      setDisplayLoading(false);
     },
+    onError: (error) => {
+      console.log(error)
+    }
   });
+
   const [registerEvent] = useMutation<
     RegisterEventData,
     RegisterEventVariables
@@ -139,6 +143,7 @@ const CardStack: React.FC<CardStackProps> = (props) => {
       toValue: { x, y },
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
+      useNativeDriver: true,
     }).start(() => {
       setEvents(events.slice(0, events.length - 1));
       position.setValue({ x: 0, y: 0 });
@@ -162,6 +167,7 @@ const CardStack: React.FC<CardStackProps> = (props) => {
       } else {
         Animated.spring(position, {
           toValue: { x: 0, y: 0 },
+          useNativeDriver: true,
         }).start();
       }
     },

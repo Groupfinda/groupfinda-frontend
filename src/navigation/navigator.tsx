@@ -28,10 +28,24 @@ import { BottomTabBar } from "../components/common";
 import EventScreen from "../screens/EventScreen";
 import NewUserScreen from "../screens/NewUserScreen";
 
+import * as Notifications from 'expo-notifications'
+
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  })
+})
+
+
 type MeType = {
   id: string;
   username: string;
   newUser: boolean;
+  expoToken: string;
 };
 
 export default () => {
@@ -41,7 +55,19 @@ export default () => {
   const [user, setUser] = useState<MeType | null>(null);
   const { data, loading, error } = useQuery<{ me: MeType }, void>(ME);
 
+  const [notification, setNotification] = useState<Notifications.Notification | boolean>(false);
+
   useEffect(() => {
+    Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification)
+    })
+    Notifications.addNotificationResponseReceivedListener(response => console.log(response))
+    return () => {
+      Notifications.removeAllNotificationListeners();
+    };
+  }, [])
+  useEffect(() => {
+
     if (data) {
       setIsLoading(loading);
       if (data.me) setUser(data.me);
@@ -97,16 +123,17 @@ export default () => {
             <Stack.Screen name="NewEvent" component={NewEventScreen} />
           </>
         ) : (
-          <>
-            <Stack.Screen name="LogIn" component={LogInScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-            <Stack.Screen
-              name="ForgetPassword"
-              component={ForgetPasswordScreen}
-            />
-          </>
-        )}
+            <>
+              <Stack.Screen name="LogIn" component={LogInScreen} />
+              <Stack.Screen name="SignUp" component={SignUpScreen} />
+              <Stack.Screen
+                name="ForgetPassword"
+                component={ForgetPasswordScreen}
+              />
+            </>
+          )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+

@@ -18,6 +18,7 @@ import {
 import { useError, CustomError } from "../hooks";
 import { Loading } from "../components/common";
 import { JoinEventScreenNavigationProp } from "../navigation/types";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = JoinEventScreenNavigationProp;
 
@@ -59,40 +60,44 @@ const JoinEventScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <Layout style={styles.container}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Loading visible={loading} />
-        <TransparentBackHeader />
-        <Layout style={styles.body}>
-          <Text style={styles.header} status="primary" category="h2">
-            Join an event with the event code!
+    <SafeAreaView style={styles.container}>
+
+      <Layout style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Loading visible={loading} />
+          <TransparentBackHeader />
+          <Layout style={styles.body}>
+            <Text style={styles.header} status="primary" category="h2">
+              Join an event with the event code!
           </Text>
-          <Error />
-          <Input
-            status={inputError.eventCode ? "danger" : "basic"}
-            onChange={clearError}
-            onSubmitEditing={onSubmit}
-            autoCorrect={false}
-            autoCapitalize="characters"
-            label="Event code"
-            placeholder="Enter event code"
-            accessoryRight={SearchIcon}
-            caption="A 6 digit code present at all events"
-            captionIcon={AlertIcon}
-            value={eventCode}
-            onChangeText={setEventCode}
-          />
-          <Button onPress={onSubmit} appearance="outline" style={styles.button}>
-            Search
+            <Error />
+            <Input
+              status={inputError.eventCode ? "danger" : "basic"}
+              onChange={clearError}
+              onSubmitEditing={onSubmit}
+              autoCorrect={false}
+              autoCapitalize="characters"
+              label="Event code"
+              placeholder="Enter event code"
+              accessoryRight={SearchIcon}
+              caption="A 6 digit code present at all events"
+              captionIcon={AlertIcon}
+              value={eventCode}
+              onChangeText={setEventCode}
+            />
+            <Button onPress={onSubmit} appearance="outline" style={styles.button}>
+              Search
           </Button>
-        </Layout>
-        <Image
-          resizeMode="cover"
-          style={styles.image}
-          source={require("../../assets/fun.png")}
-        />
-      </ScrollView>
-    </Layout>
+          </Layout>
+          <Image
+            resizeMode="cover"
+            style={styles.image}
+            source={require("../../assets/fun.png")}
+          />
+        </ScrollView>
+      </Layout>
+
+    </SafeAreaView>
   );
 };
 

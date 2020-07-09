@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Text, Divider } from "@ui-kitten/components";
+import { Layout, Divider } from "@ui-kitten/components";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import { Header } from "../components/Create";
-import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 import {
   GET_MY_GROUPS,
   GetMyGroupsVariables,
   GetMyGroupsData,
 } from "../graphql/queries";
 import { GroupItem } from "../components/Chat";
+import { SafeAreaView } from 'react-native-safe-area-context'
 type Props = {};
 
 const ChatScreen: React.FC<Props> = (props) => {
@@ -34,18 +35,22 @@ const ChatScreen: React.FC<Props> = (props) => {
     setRefreshing(false);
   };
   return (
-    <Layout level="2" style={styles.container}>
-      <Header />
-      <Divider />
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        {!loading &&
-          groups?.map((group) => <GroupItem key={group.id} group={group} />)}
-      </ScrollView>
-    </Layout>
+    <SafeAreaView style={styles.container}>
+
+      <Layout level="2" style={styles.container}>
+        <Header />
+        <Divider />
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          {!loading &&
+            groups?.map((group) => <GroupItem key={group.id} group={group} />)}
+        </ScrollView>
+      </Layout>
+
+    </SafeAreaView>
   );
 };
 

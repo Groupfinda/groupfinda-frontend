@@ -4,27 +4,29 @@ import { StyleSheet } from "react-native";
 import { ForgetPasswordForm } from "../components/Auth";
 import { ScrollView } from "react-native";
 import { TransparentBackHeader } from "../components/common";
-
+import { SafeAreaView } from 'react-native-safe-area-context'
 type Props = {};
 
 const ForgetPasswordScreen: React.FC<Props> = () => {
   return (
-    <Layout style={styles.wrapperStyle}>
-      <TransparentBackHeader />
-      <ScrollView>
-        <Layout style={styles.containerStyle}>
-          <Layout style={styles.headerStyle}>
-            <Text style={styles.textStyle} category="h3">
-              Forgot your password?
+    <SafeAreaView style={styles.wrapperStyle}>
+      <Layout style={styles.wrapperStyle}>
+        <TransparentBackHeader />
+        <ScrollView>
+          <Layout style={styles.containerStyle}>
+            <Layout style={styles.headerStyle}>
+              <Text style={styles.textStyle} category="h3">
+                Forgot your password?
             </Text>
-            <Text category="s1" appearance="hint">
-              Tell us your username and email and we will reset it for you.
+              <Text category="s1" appearance="hint">
+                Tell us your username and email and we will reset it for you.
             </Text>
+            </Layout>
+            <ForgetPasswordForm />
           </Layout>
-          <ForgetPasswordForm />
-        </Layout>
-      </ScrollView>
-    </Layout>
+        </ScrollView>
+      </Layout>
+    </SafeAreaView>
   );
 };
 

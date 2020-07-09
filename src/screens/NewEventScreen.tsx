@@ -5,6 +5,7 @@ import { NewEventNavigationProp } from "../navigation/types";
 import { useQuery } from "@apollo/react-hooks";
 import { NEW_EVENT, NewEventData, NewEventVariables } from "../graphql/queries";
 import { Loading, TransparentBackHeader } from "../components/common";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const NewEventScreen: React.FC<NewEventNavigationProp> = ({ route }) => {
   const { id } = route.params;
@@ -17,30 +18,32 @@ const NewEventScreen: React.FC<NewEventNavigationProp> = ({ route }) => {
   }
 
   return (
-    <Layout style={styles.container}>
-      <TransparentBackHeader />
-      {!data && (
-        <Layout style={styles.body}>
-          <Text>An error has occured</Text>{" "}
-        </Layout>
-      )}
-      {data && (
-        <Layout style={styles.body}>
-          <Text category="h1" style={styles.header}>
-            Congratulations!
+    <SafeAreaView style={styles.container}>
+      <Layout style={styles.container}>
+        <TransparentBackHeader />
+        {!data && (
+          <Layout style={styles.body}>
+            <Text>An error has occured</Text>{" "}
+          </Layout>
+        )}
+        {data && (
+          <Layout style={styles.body}>
+            <Text category="h1" style={styles.header}>
+              Congratulations!
           </Text>
-          <Text style={styles.text} category="h4">
-            Your event is successfully created!
+            <Text style={styles.text} category="h4">
+              Your event is successfully created!
           </Text>
-          <Text category="s1">
-            Others can find your event directly with the code
+            <Text category="s1">
+              Others can find your event directly with the code
           </Text>
-          <Text category="h1" status="primary">
-            {data?.getEvent.eventCode}
-          </Text>
-        </Layout>
-      )}
-    </Layout>
+            <Text category="h1" status="primary">
+              {data?.getEvent.eventCode}
+            </Text>
+          </Layout>
+        )}
+      </Layout>
+    </SafeAreaView>
   );
 };
 

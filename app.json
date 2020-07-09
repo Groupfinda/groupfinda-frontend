@@ -32,7 +32,8 @@
         "WRITE_EXTERNAL_STORAGE",
         "INTERNET",
         "ACCESS_NETWORK_STATE"
-      ]
+      ],
+      "useNextNotificationsApi": true
     },
     "description": ""
   }

@@ -1,29 +1,32 @@
 import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { TransparentBackHeader } from "../components/common";
 import FormsHandler from "../components/Create/Forms/FormsHandler";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = {};
 
 const CreateEventScreen: React.FC<Props> = (props) => {
   return (
-    <Layout style={styles.container}>
-      <ScrollView>
-        <Layout style={styles.container}>
-          <TransparentBackHeader />
+    <SafeAreaView style={styles.container}>
+      <Layout style={styles.container}>
+        <ScrollView>
+          <Layout style={styles.container}>
+            <TransparentBackHeader />
 
-          <Layout style={styles.body}>
-            <Text style={styles.header} status="primary" category="h3">
-              Create a new event
+            <Layout style={styles.body}>
+              <Text style={styles.header} status="primary" category="h3">
+                Create a new event
             </Text>
-            <Layout>
-              <FormsHandler />
+              <Layout>
+                <FormsHandler />
+              </Layout>
             </Layout>
           </Layout>
-        </Layout>
-      </ScrollView>
-    </Layout>
+        </ScrollView>
+      </Layout>
+    </SafeAreaView>
   );
 };
 

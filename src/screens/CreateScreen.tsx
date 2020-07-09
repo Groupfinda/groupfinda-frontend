@@ -1,19 +1,23 @@
 import React from "react";
-import { Layout, Divider, Icon } from "@ui-kitten/components";
+import { Layout, Divider } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { Header, CardDisplay } from "../components/Create";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 
 type Props = {};
 
 const CreateScreen: React.FC<Props> = (props) => {
   const navigation = useNavigation();
   return (
-    <Layout style={styles.container}>
+
+    <SafeAreaView style={styles.container}>
       <Header />
       <Divider />
-      <Icon name="people" />
+
       <Layout style={styles.viewStyle} level="4">
+
         <CardDisplay
           onPress={() => navigation.navigate("JoinEvent")}
           title="Join Event"
@@ -25,17 +29,19 @@ const CreateScreen: React.FC<Props> = (props) => {
           icon="plus-square"
         />
       </Layout>
-    </Layout>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+
+    height: "100%"
   },
   viewStyle: {
     flex: 1,
     padding: 5,
+
   },
 });
 

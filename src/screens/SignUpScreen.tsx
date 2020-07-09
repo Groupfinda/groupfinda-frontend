@@ -5,33 +5,38 @@ import { SignUpForm } from "../components/Auth";
 import { TouchableOpacity, ScrollView } from "react-native";
 import { SignUpScreenNavigationProp } from "../navigation/types";
 import { TransparentBackHeader } from "../components/common/navigation";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = SignUpScreenNavigationProp;
 
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   return (
-    <ScrollView>
-      <TransparentBackHeader />
-      <Layout style={styles.containerStyle}>
-        <Layout style={styles.headerStyle}>
-          <Text style={styles.textStyle} category="h1">
-            Sign Up
+    <SafeAreaView style={{ flex: 1 }}>
+
+      <ScrollView>
+        <TransparentBackHeader />
+        <Layout style={styles.containerStyle}>
+          <Layout style={styles.headerStyle}>
+            <Text style={styles.textStyle} category="h1">
+              Sign Up
           </Text>
-          <Text category="s1" appearance="hint">
-            and start making new friends
+            <Text category="s1" appearance="hint">
+              and start making new friends
           </Text>
+          </Layout>
+
+          <SignUpForm />
+
+          <TouchableOpacity
+            style={styles.helpStyle}
+            onPress={() => navigation.navigate("LogIn")}
+          >
+            <Text status="info">Already have an account? Log in</Text>
+          </TouchableOpacity>
         </Layout>
+      </ScrollView>
 
-        <SignUpForm />
-
-        <TouchableOpacity
-          style={styles.helpStyle}
-          onPress={() => navigation.navigate("LogIn")}
-        >
-          <Text status="info">Already have an account? Log in</Text>
-        </TouchableOpacity>
-      </Layout>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
