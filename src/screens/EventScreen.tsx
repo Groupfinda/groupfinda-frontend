@@ -19,7 +19,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { singleEvent } from "../graphql/queries";
 import { Loading } from "../components/common";
-import { REGISTER_EVENT, VIEW_EVENT } from "../graphql/mutations";
+import { REGISTER_EVENT } from "../graphql/mutations";
 import { View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -37,11 +37,13 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
   const styles = useStyleSheet(themedStyle);
   const { id } = route.params;
   const [eventRegistered, setEventRegistered] = useState<boolean>(false);
+  const [messageRoom, setMessageRoom] = useState<string>("");
   const [registerEventLoading, setRegisterEventLoading] = useState<boolean>(true);
 
   const { loading, error, data } = useQuery(singleEvent, {
     variables: { eventId: id },
     onCompleted: (response) => {
+      setMessageRoom(response['getUserGroup'])
       const eventData = response['getEvent'];
       setEventRegistered(eventData.registeredUsers.some((el: any) => el.id === userId))
       setRegisterEventLoading(false);
@@ -81,11 +83,35 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       }
       registerEvent({ variables })
     } else {
+      if (messageRoom.length > 0) {
+        navigation.navigate("MessageRoom", {
+          group: {
+            id: data["getEvent"].id,
+            messageRoom: messageRoom,
+            event: {
+              title: data["getEvent"].title,
+              dateOfEvent: data["getEvent"].dateOfEvent,
+              images: data["getEvent"].images
+            }
+          }
+        })
+      }
       //unregister event
       setEventRegistered(!eventRegistered);
       setRegisterEventLoading(false);
     }
   };
+
+  const buttonText = () => {
+    if (eventRegistered) {
+      if (messageRoom.length > 0) {
+        return "Successfully Matched, Visit Group"
+      } else {
+        return "Registered"
+      }
+    }
+    return "Sign Me Up!"
+  }
 
   if (!data) {
     return <Loading visible />;
@@ -98,8 +124,6 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
     }
     return (
       <SafeAreaView style={{ padding: 0, flex: 1 }}>
-
-
         <Layout style={{ padding: 0 }}>
           <Layout style={styles.headerLayout}>
             <Layout level="1" style={{ backgroundColor: "transparent" }}>
@@ -172,9 +196,8 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                           name="clipboard-outline"
                         />
                         )
-                      }}
-                    >
-                      {eventRegistered ? "Registered!" : "Sign Me Up!"}
+                      }}>
+                      {buttonText()}
                     </Button>
                   </Layout>
                 </Layout>

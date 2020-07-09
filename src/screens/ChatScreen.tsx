@@ -43,8 +43,7 @@ const ChatScreen: React.FC<Props> = (props) => {
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
+          }>
           {!loading &&
             groups?.map((group) => <GroupItem key={group.id} group={group} />)}
         </ScrollView>
