@@ -1,22 +1,20 @@
 import React from "react";
-import { Layout, Text } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
-import { useQuery } from "@apollo/react-hooks";
-import { upcomingEvents } from "../graphql/queries"
+
 import { SearchEvents } from "../components/Events"
-import { Loading } from "../components/common";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = {};
 
 const SearchScreen: React.FC<Props> = (props) => {
 
-    return (
-      <SearchEvents/>
-    )
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <SearchEvents />
+    </SafeAreaView>
 
-  
+  )
+
+
 };
-
-const styles = StyleSheet.create({});
 
 export default SearchScreen;

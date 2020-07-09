@@ -126,7 +126,7 @@ exports[`renders event categories ui correctly 1`] = `
                   onMouseLeave={[Function]}
                   onSelect={[Function]}
                   onSubmitEditing={[Function]}
-                  placeholder="Write some categories"
+                  placeholder="Choose some categories"
                   placeholderTextColor="#8F9BB3"
                   rejectResponderTermination={true}
                   size="medium"
@@ -165,7 +165,35 @@ exports[`renders event categories ui correctly 1`] = `
                     },
                   ]
                 }
-              />
+              >
+                <Text
+                  appearance="default"
+                  category="p1"
+                  style={
+                    Array [
+                      Object {
+                        "color": "#222B45",
+                        "fontFamily": "System",
+                        "fontSize": 15,
+                        "fontWeight": "400",
+                      },
+                      Array [
+                        Object {
+                          "color": "#8F9BB3",
+                          "fontFamily": "System",
+                          "fontSize": 12,
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                      ],
+                    ]
+                  }
+                >
+                  Click on the options to select them
+                </Text>
+              </View>
             </View>
           </View>
           <View
@@ -249,7 +277,6 @@ exports[`renders event categories ui correctly 1`] = `
             <View
               accessible={true}
               focusable={true}
-              isTVSelectable={true}
               onClick={[Function]}
               onLayout={[Function]}
               onResponderGrant={[Function]}
@@ -346,9 +373,6 @@ exports[`renders event categories ui correctly 1`] = `
                         "width": 24,
                       },
                       Object {
-                        "opacity": 1,
-                      },
-                      Object {
                         "flex": 0,
                         "height": 24,
                         "width": 24,
@@ -360,260 +384,29 @@ exports[`renders event categories ui correctly 1`] = `
                 >
                   <RNSVGGroup
                     fill={4287601587}
-                    fillOpacity={1}
-                    fillRule={1}
-                    font={Object {}}
-                    matrix={
-                      Array [
-                        1,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                      ]
-                    }
-                    opacity={1}
-                    originX={0}
-                    originY={0}
                     propList={
                       Array [
                         "fill",
                       ]
                     }
-                    rotation={0}
-                    scaleX={1}
-                    scaleY={1}
-                    skewX={0}
-                    skewY={0}
-                    stroke={null}
-                    strokeDasharray={null}
-                    strokeDashoffset={null}
-                    strokeLinecap={0}
-                    strokeLinejoin={0}
-                    strokeMiterlimit={4}
-                    strokeOpacity={1}
-                    strokeWidth={1}
-                    vectorEffect={0}
-                    x={0}
-                    y={0}
                   >
-                    <RNSVGGroup
-                      fill={4278190080}
-                      fillOpacity={1}
-                      fillRule={1}
-                      font={Object {}}
-                      matrix={
-                        Array [
-                          1,
-                          0,
-                          0,
-                          1,
-                          0,
-                          0,
-                        ]
-                      }
-                      opacity={1}
-                      originX={0}
-                      originY={0}
-                      propList={Array []}
-                      rotation={0}
-                      scaleX={1}
-                      scaleY={1}
-                      skewX={0}
-                      skewY={0}
-                      stroke={null}
-                      strokeDasharray={null}
-                      strokeDashoffset={null}
-                      strokeLinecap={0}
-                      strokeLinejoin={0}
-                      strokeMiterlimit={4}
-                      strokeOpacity={1}
-                      strokeWidth={1}
-                      vectorEffect={0}
-                      x={0}
-                      y={0}
-                    >
-                      <RNSVGGroup
-                        fill={4278190080}
-                        fillOpacity={1}
-                        fillRule={1}
-                        font={Object {}}
-                        matrix={
-                          Array [
-                            1,
-                            0,
-                            0,
-                            1,
-                            0,
-                            0,
-                          ]
-                        }
-                        opacity={1}
-                        originX={0}
-                        originY={0}
-                        propList={Array []}
-                        rotation={0}
-                        scaleX={1}
-                        scaleY={1}
-                        skewX={0}
-                        skewY={0}
-                        stroke={null}
-                        strokeDasharray={null}
-                        strokeDashoffset={null}
-                        strokeLinecap={0}
-                        strokeLinejoin={0}
-                        strokeMiterlimit={4}
-                        strokeOpacity={1}
-                        strokeWidth={1}
-                        vectorEffect={0}
-                        x={0}
-                        y={0}
-                      >
+                    <RNSVGGroup>
+                      <RNSVGGroup>
                         <RNSVGRect
-                          fill={4278190080}
-                          fillOpacity={1}
-                          fillRule={1}
                           height="24"
-                          matrix={
-                            Array [
-                              1,
-                              0,
-                              0,
-                              1,
-                              0,
-                              0,
-                            ]
-                          }
                           opacity={0}
-                          originX={0}
-                          originY={0}
-                          propList={Array []}
-                          rotation={0}
-                          scaleX={1}
-                          scaleY={1}
-                          skewX={0}
-                          skewY={0}
-                          stroke={null}
-                          strokeDasharray={null}
-                          strokeDashoffset={null}
-                          strokeLinecap={0}
-                          strokeLinejoin={0}
-                          strokeMiterlimit={4}
-                          strokeOpacity={1}
-                          strokeWidth={1}
-                          vectorEffect={0}
                           width="24"
                           x={0}
                           y={0}
                         />
                         <RNSVGPath
                           d="M9 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"
-                          fill={4278190080}
-                          fillOpacity={1}
-                          fillRule={1}
-                          matrix={
-                            Array [
-                              1,
-                              0,
-                              0,
-                              1,
-                              0,
-                              0,
-                            ]
-                          }
-                          opacity={1}
-                          originX={0}
-                          originY={0}
-                          propList={Array []}
-                          rotation={0}
-                          scaleX={1}
-                          scaleY={1}
-                          skewX={0}
-                          skewY={0}
-                          stroke={null}
-                          strokeDasharray={null}
-                          strokeDashoffset={null}
-                          strokeLinecap={0}
-                          strokeLinejoin={0}
-                          strokeMiterlimit={4}
-                          strokeOpacity={1}
-                          strokeWidth={1}
-                          vectorEffect={0}
-                          x={0}
-                          y={0}
                         />
                         <RNSVGPath
                           d="M17 13a3 3 0 1 0-3-3 3 3 0 0 0 3 3z"
-                          fill={4278190080}
-                          fillOpacity={1}
-                          fillRule={1}
-                          matrix={
-                            Array [
-                              1,
-                              0,
-                              0,
-                              1,
-                              0,
-                              0,
-                            ]
-                          }
-                          opacity={1}
-                          originX={0}
-                          originY={0}
-                          propList={Array []}
-                          rotation={0}
-                          scaleX={1}
-                          scaleY={1}
-                          skewX={0}
-                          skewY={0}
-                          stroke={null}
-                          strokeDasharray={null}
-                          strokeDashoffset={null}
-                          strokeLinecap={0}
-                          strokeLinejoin={0}
-                          strokeMiterlimit={4}
-                          strokeOpacity={1}
-                          strokeWidth={1}
-                          vectorEffect={0}
-                          x={0}
-                          y={0}
                         />
                         <RNSVGPath
                           d="M21 20a1 1 0 0 0 1-1 5 5 0 0 0-8.06-3.95A7 7 0 0 0 2 20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1"
-                          fill={4278190080}
-                          fillOpacity={1}
-                          fillRule={1}
-                          matrix={
-                            Array [
-                              1,
-                              0,
-                              0,
-                              1,
-                              0,
-                              0,
-                            ]
-                          }
-                          opacity={1}
-                          originX={0}
-                          originY={0}
-                          propList={Array []}
-                          rotation={0}
-                          scaleX={1}
-                          scaleY={1}
-                          skewX={0}
-                          skewY={0}
-                          stroke={null}
-                          strokeDasharray={null}
-                          strokeDashoffset={null}
-                          strokeLinecap={0}
-                          strokeLinejoin={0}
-                          strokeMiterlimit={4}
-                          strokeOpacity={1}
-                          strokeWidth={1}
-                          vectorEffect={0}
-                          x={0}
-                          y={0}
                         />
                       </RNSVGGroup>
                     </RNSVGGroup>
@@ -641,7 +434,6 @@ exports[`renders event categories ui correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -707,7 +499,6 @@ exports[`renders event categories ui correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -1155,7 +946,6 @@ exports[`renders event details UI correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -1396,7 +1186,6 @@ exports[`renders event images ui correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -1445,9 +1234,6 @@ exports[`renders event images ui correctly 1`] = `
                       "width": 32,
                     },
                     Object {
-                      "opacity": 1,
-                    },
-                    Object {
                       "flex": 0,
                       "height": 32,
                       "width": 32,
@@ -1459,124 +1245,20 @@ exports[`renders event images ui correctly 1`] = `
               >
                 <RNSVGGroup
                   fill={4286611584}
-                  fillOpacity={1}
-                  fillRule={1}
                   font={
                     Object {
                       "fontSize": 20,
                     }
                   }
-                  matrix={
-                    Array [
-                      1,
-                      0,
-                      0,
-                      1,
-                      0,
-                      0,
-                    ]
-                  }
-                  opacity={1}
-                  originX={0}
-                  originY={0}
                   propList={
                     Array [
                       "fill",
                     ]
                   }
-                  rotation={0}
-                  scaleX={1}
-                  scaleY={1}
-                  skewX={0}
-                  skewY={0}
-                  stroke={null}
-                  strokeDasharray={null}
-                  strokeDashoffset={null}
-                  strokeLinecap={0}
-                  strokeLinejoin={0}
-                  strokeMiterlimit={4}
-                  strokeOpacity={1}
-                  strokeWidth={1}
-                  vectorEffect={0}
-                  x={0}
-                  y={0}
                 >
-                  <RNSVGGroup
-                    fill={4278190080}
-                    fillOpacity={1}
-                    fillRule={1}
-                    font={Object {}}
-                    matrix={
-                      Array [
-                        1,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                      ]
-                    }
-                    opacity={1}
-                    originX={0}
-                    originY={0}
-                    propList={Array []}
-                    rotation={0}
-                    scaleX={1}
-                    scaleY={1}
-                    skewX={0}
-                    skewY={0}
-                    stroke={null}
-                    strokeDasharray={null}
-                    strokeDashoffset={null}
-                    strokeLinecap={0}
-                    strokeLinejoin={0}
-                    strokeMiterlimit={4}
-                    strokeOpacity={1}
-                    strokeWidth={1}
-                    vectorEffect={0}
-                    x={0}
-                    y={0}
-                  >
-                    <RNSVGGroup
-                      fill={4278190080}
-                      fillOpacity={1}
-                      fillRule={1}
-                      font={Object {}}
-                      matrix={
-                        Array [
-                          1,
-                          0,
-                          0,
-                          1,
-                          0,
-                          0,
-                        ]
-                      }
-                      opacity={1}
-                      originX={0}
-                      originY={0}
-                      propList={Array []}
-                      rotation={0}
-                      scaleX={1}
-                      scaleY={1}
-                      skewX={0}
-                      skewY={0}
-                      stroke={null}
-                      strokeDasharray={null}
-                      strokeDashoffset={null}
-                      strokeLinecap={0}
-                      strokeLinejoin={0}
-                      strokeMiterlimit={4}
-                      strokeOpacity={1}
-                      strokeWidth={1}
-                      vectorEffect={0}
-                      x={0}
-                      y={0}
-                    >
+                  <RNSVGGroup>
+                    <RNSVGGroup>
                       <RNSVGRect
-                        fill={4278190080}
-                        fillOpacity={1}
-                        fillRule={1}
                         height="24"
                         matrix={
                           Array [
@@ -1589,62 +1271,12 @@ exports[`renders event images ui correctly 1`] = `
                           ]
                         }
                         opacity={0}
-                        originX={0}
-                        originY={0}
-                        propList={Array []}
-                        rotation={0}
-                        scaleX={1}
-                        scaleY={1}
-                        skewX={0}
-                        skewY={0}
-                        stroke={null}
-                        strokeDasharray={null}
-                        strokeDashoffset={null}
-                        strokeLinecap={0}
-                        strokeLinejoin={0}
-                        strokeMiterlimit={4}
-                        strokeOpacity={1}
-                        strokeWidth={1}
-                        vectorEffect={0}
                         width="24"
                         x={0}
                         y={0}
                       />
                       <RNSVGPath
                         d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2z"
-                        fill={4278190080}
-                        fillOpacity={1}
-                        fillRule={1}
-                        matrix={
-                          Array [
-                            1,
-                            0,
-                            0,
-                            1,
-                            0,
-                            0,
-                          ]
-                        }
-                        opacity={1}
-                        originX={0}
-                        originY={0}
-                        propList={Array []}
-                        rotation={0}
-                        scaleX={1}
-                        scaleY={1}
-                        skewX={0}
-                        skewY={0}
-                        stroke={null}
-                        strokeDasharray={null}
-                        strokeDashoffset={null}
-                        strokeLinecap={0}
-                        strokeLinejoin={0}
-                        strokeMiterlimit={4}
-                        strokeOpacity={1}
-                        strokeWidth={1}
-                        vectorEffect={0}
-                        x={0}
-                        y={0}
                       />
                     </RNSVGGroup>
                   </RNSVGGroup>
@@ -1671,7 +1303,6 @@ exports[`renders event images ui correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -1737,7 +1368,6 @@ exports[`renders event images ui correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -2144,7 +1774,6 @@ exports[`renders event location ui correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
@@ -2210,7 +1839,6 @@ exports[`renders event location ui correctly 1`] = `
           <View
             accessible={true}
             focusable={true}
-            isTVSelectable={true}
             onClick={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}

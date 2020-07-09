@@ -10,7 +10,6 @@ export const Header: React.FC<Props> = () => {
   );
   return (
     <TopNavigation
-      style={styles.container}
       title={renderLogo}
       alignment="center"
     />
@@ -18,7 +17,5 @@ export const Header: React.FC<Props> = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-  },
+
 });

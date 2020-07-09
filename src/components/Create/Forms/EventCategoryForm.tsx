@@ -84,7 +84,8 @@ const EventCategoryForm: React.FC<FormPropsWithValidate> = (props) => {
         <Autocomplete
           status={inputError.category ? "danger" : "basic"}
           onChange={() => resetInputError("category")}
-          placeholder="Write some categories"
+          placeholder="Choose some categories"
+          caption="Click on the options to select them"
           value={autocomplete}
           onChangeText={setAutocomplete}
           onSelect={onSelectAutoComplete}

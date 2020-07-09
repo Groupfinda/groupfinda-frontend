@@ -22,26 +22,47 @@ import {
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery } from "@apollo/react-hooks";
-import { ME } from "../graphql/queries";
+import { ME, MeData } from "../graphql/queries";
 import { ChangePassword } from "../components/Profile";
 import { BottomTabBar } from "../components/common";
 import EventScreen from "../screens/EventScreen";
 import NewUserScreen from "../screens/NewUserScreen";
 
-type MeType = {
-  id: string;
-  username: string;
-  newUser: boolean;
-};
+import * as Notifications from 'expo-notifications'
+
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  })
+})
+
+
+
 
 export default () => {
   const Tab = createBottomTabNavigator();
   const Stack = createStackNavigator<RootStackParamList>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<MeType | null>(null);
-  const { data, loading, error } = useQuery<{ me: MeType }, void>(ME);
+  const [user, setUser] = useState<MeData['me'] | null>(null);
+  const { data, loading, error } = useQuery<MeData, void>(ME);
+
+  const [notification, setNotification] = useState<Notifications.Notification | boolean>(false);
 
   useEffect(() => {
+    Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification)
+    })
+    Notifications.addNotificationResponseReceivedListener(response => console.log(response))
+    return () => {
+      Notifications.removeAllNotificationListeners();
+    };
+  }, [])
+  useEffect(() => {
+
     if (data) {
       setIsLoading(loading);
       if (data.me) setUser(data.me);
@@ -97,16 +118,17 @@ export default () => {
             <Stack.Screen name="NewEvent" component={NewEventScreen} />
           </>
         ) : (
-          <>
-            <Stack.Screen name="LogIn" component={LogInScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-            <Stack.Screen
-              name="ForgetPassword"
-              component={ForgetPasswordScreen}
-            />
-          </>
-        )}
+            <>
+              <Stack.Screen name="LogIn" component={LogInScreen} />
+              <Stack.Screen name="SignUp" component={SignUpScreen} />
+              <Stack.Screen
+                name="ForgetPassword"
+                component={ForgetPasswordScreen}
+              />
+            </>
+          )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+

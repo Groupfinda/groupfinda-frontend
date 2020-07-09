@@ -79,3 +79,17 @@ export const UPDATE_USER = gql`
     )
   }
 `;
+
+
+
+export type AddExpoTokenVariables = {
+  token: string;
+}
+export type AddExpoTokenData = {
+  addExpoToken: string
+}
+export const ADD_EXPO_TOKEN = gql`
+  mutation addExpoToken($token: String!) {
+    addExpoToken(token: $token)
+  }
+`

@@ -4,36 +4,40 @@ import { StyleSheet } from "react-native";
 import { LogInForm } from "../components/Auth";
 import { TouchableOpacity, ScrollView, Image } from "react-native";
 import { LogInScreenNavigationProp } from "../navigation/types";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = LogInScreenNavigationProp;
 
 const LogInScreen: React.FC<Props> = ({ navigation }) => {
   return (
-    <Layout style={styles.wrapperStyle}>
-      <ScrollView>
-        <Layout style={styles.containerStyle}>
-          <Layout style={styles.headerStyle}>
-            <Image
-              style={{ width: 300, height: 100 }}
-              resizeMode="contain"
-              source={require("../../assets/logowithwords.png")}
-            />
+    <SafeAreaView style={styles.wrapperStyle}>
 
-            <Text style={styles.textStyle} category="h6" appearance="hint">
-              Log In
+      <Layout style={styles.wrapperStyle}>
+        <ScrollView>
+          <Layout style={styles.containerStyle}>
+            <Layout style={styles.headerStyle}>
+              <Image
+                style={{ width: 300, height: 100 }}
+                resizeMode="contain"
+                source={require("../../assets/logowithwords.png")}
+              />
+
+              <Text style={styles.textStyle} category="h6" appearance="hint">
+                Log In
             </Text>
-          </Layout>
-          <LogInForm />
+            </Layout>
+            <LogInForm />
 
-          <TouchableOpacity
-            style={styles.helpStyle}
-            onPress={() => navigation.navigate("SignUp")}
-          >
-            <Text status="info">Don't have an account? Sign up</Text>
-          </TouchableOpacity>
-        </Layout>
-      </ScrollView>
-    </Layout>
+            <TouchableOpacity
+              style={styles.helpStyle}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              <Text status="info">Don't have an account? Sign up</Text>
+            </TouchableOpacity>
+          </Layout>
+        </ScrollView>
+      </Layout>
+    </SafeAreaView>
   );
 };
 

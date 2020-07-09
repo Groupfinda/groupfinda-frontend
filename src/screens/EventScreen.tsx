@@ -21,6 +21,7 @@ import { singleEvent } from "../graphql/queries";
 import { Loading } from "../components/common";
 import { REGISTER_EVENT, VIEW_EVENT } from "../graphql/mutations";
 import { View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = EventScreenNavigationProp & {
   route: {
@@ -52,7 +53,7 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
     fetchPolicy: "network-only"
   });
 
-  const [ registerEvent ] = useMutation(
+  const [registerEvent] = useMutation(
     REGISTER_EVENT,
     {
       onCompleted: (data) => {
@@ -63,7 +64,7 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       },
       onError: (err) => {
         console.log(err)
-        if (err.graphQLErrors.some(el=>el.message.includes("User is already registered"))) {
+        if (err.graphQLErrors.some(el => el.message.includes("User is already registered"))) {
           setEventRegistered(true);
         }
         setRegisterEventLoading(false);
@@ -96,209 +97,214 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       event.images.push("https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80")
     }
     return (
-      <Layout style={{ padding: 0 }}>
-        <Layout style={styles.headerLayout}>
-          <Layout level="1" style={{ backgroundColor: "transparent" }}>
-            <Icon
-              height={30}
-              width={30}
-              fill="white"
-              name="close-outline"
-              onPress={() => navigation.goBack()}
-            />
+      <SafeAreaView style={{ padding: 0, flex: 1 }}>
+
+
+        <Layout style={{ padding: 0 }}>
+          <Layout style={styles.headerLayout}>
+            <Layout level="1" style={{ backgroundColor: "transparent" }}>
+              <Icon
+                height={30}
+                width={30}
+                fill="white"
+                name="close-outline"
+                onPress={() => navigation.goBack()}
+              />
+            </Layout>
+          </Layout>
+          <LinearGradient
+            colors={["rgba(0,0,0,0.8)", "transparent"]}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 70,
+              zIndex: 10,
+            }}
+          />
+          <Carousel items={event.images} imageHeight={240} />
+          <Layout>
+            <ScrollView style={styles.scrollViewContainer}>
+              <Layout style={styles.contentContainer}>
+                <Layout style={styles.contentHeader}>
+                  <Text
+                    category="h2"
+                    style={{
+                      color: theme["color-primary-600"],
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {event.title}
+                  </Text>
+                  <Text style={{ color: "grey" }} category="s2">
+                    Created by {event.owner.username}{" "}
+                    <Avatar size="tiny" source={{ uri: event.owner.avatar }} />{" "}
+                    {/*  ({event.owner.firstName} {event.owner.lastName}) */}
+                  </Text>
+                  <Layout
+                    style={{
+                      marginTop: 15,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button
+                      disabled={registerEventLoading}
+                      style={{ borderRadius: 100, width: "100%" }}
+                      appearance={eventRegistered ? "filled" : "outline"}
+                      status={eventRegistered ? "primary" : "basic"}
+                      onPress={registerEventHandler}
+                      accessoryLeft={() => {
+                        if (registerEventLoading) {
+                          return <View>
+                            <Spinner />
+                          </View>
+                        }
+                        return (<Icon
+                          height={16}
+                          width={16}
+                          fill={
+                            eventRegistered
+                              ? "white"
+                              : theme["color-primary-default"]
+                          }
+                          name="clipboard-outline"
+                        />
+                        )
+                      }}
+                    >
+                      {eventRegistered ? "Registered!" : "Sign Me Up!"}
+                    </Button>
+                  </Layout>
+                </Layout>
+                <Divider />
+                <Layout style={styles.contentBody}>
+                  <Text style={{ fontWeight: "bold" }} category="h6">
+                    EVENT DETAILS
+                </Text>
+                  <ListItem
+                    disabled
+                    title={(props) => <Text {...props}>Event Code: <Text style={{ color: theme["color-primary-default"] }}>{event.eventCode}</Text></Text>}
+                    accessoryLeft={() => (
+                      <Icon
+                        width={30}
+                        height={30}
+                        fill={theme["color-primary-default"]}
+                        name="at-outline"
+                      />
+                    )}
+                  />
+                  <ListItem
+                    disabled
+                    title={(props) => <Text {...props}>Date and Time</Text>}
+                    description={(props) => (
+                      <Text {...props}>
+                        {dateOfEvent.toString().substring(0, 21)}
+                      </Text>
+                    )}
+                    accessoryLeft={() => (
+                      <Icon
+                        width={30}
+                        height={30}
+                        fill={theme["color-primary-default"]}
+                        name="clock-outline"
+                      />
+                    )}
+                  />
+                  <ListItem
+                    disabled
+                    title="Location"
+                    description={(props) => (
+                      <Text {...props}>
+                        {event.location.address}, Singapore{" "}
+                        {event.location.postalCode}
+                      </Text>
+                    )}
+                    accessoryLeft={() => (
+                      <Icon
+                        width={30}
+                        height={30}
+                        fill={theme["color-primary-default"]}
+                        name="pin-outline"
+                      />
+                    )}
+                  />
+                  <ListItem
+                    disabled
+                    title="Group Size"
+                    description={(props) => (
+                      <Text {...props}>{event.groupSize}</Text>
+                    )}
+                    accessoryLeft={() => (
+                      <Icon
+                        width={30}
+                        height={30}
+                        fill={theme["color-primary-default"]}
+                        name="people-outline"
+                      />
+                    )}
+                  />
+                  <ListItem
+                    disabled
+                    title={(props) => (
+                      <Text {...props}>Registration Deadline</Text>
+                    )}
+                    description={(props) => (
+                      <Text {...props}>
+                        {dateLastRegister.toString().substring(0, 21)}
+                      </Text>
+                    )}
+                    accessoryLeft={() => (
+                      <Icon
+                        width={30}
+                        height={30}
+                        fill={theme["color-primary-default"]}
+                        name="info-outline"
+                      />
+                    )}
+                  />
+                </Layout>
+                <Divider />
+                <Layout style={styles.contentBody}>
+                  <Text
+                    style={{ fontWeight: "bold", marginBottom: 10 }}
+                    category="h6"
+                  >
+                    EVENT DESCRIPTION
+                </Text>
+                  <Text>{event.description}</Text>
+                </Layout>
+
+                <Divider />
+                <Layout style={styles.contentBody}>
+                  <Text
+                    style={{ fontWeight: "bold", marginBottom: 10 }}
+                    category="h6"
+                  >
+                    REGISTERED USERS
+                </Text>
+                  <Layout style={{ flexDirection: "row", alignItems: "center" }}>
+                    {event.registeredUsers.slice(0, 5).map((user: any) => (
+                      <Avatar
+                        style={{ marginRight: 10 }}
+                        size="medium"
+                        key={user.id}
+                        source={{ uri: user.avatar }}
+                      />
+                    ))}
+                    {event.registeredUsers.length > 5 ? (
+                      <Text category="s2" status="primary">
+                        +{event.registeredUsers.length - 5} more
+                      </Text>
+                    ) : null}
+                  </Layout>
+                </Layout>
+              </Layout>
+            </ScrollView>
           </Layout>
         </Layout>
-        <LinearGradient
-          colors={["rgba(0,0,0,0.8)", "transparent"]}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 70,
-            zIndex: 10,
-          }}
-        />
-        <Carousel items={event.images} imageHeight={240} />
-        <Layout>
-          <ScrollView style={styles.scrollViewContainer}>
-            <Layout style={styles.contentContainer}>
-              <Layout style={styles.contentHeader}>
-                <Text
-                  category="h2"
-                  style={{
-                    color: theme["color-primary-600"],
-                    fontWeight: "bold",
-                  }}
-                >
-                  {event.title}
-                </Text>
-                <Text style={{ color: "grey" }} category="s2">
-                  Created by {event.owner.username}{" "}
-                  <Avatar size="tiny" source={{ uri: event.owner.avatar }} />{" "}
-                  {/*  ({event.owner.firstName} {event.owner.lastName}) */}
-                </Text>
-                <Layout
-                  style={{
-                    marginTop: 15,
-                    flexDirection: "row",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Button
-                    disabled={registerEventLoading}
-                    style={{ borderRadius: 100, width: "100%" }}
-                    appearance={eventRegistered ? "filled" : "outline"}
-                    status={eventRegistered ? "primary" : "basic"}
-                    onPress={registerEventHandler}
-                    accessoryLeft={() => {
-                      if (registerEventLoading) {
-                        return <View>
-                          <Spinner/>
-                        </View>
-                      }
-                      return (<Icon  
-                        height={16}
-                        width={16}
-                        fill={
-                          eventRegistered
-                            ? "white"
-                            : theme["color-primary-default"]
-                        }
-                        name="clipboard-outline"
-                      />
-                    )}}
-                  >
-                  {eventRegistered ? "Registered!" : "Sign Me Up!"}
-                  </Button>
-                </Layout>
-              </Layout>
-              <Divider />
-              <Layout style={styles.contentBody}>
-                <Text style={{ fontWeight: "bold" }} category="h6">
-                  EVENT DETAILS
-                </Text>
-                <ListItem
-                  disabled
-                  title={(props) => <Text {...props}>Event Code: <Text style={{color:theme["color-primary-default"]}}>{event.eventCode}</Text></Text>}
-                  accessoryLeft={() => (
-                    <Icon
-                      width={30}
-                      height={30}
-                      fill={theme["color-primary-default"]}
-                      name="at-outline"
-                    />
-                  )}
-                />
-                <ListItem
-                  disabled
-                  title={(props) => <Text {...props}>Date and Time</Text>}
-                  description={(props) => (
-                    <Text {...props}>
-                      {dateOfEvent.toString().substring(0, 21)}
-                    </Text>
-                  )}
-                  accessoryLeft={() => (
-                    <Icon
-                      width={30}
-                      height={30}
-                      fill={theme["color-primary-default"]}
-                      name="clock-outline"
-                    />
-                  )}
-                />
-                <ListItem
-                  disabled
-                  title="Location"
-                  description={(props) => (
-                    <Text {...props}>
-                      {event.location.address}, Singapore{" "}
-                      {event.location.postalCode}
-                    </Text>
-                  )}
-                  accessoryLeft={() => (
-                    <Icon
-                      width={30}
-                      height={30}
-                      fill={theme["color-primary-default"]}
-                      name="pin-outline"
-                    />
-                  )}
-                />
-                <ListItem
-                  disabled
-                  title="Group Size"
-                  description={(props) => (
-                    <Text {...props}>{event.groupSize}</Text>
-                  )}
-                  accessoryLeft={() => (
-                    <Icon
-                      width={30}
-                      height={30}
-                      fill={theme["color-primary-default"]}
-                      name="people-outline"
-                    />
-                  )}
-                />
-                <ListItem
-                  disabled
-                  title={(props) => (
-                    <Text {...props}>Registration Deadline</Text>
-                  )}
-                  description={(props) => (
-                    <Text {...props}>
-                      {dateLastRegister.toString().substring(0, 21)}
-                    </Text>
-                  )}
-                  accessoryLeft={() => (
-                    <Icon
-                      width={30}
-                      height={30}
-                      fill={theme["color-primary-default"]}
-                      name="info-outline"
-                    />
-                  )}
-                />
-              </Layout>
-              <Divider />
-              <Layout style={styles.contentBody}>
-                <Text
-                  style={{ fontWeight: "bold", marginBottom: 10 }}
-                  category="h6"
-                >
-                  EVENT DESCRIPTION
-                </Text>
-                <Text>{event.description}</Text>
-              </Layout>
-
-              <Divider />
-              <Layout style={styles.contentBody}>
-                <Text
-                  style={{ fontWeight: "bold", marginBottom: 10 }}
-                  category="h6"
-                >
-                  REGISTERED USERS
-                </Text>
-                <Layout style={{ flexDirection: "row", alignItems: "center" }}>
-                  {event.registeredUsers.slice(0, 5).map((user: any) => (
-                    <Avatar
-                      style={{ marginRight: 10 }}
-                      size="medium"
-                      key={user.id}
-                      source={{ uri: user.avatar }}
-                    />
-                  ))}
-                  {event.registeredUsers.length > 5 ? (
-                    <Text category="s2" status="primary">
-                      +{event.registeredUsers.length - 5} more
-                    </Text>
-                  ) : null}
-                </Layout>
-              </Layout>
-            </Layout>
-          </ScrollView>
-        </Layout>
-      </Layout>
+      </SafeAreaView>
     );
   }
 };

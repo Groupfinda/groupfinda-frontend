@@ -22,6 +22,7 @@ import {
   GetMessageRoomVariables,
   MessageType,
 } from "../graphql/queries";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = MessageRoomNavigationProp;
 
@@ -69,19 +70,22 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
     });
   };
   return (
-    <Layout level="2" style={styles.container}>
-      <ChatHeader title={group.event.title} image={group.event.images[0]} />
-      <GiftedChat
-        messages={messages}
-        onSend={onSend}
-        user={{
-          _id: user.data?.me.id as string,
-          name: user.data?.me.username,
-          avatar: user.data?.me.avatar,
-        }}
-        renderUsernameOnMessage={true}
-      />
-    </Layout>
+    <SafeAreaView style={styles.container}>
+
+      <Layout level="2" style={styles.container}>
+        <ChatHeader title={group.event.title} image={group.event.images[0]} />
+        <GiftedChat
+          messages={messages}
+          onSend={onSend}
+          user={{
+            _id: user.data?.me.id as string,
+            name: user.data?.me.username,
+            avatar: user.data?.me.avatar,
+          }}
+          renderUsernameOnMessage={true}
+        />
+      </Layout>
+    </SafeAreaView>
   );
 };
 

@@ -42,6 +42,7 @@ const CardInfo: React.FC<CardInfoProps> = (props) => {
     Animated.timing(visibility, {
       toValue: visible ? 1 : 0,
       duration: 200,
+      useNativeDriver: true
     }).start(() => {
       setIsVisible(visible);
     });
@@ -128,7 +129,7 @@ const CardInfo: React.FC<CardInfoProps> = (props) => {
                 </Text>
                 <ListItem
                   disabled
-                  title={(props) => <Text {...props}>Event Code: <Text style={{color:theme["color-primary-default"]}}>{event.eventCode}</Text></Text>}
+                  title={(props) => <Text {...props}>Event Code: <Text style={{ color: theme["color-primary-default"] }}>{event.eventCode}</Text></Text>}
                   accessoryLeft={() => (
                     <Icon
                       width={30}

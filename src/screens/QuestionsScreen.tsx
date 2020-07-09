@@ -7,17 +7,18 @@ import { getUserQuestions } from "../graphql/queries";
 import { useQuery } from "@apollo/react-hooks";
 import { QuestionType, RawQuestionType } from "../components/types"
 import { View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 type Props = QuestionsScreenNavigationProp;
 
 const QuestionsScreen: React.FC<Props> = ({ navigation }) => {
-  
+
   const styles = useStyleSheet(themedStyle);
-  const [ selectedIndex, setSelectedIndex] = React.useState(0);
-  const [ modalVisible, setModal ] = React.useState(false);
-  const [ completedQuestions, setCompletedQuestions ] = React.useState<QuestionType[]>([]);
-  const [ activeQuestions, setActiveQuestions ] = React.useState<QuestionType[]>([]);
-  const [ loadingQuestions, setLoadingQuestion ] = React.useState<boolean>(true);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [modalVisible, setModal] = React.useState(false);
+  const [completedQuestions, setCompletedQuestions] = React.useState<QuestionType[]>([]);
+  const [activeQuestions, setActiveQuestions] = React.useState<QuestionType[]>([]);
+  const [loadingQuestions, setLoadingQuestion] = React.useState<boolean>(true);
 
   const { loading, data, error } = useQuery(getUserQuestions, {
     onCompleted: (response) => {
@@ -25,16 +26,16 @@ const QuestionsScreen: React.FC<Props> = ({ navigation }) => {
       let newQuestions: QuestionType[] = []
       let oldQuestions: QuestionType[] = []
       for (let question of response['getAllRangeQuestions']
-        .sort(function(a: RawQuestionType, b: RawQuestionType) {
+        .sort(function (a: RawQuestionType, b: RawQuestionType) {
           if (a.order < b.order) return -1;
           if (a.order > b.order) return 1;
           return 0
         })) {
         const order = question['order']
         if (answers[order] === 0) {
-          newQuestions.push({value: answers[order], ...question})
+          newQuestions.push({ value: answers[order], ...question })
         } else {
-          oldQuestions.push({value: answers[order], ...question})
+          oldQuestions.push({ value: answers[order], ...question })
         }
       }
       setActiveQuestions(newQuestions)
@@ -65,55 +66,55 @@ const QuestionsScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <React.Fragment>
+    <SafeAreaView style={{ flex: 1 }}>
       <Layout style={styles.layoutHeader}>
         <Layout level='1'
           style={styles.headerItem}>
           <Icon height={30} width={30} fill='white' name="arrow-back"
-          onPress={()=>navigation.pop()}/>
+            onPress={() => navigation.pop()} />
         </Layout>
         <Layout level='2'
           style={styles.headerItem}>
-            <Text category='h5' style={{"textAlign": "center"}} status='control'>Questionnaire</Text>
+          <Text category='h5' style={{ "textAlign": "center" }} status='control'>Questionnaire</Text>
         </Layout>
         <Layout level='3'
           style={styles.headerItem}>
-            <Icon height={30} width={30} fill='white' name="info-outline"
-            onPress={()=>setModal(!modalVisible)}/>
+          <Icon height={30} width={30} fill='white' name="info-outline"
+            onPress={() => setModal(!modalVisible)} />
         </Layout>
       </Layout>
       <Layout>
-      <TabView
-        selectedIndex={selectedIndex}
-        onSelect={index => setSelectedIndex(index)}>
-        <Tab title='Active'>
-          {loadingQuestions?
-          <Loading visible/>:
-          <ActiveQuestions questions={activeQuestions} completedQuestions={completedQuestions} setCompletedQuestions={setCompletedQuestions}/>}
-        </Tab>
-        <Tab title='Completed'>
-          {loadingQuestions?
-          <Loading visible/>:
-          <CompletedQuestions questions={completedQuestions} setCompletedQuestions={setCompletedQuestions}/>}
-        </Tab>
-      </TabView>
-      <Modal
-        visible={modalVisible}
-        backdropStyle={styles.modalBackdrop}
-        onBackdropPress={()=>setModal(false)}>
-        <Card disabled={true}>
-          <Text style={{"textAlign": "center"}}>
-            Answering these questions help us gain a better understanding of you,
-            and will greatly improve the results of our matching algorithm! You'll be
-            able to be matched with complementing personalities and more meaningful interactions!
+        <TabView
+          selectedIndex={selectedIndex}
+          onSelect={index => setSelectedIndex(index)}>
+          <Tab title='Active'>
+            {loadingQuestions ?
+              <Loading visible /> :
+              <ActiveQuestions questions={activeQuestions} completedQuestions={completedQuestions} setCompletedQuestions={setCompletedQuestions} />}
+          </Tab>
+          <Tab title='Completed'>
+            {loadingQuestions ?
+              <Loading visible /> :
+              <CompletedQuestions questions={completedQuestions} setCompletedQuestions={setCompletedQuestions} />}
+          </Tab>
+        </TabView>
+        <Modal
+          visible={modalVisible}
+          backdropStyle={styles.modalBackdrop}
+          onBackdropPress={() => setModal(false)}>
+          <Card disabled={true}>
+            <Text style={{ "textAlign": "center" }}>
+              Answering these questions help us gain a better understanding of you,
+              and will greatly improve the results of our matching algorithm! You'll be
+              able to be matched with complementing personalities and more meaningful interactions!
           </Text>
-          <Divider style={{marginVertical: 10}} />
-          <Button
-            onPress={()=>setModal(false)}>Got it!</Button>
-        </Card>
-      </Modal>
+            <Divider style={{ marginVertical: 10 }} />
+            <Button
+              onPress={() => setModal(false)}>Got it!</Button>
+          </Card>
+        </Modal>
       </Layout>
-    </React.Fragment>
+    </SafeAreaView>
   );
 };
 
