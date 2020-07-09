@@ -53,7 +53,7 @@ export const Carousel = (props: any) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { height: imageHeight }]}>
       <ScrollView
         horizontal={true}
         contentContainerStyle={{
