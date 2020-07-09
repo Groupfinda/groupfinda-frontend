@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "groupfinda-frontend",
-    "slug": "groupfinda-frontend",
+    "name": "groupfinda",
+    "slug": "groupfinda",
     "platforms": [
       "ios",
       "android",

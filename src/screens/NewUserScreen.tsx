@@ -47,7 +47,7 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{height: "100%", flex: 1}}>
             <ViewPager
                 selectedIndex={selectedIndex}
                 onSelect={index => setSelectedIndex(index)}>
@@ -76,6 +76,7 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
 
 const themedStyle = StyleService.create({
     tab: {
+        flex: 1,
         height: "100%",
     },
     bullets: {

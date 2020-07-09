@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { findNodeHandle, ScrollView } from 'react-native';
+import { View, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
 import { Button, useStyleSheet, StyleService, Text, Layout, Input, Select, IndexPath, SelectItem, Spinner } from '@ui-kitten/components';
 import { useMutation } from '@apollo/react-hooks';
 import { UPDATE_NEW_USER } from '../../graphql/mutations';
@@ -8,8 +9,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import { Loading } from '../common';
 import { ReferencesType } from '../types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-export default (): React.ReactElement => {
+export default (props: any): React.ReactElement => {
+
     const styles = useStyleSheet(themedStyle);
     const navigation = useNavigation();
 
@@ -26,6 +29,9 @@ export default (): React.ReactElement => {
     const [userFaculty, setUserFaculty] = useState<string>("None");
     const [userHobbies, setUserHobbies] = useState<string[]>([]);
     const [userYearOfStudy, setUserYearOfStudy] = useState<number|null>(null);
+
+    const [inputFocused, setInputFocused] = useState<boolean>(false);
+    const [scroll, setScroll] = useState<any>()
 
     const [ updateNewUser ] = useMutation(
         UPDATE_NEW_USER,
@@ -80,10 +86,18 @@ export default (): React.ReactElement => {
         return <Loading visible />
     }
     
+    const _scrollToInput = (reactNode: any) => {
+        scroll.props.scrollToFocusedInput(reactNode)
+    }
 
     return (
-        <React.Fragment>
-            <View style={styles.container}>
+        <View style={{flex:1}}>
+            <KeyboardAwareScrollView
+                style={{flex:1}}
+                innerRef={ref => {
+                    setScroll(ref)
+                }}>
+            <ScrollView style={styles.container}>
                 <Text
                     style={{fontFamily: "Inter_900Black", marginVertical: 10}}
                     status="primary"
@@ -102,7 +116,12 @@ export default (): React.ReactElement => {
                         placeholder="Lower Age Limit"
                         label="Minimum Age Preference"
                         onChangeText={(newValue: string) => handleNumericInput(newValue, setLowerAge)}
-                        onSubmitEditing={() => references.secondInput?.focus()}>
+                        onSubmitEditing={() => references.secondInput?.focus()}
+                        onFocus={(event: any) => {
+                            setInputFocused(true);
+                            _scrollToInput(findNodeHandle(event.target))
+                        }}
+                        onBlur={()=>setInputFocused(false)}>
                         {lowerAge}
                     </Input>
                     <Input
@@ -114,7 +133,12 @@ export default (): React.ReactElement => {
                         label="Maximum Age Preference"
                         onChangeText={(newValue: string) => handleNumericInput(newValue, setUpperAge)}
                         ref={(ref)=>(references.secondInput=ref)}
-                        onSubmitEditing={()=>references.thirdInput?.focus()}>
+                        onSubmitEditing={()=>references.thirdInput?.focus()}
+                        onFocus={(event: any) => {
+                            setInputFocused(true);
+                            _scrollToInput(findNodeHandle(event.target))
+                        }}
+                        onBlur={()=>setInputFocused(false)}>
                         {upperAge}
                     </Input>
 
@@ -130,7 +154,13 @@ export default (): React.ReactElement => {
                         label="Year of Study"
                         onChangeText={(newValue: string) => handleNumericInput(newValue, setUserYearOfStudy)}
                         ref={(ref)=>(references.thirdInput=ref)}
-                        onSubmitEditing={()=>references.fourthInput?.focus()}>
+                        onSubmitEditing={()=>{references.fourthInput?.focus()}}
+                        onFocus={(event: any) => {
+                            console.log(event)
+                            setInputFocused(true);
+                            _scrollToInput(findNodeHandle(event.target))
+                        }}
+                        onBlur={()=>setInputFocused(false)}>
                         {userYearOfStudy}
                     </Input>
                     <Select
@@ -160,7 +190,7 @@ export default (): React.ReactElement => {
                         ))}
                     </Select>
                 </Layout>
-            </View>
+            </ScrollView>
             <Button
                 disabled={lowerAge===null || upperAge===null || maxDistance===null || userYearOfStudy===null}
                 size="giant"
@@ -169,7 +199,8 @@ export default (): React.ReactElement => {
                 accessoryLeft={(props)=>{return submitLoading?<View {...props}><Spinner status='control'/></View>:<View/>}}>
                     {submitLoading?"":"Continue"}
             </Button>
-        </React.Fragment>
+            </KeyboardAwareScrollView>
+        </View>
         
     )
 }
