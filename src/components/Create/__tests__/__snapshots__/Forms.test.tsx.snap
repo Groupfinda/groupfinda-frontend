@@ -1088,17 +1088,22 @@ exports[`renders event images ui correctly 1`] = `
         >
           <View
             style={
-              Object {
-                "backgroundColor": "#fbfbfb",
-                "borderColor": "#ebebeb",
-                "shadowColor": "#fcfcfc",
-                "shadowOffset": Object {
-                  "height": 5,
-                  "width": 0,
+              Array [
+                Object {
+                  "backgroundColor": "#fbfbfb",
+                  "borderColor": "#ebebeb",
+                  "shadowColor": "#fcfcfc",
+                  "shadowOffset": Object {
+                    "height": 5,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "width": "100%",
                 },
-                "shadowOpacity": 1,
-                "width": "100%",
-              }
+                Object {
+                  "height": 250,
+                },
+              ]
             }
           >
             <RCTScrollView

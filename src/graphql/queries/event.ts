@@ -63,13 +63,13 @@ export const singleEvent = gql`
         lastName
         avatar
       }
-      groups
       eventCode
       location {
         address
         postalCode
       }
     }
+    getUserGroup(eventId: $eventId)
   }
 `;
 
