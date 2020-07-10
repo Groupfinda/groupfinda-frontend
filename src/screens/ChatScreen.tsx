@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Divider } from "@ui-kitten/components";
+import { Layout, Divider, Text } from "@ui-kitten/components";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import { Header } from "../components/Create";
 import { useLazyQuery } from "@apollo/react-hooks";
@@ -10,6 +10,7 @@ import {
 } from "../graphql/queries";
 import { GroupItem } from "../components/Chat";
 import { SafeAreaView } from 'react-native-safe-area-context'
+
 type Props = {};
 
 const ChatScreen: React.FC<Props> = (props) => {
@@ -36,7 +37,6 @@ const ChatScreen: React.FC<Props> = (props) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-
       <Layout level="2" style={styles.container}>
         <Header />
         <Divider />
@@ -46,6 +46,16 @@ const ChatScreen: React.FC<Props> = (props) => {
           }>
           {!loading &&
             groups?.map((group) => <GroupItem key={group.id} group={group} />)}
+          {
+            !loading && groups.length===0?
+            <Layout style={styles.textContainer}>
+              <Text category='h6' style={{textAlign: "center", color: "grey"}}>
+                You do not have any groups at the moment! Register for events to get matched up!
+              </Text>
+            </Layout>
+            :
+            null
+          }
         </ScrollView>
       </Layout>
 
@@ -57,6 +67,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  textContainer: {
+    backgroundColor: "transparent",
+    paddingTop: 15,
+    paddingHorizontal: 8,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
 
 export default ChatScreen;
