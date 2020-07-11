@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Text, Drawer, Divider, DrawerItem, Avatar } from "@ui-kitten/components";
 import { StyleSheet, Animated, View } from "react-native";
-import { ChatHeader } from "../components/Chat";
+import { ChatHeader, SideMenu } from "../components/Chat";
 import { MessageRoomNavigationProp } from "../navigation/types";
 import { GiftedChat } from "react-native-gifted-chat";
-import SideMenu from 'react-native-side-menu'
 import { useSubscription, useMutation, useQuery } from "@apollo/react-hooks";
 import {
   SEND_MESSAGE,
