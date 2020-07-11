@@ -108,15 +108,15 @@ const Card: React.FC<CardProps> = (props) => {
             ))}
           </View>
           <Text category="h5" status="primary">
-            {event.title.slice(0, 50)} {event.title.length > 50 ? "..." : ""}
+            {event.title.slice(0, 30)} {event.title.length > 30 ? "..." : ""}
           </Text>
           <View style={styles.footerBody}>
             <View style={styles.footerText}>
               <View style={styles.footerWithIcon}>
                 <Icon width={16} height={16} fill="black" name="edit" />
                 <Text category="s2" style={styles.footerTextMargin}>
-                  {event.description.slice(0, 100)}
-                  {event.description.length > 100 ? "..." : ""}
+                  {event.description.slice(0, 90)}
+                  {event.description.length > 90 ? "..." : ""}
                 </Text>
               </View>
 

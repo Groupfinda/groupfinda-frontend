@@ -23,7 +23,7 @@ const GroupItem: React.FC<Props> = (props) => {
       <View style={styles.layout}>
         <Avatar source={{ uri: group.event.images[0] }} size="large" />
         <Text status="primary" category="h5">
-          {group.event.title}
+          {group.event.title.slice(0, 21)}{group.event.title.length > 21 ? "..." : ""}
         </Text>
         <Icon height={30} width={30} fill="black" name="arrow-ios-forward" />
       </View>
