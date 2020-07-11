@@ -7,6 +7,12 @@ export type GetMyGroupsData = {
     groups: Array<{
       id: string;
       messageRoom: string;
+      members: Array<{
+        id: string;
+        username: string;
+        firstName: string;
+        avatar: string
+      }>;
       event: {
         title: string;
         dateOfEvent: Date;
@@ -22,6 +28,12 @@ export const GET_MY_GROUPS = gql`
       groups {
         id
         messageRoom
+        members {
+          id
+          username
+          firstName
+          avatar
+        }
         event {
           title
           dateOfEvent

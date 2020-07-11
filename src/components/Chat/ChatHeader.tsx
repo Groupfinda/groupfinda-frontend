@@ -7,12 +7,13 @@ import {
   Icon,
   Text,
 } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 type Props = {
   title: string;
   image: string;
+  onImagePress: () => void;
 };
 
 const BackIcon = (props: IconProps) => (
@@ -20,9 +21,13 @@ const BackIcon = (props: IconProps) => (
 );
 
 const ChatHeader: React.FC<Props> = (props) => {
-  const { title, image } = props;
+  const { title, image, onImagePress } = props;
   const navigation = useNavigation();
-  const renderImage = () => <Avatar source={{ uri: image }} size="medium" />;
+  const renderImage = () => (
+    <TouchableOpacity onPress={onImagePress}>
+      <Avatar source={{ uri: image }} size="medium" />
+    </TouchableOpacity>
+  )
 
   const renderBack = () => (
     <TopNavigationAction onPress={() => navigation.goBack()} icon={BackIcon} />
@@ -31,8 +36,8 @@ const ChatHeader: React.FC<Props> = (props) => {
     <TopNavigation
       style={styles.container}
       title={() => (
-        <Text category="h5" status="primary">
-          {title}
+        <Text category={title.length > 21 ? "h6" : "h5"} status="primary">
+          {title.slice(0, 21)}{title.length > 21 ? "..." : ""}
         </Text>
       )}
       accessoryLeft={renderBack}

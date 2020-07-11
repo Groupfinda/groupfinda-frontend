@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Layout } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { Layout, Text, Drawer, Divider, DrawerItem, Avatar } from "@ui-kitten/components";
+import { StyleSheet, Animated } from "react-native";
 import { ChatHeader } from "../components/Chat";
 import { MessageRoomNavigationProp } from "../navigation/types";
 import { GiftedChat } from "react-native-gifted-chat";
+import SideMenu from 'react-native-side-menu'
 import { useSubscription, useMutation, useQuery } from "@apollo/react-hooks";
 import {
   SEND_MESSAGE,
@@ -24,15 +25,18 @@ import {
 } from "../graphql/queries";
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+
 type Props = MessageRoomNavigationProp;
 
 const MessageRoomScreen: React.FC<Props> = (props) => {
   const { route, navigation } = props;
   const { group } = route.params;
   const [messages, setMessages] = useState<MessageType[]>([]);
+  const [menu, setMenu] = useState<boolean>(false);
   const [sendMessage] = useMutation<SendMessageData, SendMessageVariables>(
     SEND_MESSAGE
   );
+
   const user = useQuery<FullUserData, FullUserVariables>(FULLUSER);
   const messageRoom = useQuery<GetMessageRoomData, GetMessageRoomVariables>(
     GET_MESSAGE_ROOM,
@@ -69,29 +73,66 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
       },
     });
   };
+
+  const firstMember = group.members[0]
+
+  const Menu = (<Layout style={styles.container}>
+    <Layout style={styles.sideHeader}>
+      <Text category="h5" status="primary">Participants</Text>
+    </Layout>
+    <Divider />
+
+    <Drawer>
+      <DrawerItem
+        title={firstMember.firstName}
+        accessoryLeft={() => <Avatar source={{ uri: firstMember.avatar }} />} />
+    </Drawer>
+
+
+  </Layout>)
   return (
+
+
     <SafeAreaView style={styles.container}>
 
-      <Layout level="2" style={styles.container}>
-        <ChatHeader title={group.event.title} image={group.event.images[0]} />
-        <GiftedChat
-          messages={messages}
-          onSend={onSend}
-          user={{
-            _id: user.data?.me.id as string,
-            name: user.data?.me.username,
-            avatar: user.data?.me.avatar,
-          }}
-          renderUsernameOnMessage={true}
-        />
-      </Layout>
+      <SideMenu
+        menu={Menu}
+        isOpen={menu}
+        menuPosition="right"
+        onChange={(prev) => setMenu(prev)}
+        //@ts-ignore
+        animationFunction={(prop, value) => Animated.spring(prop, {
+          toValue: value,
+          friction: 8,
+          useNativeDriver: true
+        })}>
+        <Layout level="2" style={styles.container}>
+          <ChatHeader title={group.event.title} image={group.event.images[0]} onImagePress={() => setMenu(true)} />
+          <GiftedChat
+            messages={messages}
+            onSend={onSend}
+            user={{
+              _id: user.data?.me.id as string,
+              name: user.data?.me.username,
+              avatar: user.data?.me.avatar,
+            }}
+            renderUsernameOnMessage={true}
+          />
+        </Layout>
+      </SideMenu>
     </SafeAreaView>
+
+
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  sideHeader: {
+    alignItems: "center",
+    padding: 20
   },
 });
 

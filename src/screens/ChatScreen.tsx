@@ -44,17 +44,15 @@ const ChatScreen: React.FC<Props> = (props) => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
-          {!loading &&
-            groups?.map((group) => <GroupItem key={group.id} group={group} />)}
+          {!loading && groups && groups.map((group) => <GroupItem key={group.id} group={group} />)}
           {
-            !loading && groups.length===0?
+            !loading && groups.length === 0 &&
             <Layout style={styles.textContainer}>
-              <Text category='h6' style={{textAlign: "center", color: "grey"}}>
+              <Text category='h6' style={{ textAlign: "center", color: "grey" }}>
                 You do not have any groups at the moment! Register for events to get matched up!
               </Text>
             </Layout>
-            :
-            null
+
           }
         </ScrollView>
       </Layout>
