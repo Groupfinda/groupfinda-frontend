@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Text, Drawer, Divider, DrawerItem, Avatar } from "@ui-kitten/components";
-import { StyleSheet, Animated } from "react-native";
+import { StyleSheet, Animated, View } from "react-native";
 import { ChatHeader } from "../components/Chat";
 import { MessageRoomNavigationProp } from "../navigation/types";
 import { GiftedChat } from "react-native-gifted-chat";
@@ -74,7 +74,6 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
     });
   };
 
-  const firstMember = group.members[0]
 
   const Menu = (<Layout style={styles.container}>
     <Layout style={styles.sideHeader}>
@@ -83,9 +82,15 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
     <Divider />
 
     <Drawer>
-      <DrawerItem
-        title={firstMember.firstName}
-        accessoryLeft={() => <Avatar source={{ uri: firstMember.avatar }} />} />
+      {group.members.map(member => (
+        <DrawerItem
+          key={member.id}
+          title={() => (<View style={{ flex: 1, alignItems: "flex-start", marginLeft: 20 }}>
+            <Text category="h6">{member.firstName}</Text>
+          </View>)}
+          accessoryLeft={() => <Avatar source={{ uri: member.avatar }} />} />
+      ))}
+
     </Drawer>
 
 
