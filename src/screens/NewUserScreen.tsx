@@ -47,8 +47,9 @@ const NewUserScreen: React.FC<Props> = ({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={{height: "100%", flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
             <ViewPager
+                style={{flex: 1}}
                 selectedIndex={selectedIndex}
                 onSelect={index => setSelectedIndex(index)}>
                 <Layout

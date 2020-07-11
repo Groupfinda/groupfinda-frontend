@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { findNodeHandle, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { findNodeHandle, ScrollView, Keyboard } from 'react-native';
 import { View, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
 import { Button, useStyleSheet, StyleService, Text, Layout, Input, Select, IndexPath, SelectItem, Spinner } from '@ui-kitten/components';
 import { useMutation } from '@apollo/react-hooks';
@@ -97,7 +97,7 @@ export default (props: any): React.ReactElement => {
                 innerRef={ref => {
                     setScroll(ref)
                 }}>
-            <ScrollView style={styles.container}>
+            <View style={styles.container}>
                 <Text
                     style={{fontFamily: "Inter_900Black", marginVertical: 10}}
                     status="primary"
@@ -156,7 +156,6 @@ export default (props: any): React.ReactElement => {
                         ref={(ref)=>(references.thirdInput=ref)}
                         onSubmitEditing={()=>{references.fourthInput?.focus()}}
                         onFocus={(event: any) => {
-                            console.log(event)
                             setInputFocused(true);
                             _scrollToInput(findNodeHandle(event.target))
                         }}
@@ -190,16 +189,16 @@ export default (props: any): React.ReactElement => {
                         ))}
                     </Select>
                 </Layout>
-            </ScrollView>
-            <Button
+            </View>
+            </KeyboardAwareScrollView>
+            {inputFocused?null:<Button
                 disabled={lowerAge===null || upperAge===null || maxDistance===null || userYearOfStudy===null}
                 size="giant"
                 style={styles.buttonStyle}
                 onPress={handleSubmit}
                 accessoryLeft={(props)=>{return submitLoading?<View {...props}><Spinner status='control'/></View>:<View/>}}>
                     {submitLoading?"":"Continue"}
-            </Button>
-            </KeyboardAwareScrollView>
+            </Button>}
         </View>
         
     )
@@ -209,7 +208,8 @@ const themedStyle = StyleService.create({
     container: {
         flex: 1,
         paddingTop: 50,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        height: "100%"
     },
     sectionTitle: {
         fontWeight: "700",
