@@ -16,7 +16,7 @@ const ProfileScreen: React.FC = () => {
   const { data } = useQuery<MeData, void>(ME)
 
   React.useEffect(() => {
-    registerForPushNotificationsAsync().then(token => {
+    const test = registerForPushNotificationsAsync().then(token => {
       if (token && data) {
         if (data.me && data.me.expoToken) {
           console.log("Token already exists")
@@ -25,6 +25,7 @@ const ProfileScreen: React.FC = () => {
         }
       }
     }).then(data => console.log("Got data ", data))
+
   }, [data])
 
   return (

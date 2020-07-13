@@ -14,23 +14,24 @@ import styles from './styles';
 type WindowDimensions = { width: number, height: number };
 
 type Props = {
-    edgeHitWidth: number,
-    toleranceX: number,
-    toleranceY: number,
+    edgeHitWidth?: number,
+    toleranceX?: number,
+    toleranceY?: number,
     menuPosition: 'left' | 'right',
     onChange: Function,
-    onMove: Function,
-    onSliding: Function,
-    openMenuOffset: number,
-    hiddenMenuOffset: number,
-    disableGestures: Function | boolean,
-    animationFunction: Function,
-    onAnimationComplete: Function,
-    onStartShouldSetResponderCapture: any,
+    onMove?: Function,
+    onSliding?: Function,
+    openMenuOffset?: number,
+    hiddenMenuOffset?: number,
+    disableGestures?: Function | boolean,
+    animationFunction?: Function,
+    onAnimationComplete?: Function,
+    onStartShouldSetResponderCapture?: any,
     isOpen: boolean,
-    bounceBackOnOverdraw: boolean,
-    autoClosing: boolean
-    animationStyle: Function
+    bounceBackOnOverdraw?: boolean,
+    autoClosing?: boolean
+    animationStyle?: Function
+    menu: JSX.Element
 };
 
 type Event = {
@@ -42,15 +43,6 @@ type Event = {
     },
 };
 
-type State = {
-    width: number,
-    height: number,
-    openOffsetMenuPercentage: number,
-    openMenuOffset: number,
-    hiddenMenuOffsetPercentage: number,
-    hiddenMenuOffset: number,
-    left: Animated.Value,
-};
 
 const deviceScreen: WindowDimensions = Dimensions.get('window');
 const barrierForward: number = deviceScreen.width / 4;
@@ -65,10 +57,10 @@ const defaultProps = {
     disableGestures: false,
     menuPosition: 'left',
     hiddenMenuOffset: 0,
-    onMove: () => { },
+    onMove: (n: number) => { },
     onStartShouldSetResponderCapture: () => true,
     onChange: () => { },
-    onSliding: () => { },
+    onSliding: (n: number) => { },
     animationStyle: (value: Animated.Value) => ({
         transform: [{
             translateX: value,
@@ -92,7 +84,7 @@ function shouldOpenMenu(dx: number): boolean {
     return dx > barrierForward;
 }
 
-export default (newProps: Props) => {
+const SideMenu: React.FC<Props> = (newProps: Props) => {
     const props = { ...defaultProps, ...newProps }
     let prevLeft = 0
 
@@ -285,6 +277,6 @@ export default (newProps: Props) => {
     );
 }
 
-
+export default SideMenu
 
 

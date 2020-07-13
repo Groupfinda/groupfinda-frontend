@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Text, Drawer, Divider, DrawerItem, Avatar } from "@ui-kitten/components";
-import { StyleSheet, Animated, View } from "react-native";
+import { StyleSheet, Animated, View, Platform } from "react-native";
 import { ChatHeader, SideMenu } from "../components/Chat";
 import { MessageRoomNavigationProp } from "../navigation/types";
 import { GiftedChat } from "react-native-gifted-chat";
@@ -23,6 +23,23 @@ import {
   MessageType,
 } from "../graphql/queries";
 import { SafeAreaView } from 'react-native-safe-area-context'
+
+
+import * as Notifications from 'expo-notifications'
+import { IOSNotificationData, AndroidNotificationData, GroupfindaBody } from '../../utils/notification'
+
+
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  })
+})
+
+
 
 
 type Props = MessageRoomNavigationProp;
@@ -52,6 +69,59 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
       );
     },
   });
+
+
+
+  useEffect(() => {
+
+    Notifications.setNotificationHandler({
+      handleNotification: async (notification) => {
+        let body: GroupfindaBody | undefined = undefined;
+        if (Platform.OS === 'android') {
+          body = (notification.request.content.data as AndroidNotificationData)
+          console.log("andorid is ", body)
+        } else if (Platform.OS === 'ios') {
+
+          body = (notification.request.content.data as IOSNotificationData).body
+          console.log("IOS is ", body)
+        }
+
+
+        if (body && body.id.toString() === group.id.toString()) {
+          console.log("TEST PASSED")
+          return {
+            shouldShowAlert: false,
+            shouldPlaySound: false,
+            shouldSetBadge: false,
+            priority: Notifications.AndroidNotificationPriority.MIN
+          }
+        }
+        return {
+          shouldShowAlert: true,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+          priority: Notifications.AndroidNotificationPriority.MAX
+        }
+
+
+
+      }
+    })
+
+
+    return () => {
+      console.log("Unmounting")
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+          priority: Notifications.AndroidNotificationPriority.MAX
+        })
+      })
+    }
+  }, [])
+
 
   useEffect(() => {
     if (messageRoom.data) {
@@ -103,7 +173,7 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
         menu={Menu}
         isOpen={menu}
         menuPosition="right"
-        onChange={(prev) => setMenu(prev)}
+        onChange={(prev: boolean) => setMenu(prev)}
         //@ts-ignore
         animationFunction={(prop, value) => Animated.spring(prop, {
           toValue: value,

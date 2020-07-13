@@ -36,10 +36,10 @@ Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: false,
-    shouldSetBadge: false,
+    shouldSetBadge: true,
+    priority: Notifications.AndroidNotificationPriority.MAX
   })
 })
-
 
 
 
@@ -50,17 +50,7 @@ export default () => {
   const [user, setUser] = useState<MeData['me'] | null>(null);
   const { data, loading, error } = useQuery<MeData, void>(ME);
 
-  const [notification, setNotification] = useState<Notifications.Notification | boolean>(false);
 
-  useEffect(() => {
-    Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification)
-    })
-    Notifications.addNotificationResponseReceivedListener(response => console.log(response))
-    return () => {
-      Notifications.removeAllNotificationListeners();
-    };
-  }, [])
   useEffect(() => {
 
     if (data) {
