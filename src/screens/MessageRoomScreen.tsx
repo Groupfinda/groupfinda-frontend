@@ -29,19 +29,6 @@ import * as Notifications from 'expo-notifications'
 import { IOSNotificationData, AndroidNotificationData, GroupfindaBody } from '../../utils/notification'
 
 
-
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  })
-})
-
-
-
-
 type Props = MessageRoomNavigationProp;
 
 const MessageRoomScreen: React.FC<Props> = (props) => {
