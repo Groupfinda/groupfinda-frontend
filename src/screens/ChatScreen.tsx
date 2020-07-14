@@ -26,6 +26,7 @@ const ChatScreen: React.FC<Props> = (props) => {
     fetchPolicy: "cache-and-network",
   });
 
+
   useEffect(() => {
     getGroups();
   }, []);

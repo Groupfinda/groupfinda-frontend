@@ -23,8 +23,8 @@ export async function registerForPushNotificationsAsync() {
     }
 
     if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
+        Notifications.setNotificationChannelAsync('Groupfinda', {
+            name: 'Groupfinda',
             importance: Notifications.AndroidImportance.MAX,
             vibrationPattern: [0, 250, 250, 250],
             lightColor: "#FF231F7C"
@@ -32,4 +32,25 @@ export async function registerForPushNotificationsAsync() {
     }
 
     return token
+}
+
+export type GroupfindaBody = {
+    id: string;
+    type: string;
+}
+
+export type AndroidNotificationData = GroupfindaBody
+export type IOSNotificationData = {
+    aps: {
+        alert: {
+            body: string;
+            "launch-image": string;
+            subtitle: string;
+            title: string;
+        }
+        category: string;
+        sound: string;
+        "thread-id": string;
+    }
+    body: GroupfindaBody
 }
