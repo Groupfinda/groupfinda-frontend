@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Text, Button } from "@ui-kitten/components";
+import { Layout } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import EventDetailsForm from "./EventDetailsForm";
 import EventDateForm from "./EventDateForm";
@@ -10,26 +10,56 @@ import SubmitForm from "./SubmitForm";
 import { FormVariablesType } from "./types";
 import { CustomError } from "../../../hooks";
 import { useApolloClient } from "@apollo/react-hooks";
-import { ME } from "../../../graphql/queries";
+import { ME, GetEditEventData } from "../../../graphql/queries";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-type Props = {};
-
-const initialVariables: FormVariablesType = {
-  title: "",
-  description: "",
-  dateOfEvent: new Date(),
-  recurringMode: false,
-  dateLastRegister: new Date(),
-  images: [],
-  privateStatus: true,
-  groupSize: 4,
-  category: [],
-  locationOn: false,
-  address: "",
-  postalCode: "",
+type Props = {
+  event: GetEditEventData["getEvent"] | undefined;
 };
+
 const FormsHandler: React.FC<Props> = (props) => {
+  let initialVariables: FormVariablesType = {
+    title: "",
+    description: "",
+    dateOfEvent: new Date(),
+    recurringMode: false,
+    dateLastRegister: new Date(),
+    images: [],
+    privateStatus: true,
+    groupSize: 4,
+    category: [],
+    locationOn: false,
+    address: "",
+    postalCode: "",
+  };
+  const event = props.event;
+
+  if (event) {
+    const {
+      title,
+      description,
+      dateOfEvent,
+      dateLastRegister,
+      images,
+      groupSize,
+      category,
+      location,
+    } = event;
+    initialVariables = {
+      ...initialVariables,
+      title,
+      description,
+      dateOfEvent: new Date(dateOfEvent),
+      dateLastRegister: new Date(dateLastRegister),
+      images,
+      groupSize,
+      category,
+      address: location.address,
+      postalCode: location.postalCode,
+      privateStatus: event.private,
+    };
+  }
+
   const [page, setPage] = useState<number>(0);
   const [variables, setVariables] = useState<FormVariablesType>(
     initialVariables
@@ -116,6 +146,7 @@ const FormsHandler: React.FC<Props> = (props) => {
               modifyVariable={modifyVariable}
               prevPage={prevPage}
               role={role}
+              id={props.event?.id}
             />
           )}
         </Layout>

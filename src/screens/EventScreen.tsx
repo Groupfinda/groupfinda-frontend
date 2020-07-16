@@ -17,10 +17,12 @@ import Carousel from "../components/common/Carousel";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { singleEvent } from "../graphql/queries";
+import { singleEvent, ME, MeData } from "../graphql/queries";
 import { Loading } from "../components/common";
 import { REGISTER_EVENT, UNREGISTER_EVENT } from "../graphql/mutations";
-import { View } from "react-native";
+
+import { View, TouchableOpacity } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = EventScreenNavigationProp & {
@@ -41,6 +43,8 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
   const [registerEventLoading, setRegisterEventLoading] = useState<boolean>(
     true
   );
+
+  const myData = useQuery<MeData, void>(ME);
 
   const { loading, error, data } = useQuery(singleEvent, {
     variables: { eventId: id },
@@ -102,12 +106,14 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       registerEvent({ variables });
     } else {
       if (messageRoom.length > 0) {
+
         navigation.reset({
           index: 1,
           routes: [
             { name: "Main" },
             { name: "MessageRoom", params: { messageRoom } },
           ],
+
         });
       } else {
         const variables = {
@@ -354,6 +360,38 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                     ) : null}
                   </Layout>
                 </Layout>
+                {!myData.loading && myData.data?.me.id === event.owner.id && (
+                  <>
+                    <Divider />
+                    <Layout style={styles.contentButtons}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("CreateEvent", { id: event.id })
+                        }
+                      >
+                        <View style={styles.circle}>
+                          <Icon
+                            height={32}
+                            width={32}
+                            fill="#3BCE33"
+                            name="edit-2"
+                          />
+                        </View>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity onPress={() => console.log("delete")}>
+                        <View style={styles.circle}>
+                          <Icon
+                            height={32}
+                            width={32}
+                            fill={theme["color-danger-default"]}
+                            name="trash"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </Layout>
+                  </>
+                )}
               </Layout>
             </ScrollView>
           </Layout>
@@ -387,6 +425,24 @@ const themedStyle = StyleService.create({
   },
   contentBody: {
     paddingVertical: 20,
+  },
+  contentButtons: {
+    paddingVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  circle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    padding: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    shadowColor: "gray",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
 

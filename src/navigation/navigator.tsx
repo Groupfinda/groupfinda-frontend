@@ -21,13 +21,21 @@ import {
   NewEventScreen,
 } from "../screens";
 import { RootStackParamList } from "./types";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import {
+  ADD_EXPO_TOKEN,
+  AddExpoTokenData,
+  AddExpoTokenVariables,
+} from "../graphql/mutations";
 import { ME, MeData } from "../graphql/queries";
 import { ChangePassword } from "../components/Profile";
 import { BottomTabBar } from "../components/common";
 import EventScreen from "../screens/EventScreen";
 import NewUserScreen from "../screens/NewUserScreen";
 
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
+import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 
 Notifications.setNotificationHandler({
@@ -45,6 +53,14 @@ export default () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<MeData["me"] | null>(null);
   const { data, loading, error } = useQuery<MeData, void>(ME);
+
+  const [addExpoToken] = useMutation<AddExpoTokenData, AddExpoTokenVariables>(
+    ADD_EXPO_TOKEN,
+    {
+      onError: () => {},
+    }
+  );
+
 
   useEffect(() => {
     if (data) {
@@ -73,6 +89,54 @@ export default () => {
 
   if (isLoading) {
     return <LoadingScreen />;
+  }
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS
+      );
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Permissions.askAsync(
+          Permissions.NOTIFICATIONS
+        );
+        finalStatus = status;
+      }
+
+      if (finalStatus !== "granted") {
+        alert(
+          "Notifications allow us to send you updates on group matches and chat messages!"
+        );
+        return;
+      }
+
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("Groupfinda", {
+        name: "Groupfinda",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+    if (token) {
+      if (user?.expoToken !== token) {
+        addExpoToken({ variables: { token: token as string } });
+        console.log("adding token ", token);
+      } else {
+        console.log("Token already exists: ", user.expoToken);
+      }
+    } else {
+      console.log("No token");
+    }
+  }
+
+  if (user) {
+    registerForPushNotificationsAsync();
   }
   return (
     <NavigationContainer>

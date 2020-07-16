@@ -9,7 +9,7 @@ export type RootStackParamList = {
   ProfileSettings: undefined;
   ChangePassword: undefined;
   Questions: undefined;
-  CreateEvent: undefined;
+  CreateEvent: { id?: string };
   JoinEvent: undefined;
   EventPage: { id: string };
   MessageRoom: { messageRoom: string };

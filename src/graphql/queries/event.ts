@@ -30,7 +30,7 @@ export type NewEventData = {
   };
 };
 export const NEW_EVENT = gql`
-  query getEvent($eventId: ID!) {
+  query getEvent($eventId: ID) {
     getEvent(eventId: $eventId) {
       id
       title
@@ -40,13 +40,54 @@ export const NEW_EVENT = gql`
   }
 `;
 
+export type GetEditEventData = {
+  getEvent: {
+    id: string;
+    title: string;
+    description: string;
+    dateOfEvent: string;
+    dateLastRegister: string;
+    images: string[];
+    groupSize: number;
+    category: string[];
+    location: {
+      address: string;
+      postalCode: string;
+    };
+    private: boolean;
+  };
+};
+export type GetEditEventVariables = {
+  eventId: string;
+};
+
+export const GET_EDIT_EVENT = gql`
+  query getEvent($eventId: ID) {
+    getEvent(eventId: $eventId) {
+      id
+      title
+      description
+      dateOfEvent
+      dateLastRegister
+      images
+      groupSize
+      category
+      location {
+        address
+        postalCode
+      }
+      private
+    }
+  }
+`;
 export const singleEvent = gql`
-  query Event($eventId: ID!) {
+  query Event($eventId: ID) {
     getEvent(eventId: $eventId) {
       id
       title
       description
       owner {
+        id
         avatar
         username
         firstName
@@ -134,6 +175,7 @@ export type GetSwipeEventsType = {
     postalCode: string;
   };
   owner: {
+    id: string;
     username: string;
     avatar: string;
   };
@@ -158,6 +200,7 @@ export const GET_SWIPE_EVENTS = gql`
         postalCode
       }
       owner {
+        id
         username
         avatar
       }
