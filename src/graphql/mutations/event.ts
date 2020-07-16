@@ -5,6 +5,7 @@ export type CreateEventData = {
 };
 
 export type CreateEventVariables = {
+  id: string | undefined;
   title: string;
   description: string;
   dateOfEvent: Date;
@@ -22,6 +23,7 @@ export type CreateEventVariables = {
 };
 export const CREATE_EVENT = gql`
   mutation createEvent(
+    $id: ID
     $title: String!
     $description: String!
     $dateOfEvent: Date!
@@ -35,6 +37,7 @@ export const CREATE_EVENT = gql`
     $location: LocationInput!
   ) {
     createEvent(
+      id: $id
       title: $title
       description: $description
       dateOfEvent: $dateOfEvent
@@ -68,7 +71,7 @@ export const REGISTER_EVENT = gql`
   }
 `;
 
-export const UNREGISTER_EVENT= gql`
+export const UNREGISTER_EVENT = gql`
   mutation unregisterEvent($eventId: String!) {
     unregisterEvent(eventId: $eventId) {
       id

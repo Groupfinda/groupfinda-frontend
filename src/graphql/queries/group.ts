@@ -11,9 +11,10 @@ export type GetMyGroupsData = {
         id: string;
         username: string;
         firstName: string;
-        avatar: string
+        avatar: string;
       }>;
       event: {
+        id: string;
         title: string;
         dateOfEvent: Date;
         images: string[];
@@ -35,6 +36,7 @@ export const GET_MY_GROUPS = gql`
           avatar
         }
         event {
+          id
           title
           dateOfEvent
           images
@@ -66,6 +68,7 @@ export type GetMessageRoomData = {
 export const GET_MESSAGE_ROOM = gql`
   query getMessageRoom($id: ID!) {
     getMessageRoom(id: $id) {
+      id
       messages {
         _id
         user {

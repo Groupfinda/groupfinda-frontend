@@ -3,11 +3,31 @@ import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet, ScrollView } from "react-native";
 import { TransparentBackHeader } from "../components/common";
 import FormsHandler from "../components/Create/Forms/FormsHandler";
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { CreateEventScreenNavigationProp } from "../navigation/types";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useQuery } from "@apollo/react-hooks";
+import {
+  GET_EDIT_EVENT,
+  GetEditEventData,
+  GetEditEventVariables,
+} from "../graphql/queries";
+type Props = CreateEventScreenNavigationProp;
 
-type Props = {};
+const CreateEventScreen: React.FC<Props> = ({ navigation, route }) => {
+  const id = route.params?.id;
+  const { data, loading, error } = useQuery<
+    GetEditEventData,
+    GetEditEventVariables
+  >(GET_EDIT_EVENT, { variables: { eventId: id as string } });
 
-const CreateEventScreen: React.FC<Props> = (props) => {
+  if (loading) {
+    return <></>;
+  }
+  if (error) {
+    navigation.goBack();
+    alert("Error loading");
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Layout style={styles.container}>
@@ -18,9 +38,9 @@ const CreateEventScreen: React.FC<Props> = (props) => {
             <Layout style={styles.body}>
               <Text style={styles.header} status="primary" category="h3">
                 Create a new event
-            </Text>
+              </Text>
               <Layout>
-                <FormsHandler />
+                <FormsHandler event={data?.getEvent} />
               </Layout>
             </Layout>
           </Layout>

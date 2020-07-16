@@ -363,7 +363,11 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                   <>
                     <Divider />
                     <Layout style={styles.contentButtons}>
-                      <TouchableOpacity onPress={() => console.log("edit")}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("CreateEvent", { id: event.id })
+                        }
+                      >
                         <View style={styles.circle}>
                           <Icon
                             height={32}

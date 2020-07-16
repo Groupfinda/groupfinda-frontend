@@ -41,11 +41,12 @@ function InfoField(props: {
 
 type Props = {
   role: string;
+  id: string | undefined;
 };
 
 type SubmitFormProps = Props & FormProps;
 const SubmitForm: React.FC<SubmitFormProps> = (props) => {
-  const { variables, modifyVariable, prevPage, role } = props;
+  const { variables, modifyVariable, prevPage, role, id } = props;
   const [tooltip, setTooltip] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const {
@@ -64,6 +65,7 @@ const SubmitForm: React.FC<SubmitFormProps> = (props) => {
   } = variables;
   const { Error, setGraphQLError, inputError } = useError();
   const navigation = useNavigation();
+  console.log(id);
   const [createEvent] = useMutation<
     { createEvent: CreateEventData },
     CreateEventVariables
@@ -94,12 +96,19 @@ const SubmitForm: React.FC<SubmitFormProps> = (props) => {
   const onSubmit = async () => {
     setLoading(true);
     const mutationVariables: CreateEventVariables = {
+      id,
       title,
       description,
       dateOfEvent,
       dateLastRegister,
       recurringMode,
-      images: images.map((image) => image.slice(image.length - 15)),
+      images: images.map((image) => {
+        if (image.startsWith("http")) {
+          return image;
+        } else {
+          return image.slice(image.length - 15);
+        }
+      }),
       private: privateStatus,
       groupSize,
       category,
