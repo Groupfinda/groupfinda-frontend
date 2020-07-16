@@ -53,12 +53,14 @@ export default () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<MeData["me"] | null>(null);
   const { data, loading, error } = useQuery<MeData, void>(ME);
+
   const [addExpoToken] = useMutation<AddExpoTokenData, AddExpoTokenVariables>(
     ADD_EXPO_TOKEN,
     {
       onError: () => {},
     }
   );
+
 
   useEffect(() => {
     if (data) {

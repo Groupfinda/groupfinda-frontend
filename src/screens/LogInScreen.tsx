@@ -2,18 +2,17 @@ import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
 import { StyleSheet } from "react-native";
 import { LogInForm } from "../components/Auth";
-import { TouchableOpacity, ScrollView, Image } from "react-native";
+import { TouchableOpacity, Image } from "react-native";
 import { LogInScreenNavigationProp } from "../navigation/types";
-import { SafeAreaView } from 'react-native-safe-area-context'
-
+import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 type Props = LogInScreenNavigationProp;
 
 const LogInScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.wrapperStyle}>
-
       <Layout style={styles.wrapperStyle}>
-        <ScrollView>
+        <KeyboardAwareScrollView>
           <Layout style={styles.containerStyle}>
             <Layout style={styles.headerStyle}>
               <Image
@@ -24,7 +23,7 @@ const LogInScreen: React.FC<Props> = ({ navigation }) => {
 
               <Text style={styles.textStyle} category="h6" appearance="hint">
                 Log In
-            </Text>
+              </Text>
             </Layout>
             <LogInForm />
 
@@ -35,7 +34,7 @@ const LogInScreen: React.FC<Props> = ({ navigation }) => {
               <Text status="info">Don't have an account? Sign up</Text>
             </TouchableOpacity>
           </Layout>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </Layout>
     </SafeAreaView>
   );

@@ -20,7 +20,9 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { singleEvent, ME, MeData } from "../graphql/queries";
 import { Loading } from "../components/common";
 import { REGISTER_EVENT, UNREGISTER_EVENT } from "../graphql/mutations";
+
 import { View, TouchableOpacity } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = EventScreenNavigationProp & {
@@ -41,6 +43,7 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
   const [registerEventLoading, setRegisterEventLoading] = useState<boolean>(
     true
   );
+
   const myData = useQuery<MeData, void>(ME);
 
   const { loading, error, data } = useQuery(singleEvent, {
@@ -103,16 +106,14 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       registerEvent({ variables });
     } else {
       if (messageRoom.length > 0) {
-        navigation.navigate("MessageRoom", {
-          group: {
-            id: data["getEvent"].id,
-            messageRoom: messageRoom,
-            event: {
-              title: data["getEvent"].title,
-              dateOfEvent: data["getEvent"].dateOfEvent,
-              images: data["getEvent"].images,
-            },
-          },
+
+        navigation.reset({
+          index: 1,
+          routes: [
+            { name: "Main" },
+            { name: "MessageRoom", params: { messageRoom } },
+          ],
+
         });
       } else {
         const variables = {
