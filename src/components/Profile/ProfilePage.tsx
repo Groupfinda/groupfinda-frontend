@@ -24,7 +24,7 @@ import { ImageOverlay } from "./extra/image-overlay.component";
 import { ProfileSocial } from "./extra/profile-social.component";
 import { DrawerGroupUser } from "./extra/drawer.component";
 import { useNavigation } from "@react-navigation/native";
-import { useApolloClient, useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { useApolloClient, useLazyQuery } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
 import { SettingsIcon } from "./extra/icons";

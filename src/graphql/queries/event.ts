@@ -47,6 +47,7 @@ export const singleEvent = gql`
       title
       description
       owner {
+        id
         avatar
         username
         firstName
