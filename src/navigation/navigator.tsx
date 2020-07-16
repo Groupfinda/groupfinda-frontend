@@ -61,6 +61,11 @@ export default () => {
     }
   );
 
+  useEffect(() => {
+    if (user) {
+      registerForPushNotificationsAsync();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (data) {
@@ -135,9 +140,6 @@ export default () => {
     }
   }
 
-  if (user) {
-    registerForPushNotificationsAsync();
-  }
   return (
     <NavigationContainer>
       <Stack.Navigator

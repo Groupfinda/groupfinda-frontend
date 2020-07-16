@@ -92,6 +92,7 @@ export const GET_MESSAGE_ROOM = gql`
           avatar
         }
         event {
+          id
           title
           dateOfEvent
           images
