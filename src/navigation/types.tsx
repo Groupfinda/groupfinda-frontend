@@ -12,7 +12,7 @@ export type RootStackParamList = {
   CreateEvent: undefined;
   JoinEvent: undefined;
   EventPage: { id: string };
-  MessageRoom: { group: GetMyGroupsData["me"]["groups"][0] };
+  MessageRoom: { messageRoom: string };
   NewUser: undefined;
   NewEvent: { id: string };
 };
