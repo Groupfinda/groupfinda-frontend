@@ -28,31 +28,25 @@ import { BottomTabBar } from "../components/common";
 import EventScreen from "../screens/EventScreen";
 import NewUserScreen from "../screens/NewUserScreen";
 
-import * as Notifications from 'expo-notifications'
-
-
+import * as Notifications from "expo-notifications";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
     shouldPlaySound: false,
     shouldSetBadge: true,
-    priority: Notifications.AndroidNotificationPriority.MAX
-  })
-})
-
-
+    priority: Notifications.AndroidNotificationPriority.MAX,
+  }),
+});
 
 export default () => {
   const Tab = createBottomTabNavigator();
   const Stack = createStackNavigator<RootStackParamList>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<MeData['me'] | null>(null);
+  const [user, setUser] = useState<MeData["me"] | null>(null);
   const { data, loading, error } = useQuery<MeData, void>(ME);
 
-
   useEffect(() => {
-
     if (data) {
       setIsLoading(loading);
       if (data.me) setUser(data.me);
@@ -108,17 +102,16 @@ export default () => {
             <Stack.Screen name="NewEvent" component={NewEventScreen} />
           </>
         ) : (
-            <>
-              <Stack.Screen name="LogIn" component={LogInScreen} />
-              <Stack.Screen name="SignUp" component={SignUpScreen} />
-              <Stack.Screen
-                name="ForgetPassword"
-                component={ForgetPasswordScreen}
-              />
-            </>
-          )}
+          <>
+            <Stack.Screen name="LogIn" component={LogInScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
+            <Stack.Screen
+              name="ForgetPassword"
+              component={ForgetPasswordScreen}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-

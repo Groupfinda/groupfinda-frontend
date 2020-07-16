@@ -11,6 +11,7 @@ import { FormVariablesType } from "./types";
 import { CustomError } from "../../../hooks";
 import { useApolloClient } from "@apollo/react-hooks";
 import { ME } from "../../../graphql/queries";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = {};
 
@@ -63,7 +64,7 @@ const FormsHandler: React.FC<Props> = (props) => {
   };
 
   return (
-    <>
+    <KeyboardAwareScrollView>
       <Layout style={styles.container}>
         <Layout style={styles.divider}>
           {page === 0 && (
@@ -119,7 +120,7 @@ const FormsHandler: React.FC<Props> = (props) => {
           )}
         </Layout>
       </Layout>
-    </>
+    </KeyboardAwareScrollView>
   );
 };
 
