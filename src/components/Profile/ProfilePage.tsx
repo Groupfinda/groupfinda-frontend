@@ -27,24 +27,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useApolloClient, useLazyQuery } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
-import { SettingsIcon } from "./extra/icons";
+import { SettingsIcon, PinIcon } from "./extra/icons";
 import { BasicEventType } from "../types";
 
 YellowBox.ignoreWarnings([
   "VirtualizedLists should never be nested inside plain ScrollViews",
 ]);
-
-const PinIcon = (): IconElement => {
-  const theme = useTheme();
-  return (
-    <Icon
-      width={16}
-      height={16}
-      fill={theme["text-control-color"]}
-      name="pin"
-    />
-  );
-};
 
 const QuestionsIcon = (): IconElement => {
   return <Icon width={16} height={16} fill="white" name="clipboard" />;

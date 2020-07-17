@@ -62,6 +62,40 @@ export const USER = gql`
   }
 `;
 
+export const OTHERUSER = gql`
+  query fetchUser($id: ID!) {
+    fetchUser(userId: $id) {
+      id
+      avatar
+      firstName
+      lastName
+      username
+      location
+      groups {
+        id
+      }
+      profile {
+        eventsRegistered {
+          id
+          title
+          dateOfEvent
+        }
+        eventsLiked {
+          id
+          title
+          dateOfEvent
+        }
+        eventsDisliked {
+          id
+        }
+        userHobbies
+        userFaculty
+        userYearOfStudy
+      }
+    }
+  }
+`;
+
 export type FullUserVariables = {};
 export type FullUserData = {
   me: {

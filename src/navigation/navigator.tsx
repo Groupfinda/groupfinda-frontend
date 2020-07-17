@@ -19,6 +19,7 @@ import {
   JoinEventScreen,
   MessageRoomScreen,
   NewEventScreen,
+  OthersProfileScreen,
 } from "../screens";
 import { RootStackParamList } from "./types";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -166,6 +167,7 @@ export default () => {
             </Stack.Screen>
             <Stack.Screen name="MessageRoom" component={MessageRoomScreen} />
             <Stack.Screen name="NewEvent" component={NewEventScreen} />
+            <Stack.Screen name="OthersProfile" component={OthersProfileScreen} />
           </>
         ) : (
           <>
