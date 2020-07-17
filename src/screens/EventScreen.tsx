@@ -17,11 +17,13 @@ import Carousel from "../components/common/Carousel";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { singleEvent } from "../graphql/queries";
+import { singleEvent, ME, MeData } from "../graphql/queries";
 import { Loading } from "../components/common";
 import { REGISTER_EVENT, UNREGISTER_EVENT } from "../graphql/mutations";
-import { View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { View, TouchableOpacity } from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = EventScreenNavigationProp & {
   route: {
@@ -29,7 +31,7 @@ type Props = EventScreenNavigationProp & {
       id: string;
     };
   };
-  userId: string
+  userId: string;
 };
 
 const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
@@ -38,85 +40,86 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
   const { id } = route.params;
   const [eventRegistered, setEventRegistered] = useState<boolean>(false);
   const [messageRoom, setMessageRoom] = useState<string>("");
-  const [registerEventLoading, setRegisterEventLoading] = useState<boolean>(true);
+  const [registerEventLoading, setRegisterEventLoading] = useState<boolean>(
+    true
+  );
+
+  const myData = useQuery<MeData, void>(ME);
 
   const { loading, error, data } = useQuery(singleEvent, {
     variables: { eventId: id },
     onCompleted: (response) => {
-      setMessageRoom(response['getUserGroup'])
-      const eventData = response['getEvent'];
-      setEventRegistered(eventData.registeredUsers.some((el: any) => el.id === userId))
+      setMessageRoom(response["getUserGroup"]);
+      const eventData = response["getEvent"];
+      setEventRegistered(
+        eventData.registeredUsers.some((el: any) => el.id === userId)
+      );
       setRegisterEventLoading(false);
     },
     onError: (err) => {
-      console.log(err)
+      console.log(err);
       setRegisterEventLoading(false);
     },
-    fetchPolicy: "network-only"
+    fetchPolicy: "network-only",
   });
 
-  const [registerEvent] = useMutation(
-    REGISTER_EVENT,
-    {
-      onCompleted: (data) => {
-        if (data.registerEvent.id === id) {
-          setEventRegistered(true);
-        }
-        setRegisterEventLoading(false);
-      },
-      onError: (err) => {
-        console.log(err)
-        if (err.graphQLErrors.some(el => el.message.includes("User is already registered"))) {
-          setEventRegistered(true);
-        }
-        setRegisterEventLoading(false);
-      },
-      errorPolicy: 'all'
-    }
-  )
-
-  const [unregisterEvent] = useMutation(
-    UNREGISTER_EVENT,
-    {
-      onCompleted: (data) => {
-        if (data.unregisterEvent.id === id) {
-          setEventRegistered(false);
-        }
-        setRegisterEventLoading(false);
-      },
-      onError: (err) => {
-        console.log(err)
-        setRegisterEventLoading(false)
+  const [registerEvent] = useMutation(REGISTER_EVENT, {
+    onCompleted: (data) => {
+      if (data.registerEvent.id === id) {
+        setEventRegistered(true);
       }
-    }
-  )
+      setRegisterEventLoading(false);
+    },
+    onError: (err) => {
+      console.log(err);
+      if (
+        err.graphQLErrors.some((el) =>
+          el.message.includes("User is already registered")
+        )
+      ) {
+        setEventRegistered(true);
+      }
+      setRegisterEventLoading(false);
+    },
+    errorPolicy: "all",
+  });
+
+  const [unregisterEvent] = useMutation(UNREGISTER_EVENT, {
+    onCompleted: (data) => {
+      if (data.unregisterEvent.id === id) {
+        setEventRegistered(false);
+      }
+      setRegisterEventLoading(false);
+    },
+    onError: (err) => {
+      console.log(err);
+      setRegisterEventLoading(false);
+    },
+  });
 
   const registerEventHandler = () => {
     setRegisterEventLoading(true);
     if (!eventRegistered) {
       const variables = {
-        eventId: id
-      }
-      registerEvent({ variables })
+        eventId: id,
+      };
+      registerEvent({ variables });
     } else {
       if (messageRoom.length > 0) {
-        navigation.navigate("MessageRoom", {
-          group: {
-            id: data["getEvent"].id,
-            messageRoom: messageRoom,
-            event: {
-              title: data["getEvent"].title,
-              dateOfEvent: data["getEvent"].dateOfEvent,
-              images: data["getEvent"].images
-            }
-          }
-        })
-      }
-      else {
+
+        navigation.reset({
+          index: 1,
+          routes: [
+            { name: "Main" },
+            { name: "MessageRoom", params: { messageRoom } },
+          ],
+
+        });
+      } else {
         const variables = {
-          eventId: id
-        }
-        unregisterEvent({ variables })
+          eventId: id,
+        };
+        unregisterEvent({ variables });
       }
     }
   };
@@ -124,13 +127,13 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
   const buttonText = () => {
     if (eventRegistered) {
       if (messageRoom.length > 0) {
-        return "Successfully Matched, Visit Group"
+        return "Successfully Matched, Visit Group";
       } else {
-        return "Registered"
+        return "Registered";
       }
     }
-    return "Sign Me Up!"
-  }
+    return "Sign Me Up!";
+  };
 
   if (!data) {
     return <Loading visible />;
@@ -139,7 +142,9 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
     const dateOfEvent = new Date(event["dateOfEvent"]);
     const dateLastRegister = new Date(event["dateLastRegister"]);
     if (event.images.length === 0) {
-      event.images.push("https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80")
+      event.images.push(
+        "https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+      );
     }
     return (
       <SafeAreaView style={{ padding: 0, flex: 1 }}>
@@ -200,22 +205,26 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                       onPress={registerEventHandler}
                       accessoryLeft={() => {
                         if (registerEventLoading) {
-                          return <View>
-                            <Spinner />
-                          </View>
+                          return (
+                            <View>
+                              <Spinner />
+                            </View>
+                          );
                         }
-                        return (<Icon
-                          height={16}
-                          width={16}
-                          fill={
-                            eventRegistered
-                              ? "white"
-                              : theme["color-primary-default"]
-                          }
-                          name="clipboard-outline"
-                        />
-                        )
-                      }}>
+                        return (
+                          <Icon
+                            height={16}
+                            width={16}
+                            fill={
+                              eventRegistered
+                                ? "white"
+                                : theme["color-primary-default"]
+                            }
+                            name="clipboard-outline"
+                          />
+                        );
+                      }}
+                    >
                       {buttonText()}
                     </Button>
                   </Layout>
@@ -224,10 +233,17 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                 <Layout style={styles.contentBody}>
                   <Text style={{ fontWeight: "bold" }} category="h6">
                     EVENT DETAILS
-                </Text>
+                  </Text>
                   <ListItem
                     disabled
-                    title={(props) => <Text {...props}>Event Code: <Text style={{ color: theme["color-primary-default"] }}>{event.eventCode}</Text></Text>}
+                    title={(props) => (
+                      <Text {...props}>
+                        Event Code:{" "}
+                        <Text style={{ color: theme["color-primary-default"] }}>
+                          {event.eventCode}
+                        </Text>
+                      </Text>
+                    )}
                     accessoryLeft={() => (
                       <Icon
                         width={30}
@@ -314,7 +330,7 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                     category="h6"
                   >
                     EVENT DESCRIPTION
-                </Text>
+                  </Text>
                   <Text>{event.description}</Text>
                 </Layout>
 
@@ -325,8 +341,10 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                     category="h6"
                   >
                     REGISTERED USERS
-                </Text>
-                  <Layout style={{ flexDirection: "row", alignItems: "center" }}>
+                  </Text>
+                  <Layout
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                  >
                     {event.registeredUsers.slice(0, 5).map((user: any) => (
                       <Avatar
                         style={{ marginRight: 10 }}
@@ -342,6 +360,38 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                     ) : null}
                   </Layout>
                 </Layout>
+                {!myData.loading && myData.data?.me.id === event.owner.id && (
+                  <>
+                    <Divider />
+                    <Layout style={styles.contentButtons}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("CreateEvent", { id: event.id })
+                        }
+                      >
+                        <View style={styles.circle}>
+                          <Icon
+                            height={32}
+                            width={32}
+                            fill="#3BCE33"
+                            name="edit-2"
+                          />
+                        </View>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity onPress={() => console.log("delete")}>
+                        <View style={styles.circle}>
+                          <Icon
+                            height={32}
+                            width={32}
+                            fill={theme["color-danger-default"]}
+                            name="trash"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </Layout>
+                  </>
+                )}
               </Layout>
             </ScrollView>
           </Layout>
@@ -375,6 +425,24 @@ const themedStyle = StyleService.create({
   },
   contentBody: {
     paddingVertical: 20,
+  },
+  contentButtons: {
+    paddingVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  circle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    padding: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    shadowColor: "gray",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
 

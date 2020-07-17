@@ -1,24 +1,27 @@
 import gql from "graphql-tag";
 
+type Group = {
+  id: string;
+  messageRoom: string;
+  members: Array<{
+    id: string;
+    username: string;
+    firstName: string;
+    avatar: string;
+  }>;
+  event: {
+    id: string;
+    title: string;
+    dateOfEvent: Date;
+    images: string[];
+  };
+};
+
 export type GetMyGroupsVariables = {};
 export type GetMyGroupsData = {
   me: {
     id: string;
-    groups: Array<{
-      id: string;
-      messageRoom: string;
-      members: Array<{
-        id: string;
-        username: string;
-        firstName: string;
-        avatar: string
-      }>;
-      event: {
-        title: string;
-        dateOfEvent: Date;
-        images: string[];
-      };
-    }>;
+    groups: Array<Group>;
   };
 };
 export const GET_MY_GROUPS = gql`
@@ -35,6 +38,7 @@ export const GET_MY_GROUPS = gql`
           avatar
         }
         event {
+          id
           title
           dateOfEvent
           images
@@ -61,11 +65,13 @@ export type GetMessageRoomVariables = {
 export type GetMessageRoomData = {
   getMessageRoom: {
     messages: Array<MessageType>;
+    group: Group;
   };
 };
 export const GET_MESSAGE_ROOM = gql`
   query getMessageRoom($id: ID!) {
     getMessageRoom(id: $id) {
+      id
       messages {
         _id
         user {
@@ -75,6 +81,22 @@ export const GET_MESSAGE_ROOM = gql`
         }
         createdAt
         text
+      }
+      group {
+        id
+        messageRoom
+        members {
+          id
+          username
+          firstName
+          avatar
+        }
+        event {
+          id
+          title
+          dateOfEvent
+          images
+        }
       }
     }
   }

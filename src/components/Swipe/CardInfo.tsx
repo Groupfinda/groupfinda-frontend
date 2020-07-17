@@ -1,15 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Animated,
-  StyleSheet,
-  ScrollView,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { Animated, ScrollView, View, TouchableOpacity } from "react-native";
 import {
   Layout,
   Text,
-  Button,
   StyleService,
   Divider,
   useStyleSheet,
@@ -42,7 +35,7 @@ const CardInfo: React.FC<CardInfoProps> = (props) => {
     Animated.timing(visibility, {
       toValue: visible ? 1 : 0,
       duration: 200,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start(() => {
       setIsVisible(visible);
     });
@@ -129,7 +122,14 @@ const CardInfo: React.FC<CardInfoProps> = (props) => {
                 </Text>
                 <ListItem
                   disabled
-                  title={(props) => <Text {...props}>Event Code: <Text style={{ color: theme["color-primary-default"] }}>{event.eventCode}</Text></Text>}
+                  title={(props) => (
+                    <Text {...props}>
+                      Event Code:{" "}
+                      <Text style={{ color: theme["color-primary-default"] }}>
+                        {event.eventCode}
+                      </Text>
+                    </Text>
+                  )}
                   accessoryLeft={() => (
                     <Icon
                       width={30}
@@ -307,8 +307,8 @@ const themedStyle = StyleService.create({
     backgroundColor: "white",
     shadowColor: "gray",
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.18,
-    shadowRadius: 2,
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 });
 export default CardInfo;
