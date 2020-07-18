@@ -214,7 +214,27 @@ export default (): React.ReactElement => {
               )}
               eventsOwned={data.getUserEvents}
             />
+            <Divider />
             <Button
+              accessoryLeft={() => (
+                <Icon
+                  width={24}
+                  height={24}
+                  fill="white"
+                  name="alert-circle-outline"/>
+              )}
+              status="warning"
+              onPress={() => navigation.navigate("SubmitReport")}>
+              Report Issues / Feedback
+            </Button>
+            <Button
+              accessoryLeft={() => (
+                <Icon
+                  width={24}
+                  height={24}
+                  fill="white"
+                  name="log-out-outline"/>
+              )}
               status="danger"
               onPress={async () => {
                 await AsyncStorage.removeItem("userToken");
