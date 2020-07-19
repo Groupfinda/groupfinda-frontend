@@ -92,13 +92,13 @@ const getDateString = (date: Date): string => {
 
 afterEach(cleanup);
 test("renders event details UI correctly", () => {
-  const tree = render(<FormsHandler />).toJSON();
+  const tree = render(<FormsHandler event={undefined} />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });
 
 test("event details renders text correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   expect(component.queryByText("Tell us more about your event.")).toBeTruthy();
   expect(component.queryByText("Title")).toBeTruthy();
   expect(
@@ -112,7 +112,7 @@ test("event details renders text correctly", () => {
 });
 
 test("event details renders title error correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   const titleInput = component.getByPlaceholder("Event title");
 
   pressNext(component);
@@ -126,7 +126,7 @@ test("event details renders title error correctly", () => {
 });
 
 test("event details render description error correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   const titleInput = component.getByPlaceholder("Event title");
   const descriptionInput = component.getByPlaceholder(
     "Enter a description for your event"
@@ -141,7 +141,7 @@ test("event details render description error correctly", () => {
 });
 
 test("cannot move on from event details if either title or description is empty", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   const titleInput = component.getByPlaceholder("Event title");
   const descriptionInput = component.getByPlaceholder(
     "Enter a description for your event"
@@ -170,7 +170,7 @@ test("renders event date ui correctly", () => {
 */
 
 test("event date renders text correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
 
   expect(
@@ -201,14 +201,14 @@ test("event date renders text correctly", () => {
 });
 
 test("renders event location ui correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   expect(component.toJSON()).toMatchSnapshot();
 });
 
 test("event location renders text correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   expect(
@@ -225,7 +225,7 @@ test("event location renders text correctly", () => {
 });
 
 test("event details renders address error correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
 
@@ -241,7 +241,7 @@ test("event details renders address error correctly", () => {
 });
 
 test("event details render postal code error correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
 
@@ -257,7 +257,7 @@ test("event details render postal code error correctly", () => {
 });
 
 test("cannot move on from event locations if either address or postalcode is empty", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
 
@@ -288,7 +288,7 @@ test("cannot move on from event locations if either address or postalcode is emp
 });
 
 test("renders event images ui correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   skipEventLocation(component);
@@ -302,7 +302,7 @@ test("renders event images ui correctly", () => {
 });
 
 test("renders event categories ui correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   skipEventLocation(component);
@@ -312,7 +312,7 @@ test("renders event categories ui correctly", () => {
 });
 
 test("event categories renders text correctly", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   skipEventLocation(component);
@@ -331,7 +331,7 @@ test("event categories renders text correctly", () => {
 });
 
 test("cannot move on from event categories if categories is empty", () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   skipEventLocation(component);
@@ -344,7 +344,7 @@ test("cannot move on from event categories if categories is empty", () => {
 });
 
 test("can select and delete category", async () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   skipEventLocation(component);
@@ -374,7 +374,7 @@ test("renders submit form UI correctly", async () => {
 */
 
 test("renders submit form text correctly", async () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   skipEventLocation(component);
@@ -402,7 +402,7 @@ test("renders submit form text correctly", async () => {
 });
 
 test("state is preserved on clicking prev", async () => {
-  const component = render(<FormsHandler />);
+  const component = render(<FormsHandler event={undefined} />);
   skipEventDetails(component);
   skipEventDate(component);
   skipEventLocation(component);
