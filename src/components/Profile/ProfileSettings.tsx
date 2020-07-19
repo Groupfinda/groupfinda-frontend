@@ -156,8 +156,8 @@ export default (): React.ReactElement => {
   });
 
   const [updateUserPreferences] = useMutation(UPDATE_USER, {
-    onCompleted: async (data: boolean) => {
-      if (data) {
+    onCompleted: async (data) => {
+      if (data['updateUserField']) {
         editUser({
           ...user,
           preferences: {

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { findNodeHandle, ScrollView, Keyboard } from 'react-native';
-import { View, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
-import { Button, useStyleSheet, StyleService, Text, Layout, Input, Select, IndexPath, SelectItem, Spinner } from '@ui-kitten/components';
+import React, { useState } from 'react';
+import { findNodeHandle, ScrollView, } from 'react-native';
+import { View, } from 'react-native';
+import { Button, useStyleSheet, StyleService, Text, Layout, Input, Select, IndexPath, SelectItem, Spinner, Toggle } from '@ui-kitten/components';
 import { useMutation } from '@apollo/react-hooks';
 import { UPDATE_NEW_USER } from '../../graphql/mutations';
 import { faculties, interests } from '../../../utils/constants';
@@ -21,6 +21,7 @@ export default (props: any): React.ReactElement => {
     const [ submitLoading, setSubmitLoading ] = useState<boolean>(false);
 
     // Form Variables
+    const [noPreference, setNoPreference] = useState<boolean>(false);
     const [location, setLocation] = useState<string>("");
     const [lowerAge, setLowerAge] = useState<number|null>(null);
     const [upperAge, setUpperAge] = useState<number|null>(null);
@@ -61,6 +62,10 @@ export default (props: any): React.ReactElement => {
             userHobbies,
             userYearOfStudy
         }
+        if (noPreference) {
+            variables.lowerAge = 13;
+            variables.upperAge= 100;
+        }
         updateNewUser({ variables })
     }
 
@@ -90,6 +95,60 @@ export default (props: any): React.ReactElement => {
         scroll.props.scrollToFocusedInput(reactNode)
     }
 
+    const minimumError = () => {
+        if (lowerAge && lowerAge<13) {
+            return true
+        }
+        return false
+    }
+
+    const renderMinimumError = () => {
+        return (
+            <Text status='danger'>
+                The minimum lower age limit is 13 
+            </Text>
+        )
+    }
+
+    const maximumError = () => {
+        if (upperAge && lowerAge && upperAge<=lowerAge) {
+            return true
+        }
+        else if (upperAge && upperAge<=13) {
+            return true
+        } 
+        return false
+    }
+
+    const renderMaximumError = () => {
+        if (upperAge && lowerAge && upperAge<=lowerAge) {
+            return <Text status='danger'>
+                Your maximum age preference cannot be lower than your minimum age preference
+            </Text>
+        }
+        else if (upperAge && upperAge<=13) {
+            return <Text status='danger'>
+                Please set a maximum age greater than 13
+            </Text>
+        }
+        return <Text />
+    }
+
+    const buttonDisabled = () => {
+        if (maxDistance===null || userYearOfStudy===null) {
+            // If these values values are null, disable button
+            return true
+        }
+        else if (!noPreference) {
+            // If no preference toggle is not triggered, disable button if below conditions are met
+            if (lowerAge===null || upperAge===null || maximumError() || minimumError()) {
+                // Note: If no preference toggle is triggered, then these fields/errors can be ignored
+                return true
+            }
+        }
+        return false
+    }
+
     return (
         <View style={{flex:1}}>
             <KeyboardAwareScrollView
@@ -97,7 +156,7 @@ export default (props: any): React.ReactElement => {
                 innerRef={ref => {
                     setScroll(ref)
                 }}>
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <Text
                     style={{fontFamily: "Inter_900Black", marginVertical: 10}}
                     status="primary"
@@ -108,9 +167,18 @@ export default (props: any): React.ReactElement => {
                     <Text category='h5' style={styles.sectionTitle}>
                         Group Preferences
                     </Text>
-                    <Input
+                    <Layout level='1'
+                        style={styles.toggleContainer}>
+                        <Toggle
+                            checked={noPreference}
+                            onChange={checked => setNoPreference(checked)}>
+                            No Preferences
+                        </Toggle>
+                    </Layout>
+                    {noPreference?null:<Input
                         style={styles.inputStyle}
-                        status='basic'
+                        status={minimumError()?'danger':'basic'}
+                        caption={minimumError()?()=>renderMinimumError():""}
                         autoCapitalize="none"
                         keyboardType="number-pad"
                         placeholder="Lower Age Limit"
@@ -123,10 +191,11 @@ export default (props: any): React.ReactElement => {
                         }}
                         onBlur={()=>setInputFocused(false)}>
                         {lowerAge}
-                    </Input>
-                    <Input
+                    </Input>}
+                    {noPreference?null:<Input
                         style={styles.inputStyle}
-                        status='basic'
+                        status={maximumError()?'danger':'basic'}
+                        caption={maximumError()?()=>renderMaximumError():""}
                         autoCapitalize="none"
                         keyboardType="number-pad"
                         placeholder="Upper Age Limit"
@@ -140,7 +209,7 @@ export default (props: any): React.ReactElement => {
                         }}
                         onBlur={()=>setInputFocused(false)}>
                         {upperAge}
-                    </Input>
+                    </Input>}
 
                     <Text category='h5' style={styles.sectionTitle}>
                         Profile Details
@@ -189,10 +258,10 @@ export default (props: any): React.ReactElement => {
                         ))}
                     </Select>
                 </Layout>
-            </View>
+            </ScrollView>
             </KeyboardAwareScrollView>
             {inputFocused?null:<Button
-                disabled={lowerAge===null || upperAge===null || maxDistance===null || userYearOfStudy===null}
+                disabled={buttonDisabled()}
                 size="giant"
                 style={styles.buttonStyle}
                 onPress={handleSubmit}
@@ -208,12 +277,17 @@ const themedStyle = StyleService.create({
     container: {
         flex: 1,
         paddingTop: 50,
+        paddingBottom: 60,
         paddingHorizontal: 20,
         height: "100%"
     },
     sectionTitle: {
         fontWeight: "700",
         marginTop: 15
+    },
+    toggleContainer: {
+        flexDirection: "row",
+        marginVertical: 5
     },
     inputStyle: {
         marginVertical: 5

@@ -27,24 +27,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useApolloClient, useLazyQuery } from "@apollo/react-hooks";
 import { USER } from "../../graphql/queries";
 import { Loading } from "../common";
-import { SettingsIcon } from "./extra/icons";
+import { SettingsIcon, PinIcon } from "./extra/icons";
 import { BasicEventType } from "../types";
 
 YellowBox.ignoreWarnings([
   "VirtualizedLists should never be nested inside plain ScrollViews",
 ]);
-
-const PinIcon = (): IconElement => {
-  const theme = useTheme();
-  return (
-    <Icon
-      width={16}
-      height={16}
-      fill={theme["text-control-color"]}
-      name="pin"
-    />
-  );
-};
 
 const QuestionsIcon = (): IconElement => {
   return <Icon width={16} height={16} fill="white" name="clipboard" />;
@@ -226,7 +214,27 @@ export default (): React.ReactElement => {
               )}
               eventsOwned={data.getUserEvents}
             />
+            <Divider />
             <Button
+              accessoryLeft={() => (
+                <Icon
+                  width={24}
+                  height={24}
+                  fill="white"
+                  name="alert-circle-outline"/>
+              )}
+              status="warning"
+              onPress={() => navigation.navigate("SubmitReport")}>
+              Report Issues / Feedback
+            </Button>
+            <Button
+              accessoryLeft={() => (
+                <Icon
+                  width={24}
+                  height={24}
+                  fill="white"
+                  name="log-out-outline"/>
+              )}
               status="danger"
               onPress={async () => {
                 await AsyncStorage.removeItem("userToken");

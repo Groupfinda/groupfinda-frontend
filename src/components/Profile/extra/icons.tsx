@@ -1,8 +1,21 @@
 import React from 'react';
 import {
     Icon,
-    IconElement
+    IconElement,
+    useTheme
 } from '@ui-kitten/components'
+
+export const PinIcon = (): IconElement => {
+    const theme = useTheme();
+    return (
+      <Icon
+        width={16}
+        height={16}
+        fill={theme["text-control-color"]}
+        name="pin"
+      />
+    );
+};
 
 export const SettingsIcon = (): IconElement => {
     return (

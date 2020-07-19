@@ -32,7 +32,11 @@ export default (): React.ReactElement => {
 
   const { loading, data, error } = useQuery(upcomingEvents, {
     onCompleted: (response) => {
-      setNoResult(false);
+      if (response['searchEvent'].length === 0) {
+        setNoResult(true);
+      } else{
+        setNoResult(false);
+      }
       setSearchResults(response['searchEvent']);
       setEvents(response["searchEvent"]);
     },

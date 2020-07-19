@@ -43,7 +43,7 @@ export const ProfileField = (props: ProfileFieldProps): React.ReactElement => {
                 </Text>
                 {editable
                 ?<Input
-                    placeholder={capitalize(userKey)}
+                    // placeholder={capitalize(userKey)}
                     status={user[userKey].length===0?"danger":""}
                     keyboardType={numericInput?"number-pad":"default"}
                     style={numericInput?{width:60}:{width: 150}}

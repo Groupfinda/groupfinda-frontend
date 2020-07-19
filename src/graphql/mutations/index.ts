@@ -3,3 +3,4 @@ export * from "./event";
 export * from "./profile";
 export * from "./util";
 export * from "./group";
+export * from "./report";

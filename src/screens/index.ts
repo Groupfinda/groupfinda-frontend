@@ -13,3 +13,5 @@ export { default as CreateEventScreen } from "./CreateEventScreen";
 export { default as JoinEventScreen } from "./JoinEventScreen";
 export { default as MessageRoomScreen } from "./MessageRoomScreen";
 export { default as NewEventScreen } from "./NewEventScreen";
+export { default as OthersProfileScreen } from "./OthersProfileScreen";
+export { default as SubmitReportScreen } from "./SubmitReportScreen";

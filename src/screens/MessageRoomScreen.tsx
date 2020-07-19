@@ -156,6 +156,7 @@ const MessageRoomScreen: React.FC<Props> = (props) => {
       <Drawer>
         {group?.members.map((member) => (
           <DrawerItem
+            onPress={()=>{navigation.navigate("OthersProfile", {userId: member.id})}}
             key={member.id}
             title={() => (
               <View

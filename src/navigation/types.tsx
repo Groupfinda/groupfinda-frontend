@@ -15,6 +15,8 @@ export type RootStackParamList = {
   MessageRoom: { messageRoom: string };
   NewUser: undefined;
   NewEvent: { id: string };
+  OthersProfile: { userId: string };
+  SubmitReport: undefined;
 };
 
 export type SignUpScreenNavigationProp = StackScreenProps<
@@ -70,4 +72,14 @@ export type NewUsersNavigationProp = StackScreenProps<
 export type NewEventNavigationProp = StackScreenProps<
   RootStackParamList,
   "NewEvent"
+>;
+
+export type OthersProfileNavigationProp = StackScreenProps<
+  RootStackParamList,
+  "OthersProfile"
+>;
+
+export type SubmitReportNavigationProp = StackScreenProps<
+  RootStackParamList,
+  "SubmitReport"
 >;
