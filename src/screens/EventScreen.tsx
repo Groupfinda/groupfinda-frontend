@@ -12,6 +12,8 @@ import {
   Button,
   Avatar,
   Spinner,
+  Modal,
+  Card,
 } from "@ui-kitten/components";
 import Carousel from "../components/common/Carousel";
 import { ScrollView } from "react-native-gesture-handler";
@@ -19,7 +21,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { singleEvent, ME, MeData } from "../graphql/queries";
 import { Loading } from "../components/common";
-import { REGISTER_EVENT, UNREGISTER_EVENT } from "../graphql/mutations";
+import { REGISTER_EVENT, UNREGISTER_EVENT, DELETE_EVENT } from "../graphql/mutations";
 
 import { View, TouchableOpacity } from "react-native";
 
@@ -43,6 +45,7 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
   const [registerEventLoading, setRegisterEventLoading] = useState<boolean>(
     true
   );
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const myData = useQuery<MeData, void>(ME);
 
@@ -96,6 +99,24 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
       setRegisterEventLoading(false);
     },
   });
+
+  const [deleteEvent] = useMutation(DELETE_EVENT, {
+    onCompleted: (data) => {
+      if (data.deleteEvent) {
+        navigation.goBack()
+      }
+    },
+    onError: (err) => {
+      console.log(err)
+    }
+  });
+
+  const deleteEventHandler = () => {
+    const variables = {
+      eventId: id,
+    };
+    deleteEvent({ variables })
+  };
 
   const registerEventHandler = () => {
     setRegisterEventLoading(true);
@@ -379,7 +400,7 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
                         </View>
                       </TouchableOpacity>
 
-                      <TouchableOpacity onPress={() => console.log("delete")}>
+                      <TouchableOpacity onPress={() => setModalVisible(true)}>
                         <View style={styles.circle}>
                           <Icon
                             height={32}
@@ -396,6 +417,35 @@ const EventScreen: React.FC<Props> = ({ navigation, route, userId }) => {
             </ScrollView>
           </Layout>
         </Layout>
+        <Modal
+          backdropStyle={styles.backdrop}
+          visible={modalVisible}
+          onBackdropPress={()=>setModalVisible(false)}>
+          <Card header={(props)=>(
+            <View {...props}>
+              <Text category='h5' style={{fontWeight: "bold"}}>
+                Delete Event
+              </Text>
+            </View>
+          )}
+            footer={(props)=>(
+              <View {...props} style={styles.buttonContainer}>
+                <Button
+                  status='basic'
+                  onPress={()=>setModalVisible(false)}>
+                  Cancel
+                </Button>
+                <Button
+                  status='danger'
+                  onPress={()=>deleteEventHandler()}>
+                  DELETE
+                </Button>
+              </View>
+            )}>
+            <Text>WARNING: Are you sure?</Text>
+            <Text>This action is irreversible!</Text>
+          </Card>
+        </Modal>
       </SafeAreaView>
     );
   }
@@ -444,6 +494,15 @@ const themedStyle = StyleService.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  buttonContainer: {
+    marginHorizontal: 0,
+    marginVertical: 8,
+    flexDirection: "row",
+    justifyContent: "space-around"
+  }
 });
 
 export default EventScreen;

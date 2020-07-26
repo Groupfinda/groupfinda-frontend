@@ -55,6 +55,16 @@ export const CREATE_EVENT = gql`
   }
 `;
 
+export const DELETE_EVENT = gql`
+  mutation deleteEvent(
+    $eventId: String!
+  ) {
+    deleteEvent(
+      eventId: $eventId
+    )
+  }
+`;
+
 export type RegisterEventVariables = {
   eventId: string;
 };
